@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>07 最佳資費選擇</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul,
+    ol {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .reveal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 26px;
+    }
+
+    #pageIndex {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .controls {
+        bottom: 24px !important;
+    }
+    .table, .th, .td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <!--Q1-->
+      <section>
+        <h3 style="text-align: left;">07 最佳資費選擇</h3>
+        <section 
+          data-no="6"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left">
+            輸入每月網內、網外、市話、通話時間(秒)及網內、網外簡訊則數、網路流量，求出最佳資費。<br><br>
+            優惠內容月租費可抵等額通信費 :
+            若總通信費(包含通話時間、簡訊數量、網路加購)高於該資費類型的費用，則以原費用進行收費，若低於該資費類型的費用，則以該資費類型的費用進行收費。<br><br>
+
+            例如:
+            選擇183型，總通信費為200元，則應繳金額為200元，若總通信費為150元，則應繳金額為183元。<br><br>
+            <b>每種方案都要計算過一次，再去比較最小費用符合哪一種資費類型。</b><br><br>
+          <font size=5 text-align: left>資費類型的費率表：</font>
+          <table class="table"><br>
+            <tr>
+              <th class="th">資費類型</th>
+              <th class="th">183型</th>
+              <th class="th">383型</th>
+              <th class="th">983型</th>
+              <th class="th">1283型</th>
+            </tr>
+            <tr>
+              <td class="td">月租費</td>
+              <td class="td">183元</td>
+              <td class="td">383元</td>
+              <td class="td">983元</td>
+              <td class="td">1283元</td>
+            </tr>
+          </table><br>
+          
+        </section>
+
+        <section 
+          data-no="6"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left">
+          <font size=5 text-align: left>語音費率表：</font><br>
+          <table class="table">
+            <tr>
+              <td class="td">(元/秒)</td>
+              <td class="td">網內</td>
+              <td class="td">0.08</td>
+              <td class="td">0.07</td>
+              <td class="td">0.06</td>
+              <td class="td">0.05</td>
+            </tr>
+            <tr>
+              <td class="td">(元/秒)</td>
+              <td class="td">網外</td>
+              <td class="td">0.139</td>
+              <td class="td">0.130</td>
+              <td class="td">0.108</td>
+              <td class="td">0.100</td>
+            </tr>
+            <tr>
+              <td class="td">(元/秒)</td>
+              <td class="td">市話</td>
+              <td class="td">0.135</td>
+              <td class="td">0.121</td>
+              <td class="td">0.101</td>
+              <td class="td">0.090</td>
+            </tr>
+          </table><br>
+
+          <font size=5 text-align: left>簡訊費率：</font>
+          <table class="table">
+            <tr>
+              <td class="td">(元/則)</td>
+              <td class="td">網內</td>
+              <td class="td">1.128</td>
+              <td class="td">1.128</td>
+              <td class="td">1.128</td>
+              <td class="td">1.128</td>
+            </tr>
+            <tr>
+              <td class="td">(元/則)</td>
+              <td class="td">網外</td>
+              <td class="td">1.483</td>
+              <td class="td">1.483</td>
+              <td class="td">1.483</td>
+              <td class="td">1.483</td>
+            </tr>
+          </table><br>
+
+          <font size=5 text-align: left>網路流量費率：</font>
+          <table class="table">
+            <tr>
+              <th class="th">流量</th>
+              <th class="th">1G</th>
+              <th class="th">3G</th>
+              <th class="th">5G</th>
+              <th class="th">吃到飽</th>
+            </tr>
+            <tr>
+              <td class="td">網路加購價<br>
+                             (元/G)         
+              </td>
+              <td class="td">250</td>
+              <td class="td">200</td>
+              <td class="td">150</td>
+              <td class="td">無</td>
+            </tr>
+          </table>
+        </section>
+
+        <section 
+          data-no="6"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left">
+          <table class="table">
+            <tr>
+              <th class="th">輸入說明</th>
+              <th class="th">輸出說明</th>
+            </tr>
+            <tr>
+              <td class="td">1. 輸入網內語音(秒, Integer)<br>
+                             2. 輸入網外語音(秒, Integer)<br>
+                             3. 輸入市話(秒, Integer)<br>
+                             4. 輸入網內簡訊數(Integer)<br>
+                             5. 輸入網外簡訊數(Integer)<br>
+                             6. 輸入網路流量(G)(Integer)<br>
+              </td>
+              <td class="td">1. 輸出費用(Integer)<br>
+                             2. 輸出最佳資費類型 (183, 383, 983, 1283)<br>
+              </td>
+            </tr>
+          </table>  
+        </section>
+      </section>
+
+      <section>
+          <h3>Input/Output</h3>
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">100<br>
+                               200<br>
+                               10<br>
+                               10<br>
+                               10<br>
+                               2<br>
+                  </td>
+                  <td class="td">313<br>
+                                 183<br>
+                    </td>
+              </tr>
+            </table> 
+          </section>
+          
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <b>183類型：</b>
+            網內語音 100*0.08=8、網外語音 200*0.139=27.8、市話 10*0.135=1.35、
+            網內簡訊數 10*1.128=11.28、網外簡訊數 10*1.483=14.83、
+            網路流量 2G-1G=1G(多使用了1G)要網路加購價 1G*250=250。
+            全部加總：8+27.8+1.35+11.28+14.83+250=313(取整數)，因為313>183，所以費用為313。</b><br>
+            <b>383類型：</b>
+            網內語音 100*0.07=7、網外語音 200*0.130=26、市話 10*0.121=1.21、
+            網內簡訊數 10*1.128=11.28、網外簡訊數 10*1.483=14.83、
+            網路流量 3G>2G(不需要網路加購價)，0。
+            全部加總：7+26+1.21+11.28+1.483+0=60，因為383>60，所以費用383。</b><br>
+            <b>983類型：</b>
+            網內語音 100*0.06=6、網外語音 200*0.108=21.6、市話 10*0.101=1.01、
+            網內簡訊數 10*1.128=11.28、網外簡訊數 10*1.483=14.83、
+            網路流量 5G>2G(不需要網路加購價)，0。
+            全部加總：6+21.6+1.01+11.28+1.483+0=54(取整數)，因為983>54，所以費用983。</b><br>
+            <b>1283類型：</b>
+            網內語音 100*0.05=5、網外語音 200*0.1=20、市話 10*0.09=0.9、
+            網內簡訊數 10*1.128=11.28、網外簡訊數 10*1.483=14.83、
+            網路流量 吃到飽(不需要網路加購價)，0。
+            全部加總：5+20+0.9+11.28+1.483+0=52(取整數)，因為1283>52，所以費用1283。</b><br>
+            <b>經過計算後，183類型的費用最低，因此輸出費用313與類型183。</b>
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">1500<br>
+                               1800<br>
+                               100<br>
+                               30<br>
+                               30<br>
+                               2
+                  </td>
+                  <td class="td">429<br>
+                                 383<br>
+                  </td>
+              </tr>
+            </table> 
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <b>183類型：</b>
+            網內語音 1500*0.08=120、網外語音 1800*0.139=250.2、市話 100*0.135=13.5、
+            網內簡訊數 30*1.128=33.84、網外簡訊數 30*1.483=44.49、
+            網路流量 2G-1G=1G(多使用了1G)要網路加購價 1G*250=250。
+            全部加總：120+250.2+13.5+33.84+44.49+250=712(取整數)，因為712>183，所以費用為712。</b><br>
+            <b>383類型：</b>
+            網內語音 1500*0.07=105、網外語音 1800*0.130=234、市話 100*0.121=12.1、
+            網內簡訊數 30*1.128=33.84、網外簡訊數 30*1.483=44.49、
+            網路流量 3G>2G(不需要網路加購價)，0。
+            全部加總：105+234+12.1+33.84+44.49+0=429(取整數)，因為429>383，所以費用429。</b><br>
+            <b>983類型：</b>
+            網內語音 1500*0.06=90、網外語音 1800*0.108=194.4、市話 100*0.101=10.1、
+            網內簡訊數 30*1.128=33.84、網外簡訊數 30*1.483=44.49、
+            網路流量 5G>2G(不需要網路加購價)，0。
+            全部加總：90+194.4+10.1+33.84+44.49+0=372(取整數)，因為983>372，所以費用983。</b><br>
+            <b>1283類型：</b>
+            網內語音 1500*0.05=75、網外語音 1800*0.1=180、市話 100*0.09=9、
+            網內簡訊數 30*1.128=33.84、網外簡訊數 30*1.483=44.49、
+            網路流量 吃到飽(不需要網路加購價)，0。
+            全部加總：75+180+9+33.84+44.49+0=342(取整數)，因為1283>342，所以費用1283。</b><br>
+            <b>經過計算後，383類型的費用最低，因此輸出費用429與類型383。</b>
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">1000<br>
+                               2000<br>
+                               50<br>
+                               50<br>
+                               20<br>
+                               7
+                  </td>
+                  <td class="td">983<br>
+                                 983<br>
+                  </td>
+              </tr>
+            </table> 
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">9000<br>
+                               9000<br>
+                               60<br>
+                               200<br>
+                               50<br>
+                               3
+                  </td>
+                  <td class="td">1655<br>
+                                 1283
+                  </td>
+              </tr>
+            </table> 
+          </section>
+      </section>
+
+      <section>
+        <h3>Hints</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <pre style="font-size: 26px;"><code data-trim data-noescape>
+            def main():
+              #輸入網內語音speakInside，型態為int
+              #輸入網外語音speakOutside，型態為int
+              #輸入市話home，型態為int
+              #輸入網內簡訊數messageInside，型態為int
+              #輸入網外簡訊數messageOutside，型態為int
+              #輸入網路流量network，型態為int
+
+              #傳入以上所有輸入的變數
+              #這個function要實現可以獲取每種資費類型的總價錢
+              #再比較這些總價錢，哪個是最小的(min())
+              func(speakInside,speakOutside,home,messageInside,messageOutside,network)
+          </code></pre>
+        </section>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <pre style="font-size: 26px;"><code data-trim data-noescape>
+            def func(...):
+              #取得四種方案類型的總價錢，每個類型的計算方式另外再寫函式實現
+              #MinTotal = min(183類型的總價,383類型的總價,983類型的總價,1283類型的總價)
+              #取得最小總價錢
+              if (MinTotal == 183類型的總價):
+                ...
+              elif (MinTotal == 383類型的總價):
+              ...
+              elif (MinTotal == 983類型的總價):
+              ...
+              elif (MinTotal == 1283類型的總價):
+              ...
+          </code></pre>
+        </section>
+      </section>
+
+      <section>
+        <h3>函式的回傳值</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left">
+          <p>&emsp;&emsp;函式是一種「程式區塊」，寫好之後可以在未來重複使用，也可以把它視為一個程式專案裡面的「子程式」，
+            負責一些會重複使用的功能，讓「主程式」利用呼叫的方式重複使用。<br><br>
+          函式使用方式：先定義，再呼叫。<br><br>
+          函式參數：<br></p>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers>
+            def 函式名稱(參數名稱):
+              函式內部程式碼
+          </code></pre>
+          <p>函式回傳：函式的運行中，可以透過<b>return(回傳值)</b>來回傳運算完的結果。</p>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers>
+            def 函式名稱(參數名稱):
+              函式內部程式碼
+              return 資料 (回傳值：結束函式 回傳資料)
+          </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        <p>定義一個加總函數，並回傳答案</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          #定義sum這個函式，並接收兩個參數a和b
+          def sum(a,b):
+            #函式功能，定義一個變數c，為a和b的加總
+            c = a + b
+            #回傳變數c
+            return c
+        </code></pre>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          #呼叫sum()並把回傳值放進變數ans
+          ans = sum(5,9)
+          #印出
+          print("答案：",ans)
+        </code></pre>
+        <p>答案：14</p>
+        </section>
+      </section>
+
+      <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+              data-no="8"
+              data-positionx="0.8" 
+              data-positiony="0.03" 
+              data-scale="1" 
+              data-motionno="0">
+              <font size=6>主程式</font>
+              <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+              def main():
+                #輸入網內語音，轉換型態為int，存進變數speakInside
+                speakInside = int(input())
+                #輸入網外語音，轉換型態為int，存進變數speakOutside
+                speakOutside = int(input())
+                #輸入市話，轉換型態為int，存進變數home
+                home = int(input())
+                #輸入網內簡訊數，轉換型態為int，存進變數messageInside
+                messageInside = int(input())
+                #輸入網外簡訊數，轉換型態為int，存進變數messageOutside
+                messageOutside = int(input())
+                #輸入網路流量，轉換型態為int，存進變數network
+                network = int(input())
+
+                #呼叫func()，傳入以上輸入的6個變數
+                func(speakInside,speakOutside,home,messageInside,messageOutside,network)
+              </code></pre>
+          </section>
+
+          <section data-auto-animate
+            data-no="8"
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0">
+            <font size=6>副程式-func()</font>
+            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-9|11-14|16-27" class="language-python">
+            def func(speakInside,speakOutside,home,messageInside,messageOutside,network):
+              #取得183類型的總價錢，將回傳結果存進變數Total183
+              Total183 = Adopt183(speakInside,speakOutside,home,messageInside,messageOutside,network)
+              #取得383類型的總價錢
+              Total383 = Adopt383(speakInside,speakOutside,home,messageInside,messageOutside,network)
+              #取得983類型的總價錢
+              Total983 = Adopt983(speakInside,speakOutside,home,messageInside,messageOutside,network)
+              #取得1283類型的總價錢
+              Total1283 = Adopt1283(speakInside,speakOutside,home,messageInside,messageOutside)
+
+              #4種類型的總價錢取最小值的，存進變數MinTotal
+              MinTotal = min(Total183, Total383, Total983, Total1283)
+              #印出最小費用
+              print(MinTotal)
+
+              #如果最小費用 等於 183類型的總價錢
+              if(MinTotal == Total183):
+                  print("183") #印出183
+              #否則如果，最小費用 等於 383類型的總價錢
+              elif(MinTotal == Total383):
+                  print("383")
+              #否則如果，最小費用 等於 983類型的總價錢
+              elif(MinTotal == Total983):
+                  print("983")
+              #否則如果，最小費用 等於 1283類型的總價錢
+              elif(MinTotal == Total1283):
+                  print("1283")
+            </code></pre>
+          </section>
+        </section>
+   
+         <section>
+          <h3 >解答</h3>
+              <section data-auto-animate
+                  data-no="8"
+                  data-positionx="0.8" 
+                  data-positiony="0.03" 
+                  data-scale="1" 
+                  data-motionno="0">
+                  <p>&emsp;&emsp;計算4種類型的價錢，根據第1頁的資費類型的費率表、語音費率表、簡訊費率、
+                    網路流量費率表來定義4個類型的函式。
+                  </p>
+                  <font size=6>副程式-Adopt183()<br></font>
+                  <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-8|10-15|17-20" class="language-python">
+                  #計算183類型
+                  def Adopt183(speakInside,speakOutside,home,messageInside,messageOutside,network):
+
+                    #檢查網路流量是否有超過1G
+                    if network < 1:
+                        network = 0
+                    else: #有超過，計算超出多少G
+                        network = network - 1
+                
+                    total = speakInside*0.08 \
+                            + speakOutside*0.139 \
+                            + home*0.135 \
+                            + messageInside*1.128 \
+                            + messageOutside*1.483 \
+                            + network*250
+
+                    if(total<=183):
+                        return 183
+                    else:
+                        return int(total)
+                  </code></pre>
+            </section>
+  
+              <section data-auto-animate
+                  data-no="8"
+                  data-positionx="0.8" 
+                  data-positiony="0.03" 
+                  data-scale="1" 
+                  data-motionno="0">
+                  <font size=6>副程式-Adopt383()</font>
+                  <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-6|8-13|16-19" class="language-python">
+                  def Adopt383(speakInside, speakOutside, home, messageInside, messageOutside,network):
+                    #檢查網路流量是否有超過3G
+                    if network < 3:
+                        network = 0
+                    else:
+                        network = network - 3
+
+                    total = speakInside * 0.07 \
+                            + speakOutside * 0.13 \
+                            + home * 0.121 \
+                            + messageInside * 1.128 \
+                            + messageOutside * 1.483 \
+                            + network*200
+
+
+                    if(total<=383):
+                        return 383
+                    else:
+                        return int(total)
+                  </code></pre>
+              </section>
+
+              <section data-auto-animate
+                  data-no="8"
+                  data-positionx="0.8" 
+                  data-positiony="0.03" 
+                  data-scale="1" 
+                  data-motionno="0">
+                  <font size=6>副程式-Adopt983()</font>
+                  <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-6|8-13|15-18" class="language-python">
+                  def Adopt983(speakInside, speakOutside, home, messageInside, messageOutside,network):
+                    #檢查網路流量是否有超過5G
+                    if network < 5:
+                        network = 0
+                    else:
+                        network = network - 5
+
+                    total = speakInside * 0.06 \
+                            + speakOutside * 0.108 \
+                            + home * 0.101 \
+                            + messageInside * 1.128 \
+                            + messageOutside * 1.483 \
+                            + network*150
+
+                    if(total<=983):
+                        return 983
+                    else:
+                        return int(total)
+                  </code></pre>
+              </section>
+
+              <section data-auto-animate
+                  data-no="8"
+                  data-positionx="0.8" 
+                  data-positiony="0.03" 
+                  data-scale="1" 
+                  data-motionno="0">
+                  <font size=6>副程式-Adopt1283()</font>
+                  <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+                    def Adopt1283(speakInside, speakOutside, home, messageInside, messageOutside):
+
+                      total = speakInside * 0.05 \
+                              + speakOutside * 0.100 \
+                              + home * 0.090 \
+                              + messageInside * 1.128 \
+                              + messageOutside * 1.483 \
+
+                      if(total<=1283):
+                          return 1283
+                      else:
+                          return int(total)
+                  </code></pre>
+              </section>
+           </section>
+
+           <section>
+            <h3 >解答</h3>
+                <section data-auto-animate
+                    data-no="8"
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0">
+                    <font size=6>呼叫主程式<br><br></font>
+                    <font size=5>if __name__ == '__main__': 表示 main() 只有在當前腳本被直接執行時才執行，不希望被導入其它模組時執行。</font>
+                    <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers>
+                      if __name__ == '__main__': 
+                        main()
+                    </code></pre>
+                    <font size=5>也可以直接呼叫主程式<br></font>
+                    <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers>
+                      main()
+                    </code></pre>
+                </section>
+              </section>
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>

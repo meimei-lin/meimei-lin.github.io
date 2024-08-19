@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=1900">
+    <title>03 數值運算</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="vendor/reveal/reset.css">
+    <link rel="stylesheet" href="vendor/reveal/reveal.css">
+    <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css">
+    <!--edit-->
+    <!-- Pollyfill script -->
+    <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+    <!-- Live2DCubismCore script -->
+    <script src="./dist/live2dcubismcore.js"></script>
+    <!-- Build script -->
+    <script src="./dist/bundle.js"></script>
+    <style>
+        ul,
+        ol {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .reveal {
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 26px;
+        }
+
+        #pageIndex {
+            position: absolute;
+            right: 24px;
+            bottom: 24px;
+            background: #000;
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .controls {
+            bottom: 24px !important;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 0px; 
+            width: 1100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!--
+            data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+            data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+            data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+            data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+            data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+            -->
+            <section>
+                <h3 style="text-align: left;">03 數值運算</h3>
+                <section 
+                    data-no="6"
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br>
+                    <p style="font-size: 26px; text-align: left; position: relative; top: -10px;"></p>
+                      使用者請分別輸入兩個數 num1、num2，並求出兩數的和(Sum)、差(Difference)、乘積(Product)、商(Quotient)。<br><br>
+                      結果須輸出到小數點第二位。
+                    </p>
+                    <table ><br>
+                        <tr>
+                          <td>輸入說明</td>
+                          <td>輸出說明</td>
+                        </tr>
+                        <tr>
+                            <td>1. 輸入數字num1<br>
+                                2. 輸入數字num2
+                            </td>
+                            <td>1. Sum:num1+num2<br>
+                                2. Difference:num1-num2<br>
+                                3. Product:num1*num2<br>
+                                4. Quotient:num1/num2<br>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </section>
+            </section>
+
+            <section>
+                <h3>Input/Output</h3>
+                <section
+                    data-no="6"
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br>
+                    <table>
+                        <tr>
+                          <th>Sample Input</th>
+                          <th>Output</th>
+                        </tr>
+                        <tr>
+                            <td>25<br>
+                                2<br>
+                            </td>
+                            <td>
+                                Sum:27.00<br>
+                                Difference:23.00<br>
+                                Product:50.00<br>
+                                Quotient:12.50<br>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>-1<br>
+                                6 <br>
+                            </td>
+                            <td>Sum:5.00<br>
+                                Difference:-7.00<br>
+                                Product:-6.00<br>
+                                Quotient:-0.17<br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>0<br>
+                                9<br>                                
+                            </td>
+                            <td>Sum:9.00<br>
+                                Difference:-9.00<br>
+                                Product:0.00<br>
+                                Quotient:0.00<br>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+            </section>
+
+            <section>
+                <h3>Hints</h3>
+                <section
+                    data-no="17"
+                    data-positionx="0.75" 
+                    data-positiony="0.05"
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br><br><br><br><br><br>
+                    <section data-auto-animate><br>
+                        <pre><code data-trim data-noescape style="font-size: 26px;">
+                            <br>def main():<br>
+                                #輸入第一個數<br>
+                                #輸入第二個數<br>
+
+                                #輸出經 +、-、*、/ 計算後的結果<br><br>
+
+                        </code></pre>
+                    </section>
+                </section>
+            </section>
+
+          <section>
+            <h3 >解答</h3>
+            <section data-auto-animate
+                data-no="8"
+                data-positionx="0.8" 
+                data-positiony="0.03" 
+                data-scale="1" 
+                data-motionno="0"
+                <font size=6>主程式</font><br>
+                  <pre><code data-trim data-noescape style="font-size: 24px;">
+                    <br>def main():<br>
+                        #輸入第一個數字，並轉換為整數型態，存進num1變數中<br>
+                        num1 = int(input())<br>
+                        #輸入第二個數字，並轉換為整數型態，存進num2變數中<br>
+                        num2 = int(input())<br>
+
+                        #印出兩數相加的結果，"%.2f"%代表將num1+num2的結果取到小數點後第二位印出<br>
+                        #若答案是整數，小數點後兩位會印出0 (EX: xx.00)<br>
+                        print("Sum:%.2f"%(num1+num2))<br>
+                        #印出兩數相減的結果<br>
+                        print("Difference:%.2f"%(num1-num2))<br>
+                        #印出相乘的結果<br>
+                        print("Product:%.2f"%(num1*num2))<br>
+                        #印出相除的結果<br>
+                        print("Quotient:%.2f"%(num1/num2))<br><br>
+                  </code></pre> 
+            </section>
+
+            <section data-auto-animate
+                data-no="8"
+                data-positionx="0.8" 
+                data-positiony="0.03" 
+                data-scale="1" 
+                data-motionno="0"
+                <font size=6>呼叫主程式</font><br>
+                  <pre><code data-trim data-noescape style="font-size: 24px;">
+                    <br>main()<br><br>
+                  </code></pre> 
+            </section>
+            
+        </section>
+
+        </div>
+    </div>
+    <div id="pageIndex"></div>
+    <!-- reveal.js-->
+    <script src="vendor/reveal/reveal.js"></script>
+    <!--plugin-->
+    <script src="vendor/reveal/plugin/math/math.js"></script>
+    <script src="vendor/reveal/plugin/search/search.js"></script>
+    <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+    <script src="vendor/reveal/plugin/notes/notes.js"></script>
+    <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+    <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+    <script src="main-ppt.js"></script>
+</body>
+
+</html>

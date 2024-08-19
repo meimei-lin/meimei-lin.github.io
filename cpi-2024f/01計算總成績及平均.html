@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>01 計算總成績及平均</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul, ol{
+      list-style: none;
+      margin-left: 0;
+    }
+    .reveal {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 26px;
+    }
+    #pageIndex{
+      position: absolute;
+      right: 24px;
+      bottom: 24px;
+      background: #000;
+      color: #fff;
+      font-size: 20px;
+    }
+    .controls{
+      bottom: 24px !important;
+    }
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+      <section>
+        <h3 style="text-align: left;">01 計算總成績及平均</h3>
+        <section
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <p style="font-size: 26px; text-align: left; position: relative; top: -10px;">
+            使用者輸入名字(string)、學號(int)、以及國文Chinese、計算機概論CS、計算機程式設計PD三個科目的成績(int)。<br><br>
+            請輸出學生名字、學號，並計算其平均成績與總分。<br>
+          </p>
+          <table ><br>
+            <tr>
+              <td>輸入說明</td>
+              <td>輸出說明</td>
+            </tr>
+            <tr>
+              <td>
+                1. 輸入學生名字<br>
+                2. 輸入學生學號<br>
+                3. 輸入學生國文成績<br>
+                4. 輸入學生計算機概論成績<br>
+                5. 輸入學生計算機程式設計成績<br>
+              </td>
+              <td>
+                1.  Name:學生名字<br>
+                2.  ID:學生學號<br>
+                3.  Average:學生三科成績之平均 (保留整數即可)<br>
+                4.  Total:學生三科成績之總分<br>
+              </td>
+            </tr>
+          </table> 
+        </section>
+      </section>
+
+      <section>
+        <h3 >Input/Output</h3>
+        <section
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table>
+            <tr>
+              <th>Sample Input</th>
+              <th>Output</th>
+            </tr>
+            <tr>
+              <td>Tom<br>
+                  905067<br>
+                  100<br>
+                  100<br>
+                  100<br>
+              </td>
+              <td>Name:Tom<br>
+                  ID:905067<br>
+                  Average:100<br>
+                  Total:300<br>
+              </td>                
+            </tr>
+            <tr>
+              <td>Ray<br>
+                  106590035<br>
+                  99<br>
+                  90<br>
+                  82<br>
+              </td>
+              <td>
+                Name:Ray<br>
+                ID:106590035<br>
+                Average:90<br>
+                Total:271<br>
+              </td>
+            </tr>
+            <tr>
+              <td>David<br>
+                  42015632<br>
+                  0<br>
+                  0<br>
+                  0<br>
+              </td>
+              <td>
+                Name:David<br>
+                ID:42015632<br>
+                Average:0<br>
+                Total:0<br>
+              </td>
+            </tr>
+          </table>
+        
+        </section>
+      </section>
+
+      <section>
+        <h3 >hints</h3>
+        <section
+          data-no="17" 
+          data-positionx="0.75" 
+          data-positiony="0.05" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br><br><br><br><br>
+          <section data-auto-animate>
+            <pre style="font-size: 26px;"><code data-trim data-noescape>
+              def main():
+
+                #輸入學生姓名
+                #輸入學生學號
+                #輸入國文成績
+                #輸入計算機概論成績
+                #輸入計算機程式設計成績
+                #計算總分
+                #計算平均
+
+                #印出輸出結果
+          
+              if __name__ == "__main__":
+                main()
+            </code></pre> 
+          </section>
+        </section>
+      </section>
+
+      <section>
+        <h3 >資料型態</h3>
+        <section
+          data-no="17" 
+          data-positionx="0.75" 
+          data-positiony="0.05" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left">
+          <p style="text-align: left">Python 的內建型態主要分為以下三種:<br></p>
+          &emsp;1. 數值型態：int、float、bool<br>
+          &emsp;2. 字串型態：str、chr<br>
+          &emsp;3. 容器型態：list、dict、tuple<br>
+          <table style="font-size: 24px"><br>
+            <tr>
+              <th>數值型態</th>
+            </tr>
+            <tr>
+              <td>int</td>
+              <td>整數型態 (EX:1、2、3、4、5)</td>                
+            </tr>
+            <tr>
+              <td>float</td>
+              <td>浮點數型態 (EX:1.12、0.01、3.45)</td>
+            </tr>
+            <tr>
+              <td>bool</td>
+              <td>布林值 (True、False)</td>
+            </tr>
+            <tr>
+              <th>字串型態</th>
+            </tr>
+            <tr>
+              <td>str</td>
+              <td>字串:用單引號 ' 或雙引號 " 包起來的文字資料。<br>
+                  EX: 'ABCDE' 、 "ABCDE"
+              </td>
+            </tr>
+            <tr>
+              <td>chr</td>
+              <td>字元:組成字串的元素，用單引號 ' 包起字元。<br>
+                  EX: 'A'、'B'、'C'、'D'
+              </td>
+            </tr>
+          </table>
+        </section>
+          <section
+            data-no="17" 
+            data-positionx="0.75" 
+            data-positiony="0.05" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left">
+            <table style="font-size: 24px"> 
+              <tr>
+                <th>容器型態</th>
+              </tr>
+              <tr>
+                <td>list</td>
+                <td>列表:用來儲存一組有序的元素。列表是可變的，可以在列表中新增、刪除和修改元素。<br>
+                    用 [ ] 表示<br>
+                    EX: [1,2,3,4]
+                </td>
+              </tr>
+              <tr>
+                <td>dict</td>
+                <td>字典:每一個元素都由鍵 (key) 和值 (value) 構成，結構為key: value。<br>
+                    用 { key:value } 表示<br>
+                    EX: {1:'A',2:'B',3:'C',4:'D'}
+                </td>
+              </tr>
+              <tr>
+                <td>tuple</td>
+                <td>元組(數組):跟list一樣用來儲存一組有序的元素，但是元組是不可變的。<br>
+                    用 ( ) 表示<br>
+                    EX: (1,2,3,4,5)
+                </td>
+              </tr>
+            </table>
+          </section>
+
+        </section>
+      </section>
+      
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1, 6-受付, 17-日常, 8-HIYORI)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <section>
+        <h3 >解答</h3>
+        <section data-auto-animate
+          data-no="8" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>主程式</font>
+            <pre style="font-size: 26px;"><code data-trim data-noescape>
+              def main():
+                #輸入學生姓名，用input()都是字串型態，存進name變數
+                name = input()
+                #輸入學生學號，並轉換為整數資料型態，int()就是轉換的語法，存進id變數
+                id = int(input())
+                #輸入國文成績，並轉換為整數資料型態，存進chinese變數
+                chinese = int(input()) 
+                #輸入計算機概論成績，並轉換為整數資料型態，存進com變數
+                com = int(input())
+                #輸入計算機程式設計成績，並轉換為整數資料型態，存進pd變數
+                pd = int(input())
+                #將三科分數加起來，存進total變數
+                total = chinese + com + pd
+                #計算平均分數，存進average變數
+                average = total / 3 
+
+                # "%s"% 代表將name變數格式化為字串印出
+                print("Name:%s"%name) 
+                # "%d"% 代表將ID變數格式化為十進制整數印出
+                print("ID:%d"%id) 
+                # "%.0f" 代表將average變數格式化為float，且四捨五入取到整數印出
+                print("Average:%.0f"%average)
+                # 將total變數以十進制整數方式印出
+                print("Total:%d"%total)
+            </code></pre>
+            
+        <!--<img src="img/ch2/o11_2_0.JPG" style="display:block; margin:auto;">-->
+        </section>
+
+        <section data-auto-animate
+          data-no="8" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>呼叫主程式</font>
+            <pre style="font-size: 24px;"><code data-trim data-noescape>
+              main()
+            </code></pre>
+            
+        <!--<img src="img/ch2/o11_2_0.JPG" style="display:block; margin:auto;">-->
+        </section>
+
+      </section>
+         
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>

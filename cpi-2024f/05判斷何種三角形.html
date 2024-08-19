@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=1900">
+    <title>05 判斷何種三角形</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="vendor/reveal/reset.css">
+    <link rel="stylesheet" href="vendor/reveal/reveal.css">
+    <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css">
+    <!--edit-->
+    <!-- Pollyfill script -->
+    <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+    <!-- Live2DCubismCore script -->
+    <script src="./dist/live2dcubismcore.js"></script>
+    <!-- Build script -->
+    <script src="./dist/bundle.js"></script>
+    <style>
+        ul,
+        ol {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .reveal {
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 26px;
+        }
+
+        #pageIndex {
+            position: absolute;
+            right: 24px;
+            bottom: 24px;
+            background: #000;
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .controls {
+            bottom: 24px !important;
+        }
+
+        .table, .th, .td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 0px; 
+            width: 1100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!--
+            data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+            data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+            data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+            data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+            data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+            -->
+            <section>
+                <h3 style="text-align: left;">05 判斷何種三角形</h3><br>
+                <section 
+                    data-no="6"
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br>
+                    <p style="font-size: 26px; text-align: left; position: relative; top: -10px;"></p>
+                    當三個邊長能構成三角形時，判斷該三角形是否為正三角形，若否，則判斷是否為等腰三角形。若皆非正三角形或等腰三角形，再判斷該三角形為鈍角三角形、銳角三角形或直角三角形。<br><br>
+                    能否構成三角形與三角形種類的條件說明：<br>
+                    &emsp;1. 不能成為三角形：任兩邊和不大於第三邊，或任一邊長不大於0。<br>
+                    &emsp;2. 正三角形：三個邊相等。<br>
+                    &emsp;3. 等腰三角形：任兩邊相等，且平方和大於第三邊的平方。<br>
+                    &emsp;4. 鈍角三角形： 最長邊平方大於兩短邊平方和。<br>
+                    &emsp;5. 銳角三角形： 最長邊平方小於兩短邊平方和。<br>
+                    &emsp;6. 直角三角形： 最長邊平方等於兩短邊平方和。<br><br>
+                    <font color="red" ><b>注意：
+                        這題必須寫一個運算的function：def getTriangle(a, b, c)</b>
+                    </font>  
+                    </p>  
+                </section>
+
+                <section 
+                    data-no="6"
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br>
+                    <table class="table">
+                        <tr>
+                            <th class="th">輸入說明</th>
+                            <th class="th">輸出說明</th>
+                        </tr>
+                        <tr>
+                            <td class="td">
+                                1. 輸入第一邊邊長<br>
+                                2. 輸入第二邊邊長<br>
+                                3. 輸入第三邊邊長<br>
+                                <font color="red"><b>(輸入的三個邊長都是int型態的)</b></font>
+                            </td>
+                            <td class="td">
+                                若結果為：<br>
+                                1. 不能成為三角形：輸出 <b>not a triangle</b><br>
+                                2. 正三角形：輸出 <b>equilateral triangle</b><br>
+                                3. 等腰三角形：輸出 <b>isosceles triangle</b><br>
+                                4. 鈍角三角形：輸出 <b>obtuse triangle</b><br>
+                                5. 銳角三角形：輸出 <b>acute triangle</b><br>
+                                6. 直角三角形：輸出 <b>right triangle</b><br>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+
+            </section>
+
+            <section>
+                <h3>Input/Output</h3>
+                <section
+                    data-no="6"
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br>
+                    <p> 滿足最長邊平方大於兩短邊平方和<br>
+                        最長邊：6，兩短邊：5、2<br>
+                        計算方式：6*6 > 5*5 + 2*2<br>
+                        為鈍角三角形，輸出obtuse triangle。</p>
+                    <table class="table">
+                        <tr>
+                          <th class="th">Sample Input</th>
+                          <th class="th">Output</th>
+                        </tr>
+                        <tr>
+                            <td class="td">5<br>
+                                2<br>
+                                6 
+                            </td>
+                          <td class="td">obtuse triangle<br>
+                          </td>                
+                        </tr> 
+                      </table>
+                </section>
+
+                <section
+                    data-no="6"
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br>
+                    <p> 滿足任兩邊和不大於第三邊<br>
+                        計算方式：1+1 < 4 <br>
+                        不能成為三角形，輸出not a triangle。</p>
+                     <table class="table">
+                         <tr>
+                           <th class="th">Sample Input</th>
+                           <th class="th">Output</th>
+                         </tr>
+                         <tr>
+                             <td class="td">4<br>
+                                 1<br>
+                                 1 
+                             </td>
+                           <td class="td">not a triangle<br>
+                           </td>                
+                         </tr> 
+                       </table>
+                </section>
+
+                <section
+                    data-no="6"
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br>
+                    <p> 滿足三個邊相等<br>
+                        為正三角形，輸出equilateral triangle。</p>
+                     <table class="table">
+                         <tr>
+                           <th class="th">Sample Input</th>
+                           <th class="th">Output</th>
+                         </tr>
+                         <tr>
+                             <td class="td">3<br>
+                                 3<br>
+                                 3 
+                             </td>
+                           <td class="td">equilateral triangle<br>
+                           </td>                
+                         </tr> 
+                       </table>
+                </section>
+
+                <section
+                    data-no="6"
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br>
+                    <p> 滿足任兩邊相等，且平方和大於第三邊的平方<br>
+                        計算方式：3*3 + 3*3 > 2*2<br>
+                        為等腰三角形，輸出isosceles triangle。</p>
+                     <table class="table">
+                         <tr>
+                           <th class="th">Sample Input</th>
+                           <th class="th">Output</th>
+                         </tr>
+                         <tr>
+                             <td class="td">3<br>
+                                 2<br>
+                                 3 
+                             </td>
+                           <td class="td">isosceles triangle<br>
+                           </td>                
+                         </tr> 
+                       </table>
+                </section>
+
+                <section
+                    data-no="6"
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br>
+                    <p> 滿足最長邊平方大於兩短邊平方和<br>
+                        最長邊：11，兩短邊：8、5<br>
+                        計算方式：11*11 > 8*8 + 5*5<br>
+                        為鈍角三角形，輸出obtuse triangle。</p>
+                    <table class="table">
+                        <tr>
+                        <th class="th">Sample Input</th>
+                        <th class="th">Output</th>
+                        </tr>
+                        <tr>
+                            <td class="td">8<br>
+                                11<br>
+                                5 
+                            </td>
+                        <td class="td">obtuse triangle<br>
+                        </td>                
+                        </tr> 
+                    </table>
+                </section>
+
+                <section
+                    data-no="6"
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br>
+                    <p> 滿足最長邊平方小於兩短邊平方和<br>
+                        最長邊：8，兩短邊：5、7<br>
+                        計算方式：8*8 < 5*5 + 7*7<br>
+                        為銳角三角形，輸出acute triangle。</p>
+                    <table class="table">
+                        <tr>
+                        <th class="th">Sample Input</th>
+                        <th class="th">Output</th>
+                        </tr>
+                        <tr>
+                            <td class="td">5<br>
+                                7<br>
+                                8 
+                            </td>
+                        <td class="td">acute triangle<br>
+                        </td>                
+                        </tr> 
+                    </table>
+                </section>
+
+                <section
+                    data-no="6"
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br>
+                    <p> 滿足最長邊平方等於兩短邊平方和<br>
+                        最長邊：5，兩短邊：3、4<br>
+                        計算方式：5*5 == 3*3 + 4*4<br>
+                        為直角三角形，輸出right triangle。</p>
+                    <table class="table">
+                        <tr>
+                        <th class="th">Sample Input</th>
+                        <th class="th">Output</th>
+                        </tr>
+                        <tr>
+                            <td class="td">3<br>
+                                4<br>
+                                5 
+                            </td>
+                        <td class="td">right triangle<br>
+                        </td>                
+                        </tr> 
+                    </table>
+                </section>
+
+            </section>
+
+            <section>
+                <h3>Hints</h3>
+                <section data-auto-animate
+                    data-no="17"
+                    data-positionx="0.75" 
+                    data-positiony="0.05" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br><br>
+                    <pre style="font-size: 26px;"><code data-trim data-noescape >         
+                        def main():
+                            #輸入第一個邊長a
+                            #輸入第二個邊長b
+                            #輸入第三個邊長c
+
+                            #判斷三角形的函式，並接受三個參數a、b、c
+                            #代表輸入的三個邊長
+                            getTriangle(a, b, c)
+                    </code></pre>
+                </section>
+
+                <section data-auto-animate
+                    data-no="17"
+                    data-positionx="0.75" 
+                    data-positiony="0.05" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left"><br><br>
+                    <pre style="font-size: 26px;"><code data-trim data-noescape>         
+                       def getTriangle(a, b, c):
+                            #判斷是不是滿足"not a triangle"的條件
+                            #否則，判斷是不是"equilateral triangle"
+                            #否則，判斷是不是"isosceles triangle"
+                            #都不是以上三種情況的話
+                            #開始判斷是不是鈍角、銳角、直角三角形
+                            #分成假如a是最長邊的判斷
+                            #否則，假如b是最長邊的判斷
+                            #否則，假如c是最長邊的判斷
+                    </code></pre>
+                </section>
+            </section>
+
+            <section>
+                <h3 >If&emsp;else</h3>
+                <section
+                  data-no="17" 
+                  data-positionx="0.75" 
+                  data-positiony="0.05" 
+                  data-scale="1" 
+                  data-motionno="0"
+                  style="text-align: left">
+                  <br><br>
+                  if<br>
+                  <p style="font-size: 26px;">&emsp;假如&lt;條件式&gt;成立，就會執行&lt;敘述區段&gt;，否則不執行。</p>
+                    <section data-auto-animate>
+                      <pre style="font-size: 26px;"><code data-trim data-noescape>
+        
+                        if(條件式):
+                        {
+                          敘述區段 # 若敘述區段只有一行敘述，大括號可省略
+                        }
+                      </code></pre> 
+                    </section>
+                    if-else<br>
+                    <p style="font-size: 26px;">&emsp;假如&lt;條件式&gt;成立，就會執行&lt;敘述區段A&gt;，否則就會執行&lt;敘述區段B&gt;。</p>
+                    <section data-auto-animate>
+                      <pre style="font-size: 26px;"><code data-trim data-noescape>
+        
+                        if(條件式):
+                        {
+                          敘述區段A
+                        }
+                        else:
+                        {
+                          敘述區段B
+                        }
+                      </code></pre> 
+                    </section>
+                  </section>
+                </section> 
+        
+                <section>
+                  <h3 >If&emsp;elif</h3>
+                    <section 
+                        data-no="17" 
+                        data-positionx="0.8" 
+                        data-positiony="0.03" 
+                        data-scale="1" 
+                        data-motionno="0"
+                        style="text-align: left">
+                        <br><br>
+                        if-elif<br>
+                        <p style="font-size: 26px;">&emsp;假如&lt;條件式A&gt;成立，就會執行&lt;敘述區段A&gt;，否則假如&lt;條件式B&gt;成立，</p>
+                        <p style="font-size: 26px;">&emsp;就會執行&lt;敘述區段B&gt;，否則都不成立，執行&lt;敘述區段C&gt;。</p>
+                            <section data-auto-animate>
+                            <pre style="font-size: 26px;"><code data-trim data-noescape>
+                                if(條件式A):
+                                {
+                                    敘述區段A
+                                }
+                                elif(條件式B):
+                                {
+                                    敘述區段B
+                                }
+                                else:
+                                {
+                                    敘述區段C
+                                }
+                            
+                            </code></pre>
+                        </section>
+                    </section>
+              </section>
+
+              <section>
+                <h3 >邏輯判斷式</h3>
+                  <section 
+                      data-no="17" 
+                      data-positionx="0.8" 
+                      data-positiony="0.03" 
+                      data-scale="1" 
+                      data-motionno="0"
+                      style="text-align: left">
+                      <br><br>
+                      <p style="font-size: 26px;">&emsp;&emsp;將兩個或多個變數透過<b>比較運算子
+                        (「>」大於、「<」小於、「>=」不小於、「<=」不大於、「==」等於以及「!=」不等於)</b>進行比較，
+                        以獲得「True」或「False」的布林值結果。</p>
+                        <section data-auto-animate>
+                          <pre style="font-size: 26px;"><code data-trim data-noescape>
+                            a = 3 # 宣告變數a為3
+                            b = 4 # 宣告變數b為4
+                            c = 5 # 宣告變數c為5
+
+                            print(a > 7)   # 計算3是否「大於」7
+                            print(b < 7)   # 計算4是否「小於」7
+                            print(c >= 7)  # 計算5是否「大於等於」7
+                            print(a*a <= b*b + c*c)  # 計算3*3是否「小於等於」4*4 + 5*5
+                            print(c*c == a*a + b*b)  # 計算5*5是否「等於」3*3 + 4*4
+                            print(a != 3)  # 計算3是否「不等於」3
+                          </code></pre>
+                      </section>
+                      <p style="font-size: 20px;">會印出：False<br>
+                        &emsp;&emsp;&emsp;&emsp;True<br>
+                        &emsp;&emsp;&emsp;&emsp;False<br>
+                        &emsp;&emsp;&emsp;&emsp;True<br>
+                        &emsp;&emsp;&emsp;&emsp;True<br>
+                        &emsp;&emsp;&emsp;&emsp;False</p>
+                  </section>
+            </section>
+
+            <section>
+                <h3 >邏輯運算子</h3>
+                  <section data-auto-animate
+                    data-no="17" 
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left">
+                    <br><br>
+                    <p style="font-size: 26px;">&emsp;&emsp;討論兩個或多個邏輯判斷式之間的關係。<br>
+                    &emsp;&emsp;常見的有這三種：and(且)、or(或)、not(非)<br><br>
+                    <font size="6">and：</font>
+                    </p>
+                    <table class="table">
+                    <tr>
+                        <th class="th">a and b</th>
+                        <th class="th">a = True</th>
+                        <th class="th">a = False</th>
+                    </tr>
+                    <tr>
+                        <td class="td"><b>b = True</b></td>
+                        <td class="td"><font color=red>True</font></td>
+                        <td class="td">False</td>
+                    </tr>
+                    <tr>
+                        <td class="td"><b>b = False</b></td>
+                        <td class="td">False</td>
+                        <td class="td">False</td>
+                    </tr>
+                    </table>
+                    <pre style="font-size: 26px;"><code data-trim data-noescape>
+                        a = 3
+                        b = 4
+                        c = 5
+
+                        print(a > b and a > c) #False
+                        print(c > a and c > b) #True
+                    </code></pre>
+                </section>
+
+                <section data-auto-animate
+                    data-no="17" 
+                    data-positionx="0.8" 
+                    data-positiony="0.03" 
+                    data-scale="1" 
+                    data-motionno="0"
+                    style="text-align: left">
+                    <br><br>
+                    <p style="font-size: 26px;">
+                    <font size=6>or：</font>
+                    </p>
+                    <table class="table">
+                    <tr>
+                        <th class="th">a or b</th>
+                        <th class="th">a = True</th>
+                        <th class="th">a = False</th>
+                    </tr>
+                    <tr>
+                        <td class="td"><b>b = True</b></td>
+                        <td class="td">True</td>
+                        <td class="td">True</td>
+                    </tr>
+                    <tr>
+                        <td class="td"><b>b = False</b></td>
+                        <td class="td">True</td>
+                        <td class="td"><font color=red>False</font></td>
+                    </tr>
+                    </table>
+                    <pre style="font-size: 26px;"><code data-trim data-noescape>
+                        a = 3
+                        b = 4
+                        c = 5
+
+                        print(a > b or a > c) #False
+                        print(b > a or b > c) #True，因為有滿足 b > a，所以即使b沒有大於c也會是True
+                    </code></pre>
+                </section>
+
+                    <section data-auto-animate
+                        data-no="17"
+                        data-positionx="0.8"
+                        data-positiony="0.03"
+                        data-scale="1"
+                        data-motionno="0"
+                        style="text-align: left"> 
+                        <br>
+                        <p style="font-size: 26px;">
+                            <font size="6">not：</font>
+                        </p>
+                        <table class="table">
+                            <tr>
+                            <th class="th"></th>
+                            <th class="th">not a</th>
+                            </tr>
+                            <tr>
+                            <td class="td"><b>a = True</b></td>
+                            <td class="td">False</td>
+                            </tr>
+                            <tr>
+                            <td class="td"><b>a = False</b></td>
+                            <td class="td">True</td>
+                            </tr>
+                        </table>
+                        <pre style="font-size: 26px;"><code data-trim data-noescape >
+                            a = 3
+                            b = 4
+                            c = 5
+
+                            print(not(a > b))  # True
+                            print(not(b > a))  # False
+                        </code></pre>
+                    </section>
+            </section>
+
+
+    <section>
+        <h3 >解答</h3>
+            <section data-auto-animate
+                data-no="8"
+                data-positionx="0.8" 
+                data-positiony="0.03" 
+                data-scale="1" 
+                data-motionno="0">
+                <font size=6>主程式</font>
+                <pre style="font-size: 26px;">
+                <code data-trim data-noescape data-line-numbers>
+                def main():
+                    #輸入第一個邊長，並轉換成整數型態，存進a變數
+                    a = int(input())
+                    #輸入第二個邊長，並轉換成整數型態，存進b變數
+                    b = int(input())
+                    #輸入第三個邊長，並轉換成整數型態，存進c變數
+                    c = int(input())
+
+                    #呼叫判斷三角形的函式，並將輸入的a、b、c傳入
+                    getTriangle(a, b, c)
+                </code>
+                </pre>
+            </section>
+
+            <section data-auto-animate
+                data-no="8" 
+                data-positionx="0.8" 
+                data-positiony="0.03" 
+                data-scale="1" 
+                data-motionno="0">
+                <font size=6 color=red><b>注意縮排!!!(按鍵盤上的tab鍵來縮排)</b></font><br><br>
+                <font size=6>副程式：getTriangle(a,b,c)</font>
+                <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-5|7-9|11-13|15-18|20-29|31-34|36-39|41-48|51-57">
+                def getTriangle(a, b, c): #有三個接受參數，代表輸入的三個邊
+
+                    #如果a、b、c三個邊其中一個邊小於0
+                    if a < 0 or b < 0 or c < 0:
+                        print("not a triangle") #印出 not a triangle
+
+                    #否則如果，任兩個邊的和小於等於(不大於)第三邊                     
+                    elif a + b <= c or a + c <= b or b + c <= a:
+                        print("not a triangle") #印出 not a triangle
+
+                    #否則如果，a等於b 且 b等於c，代表三邊等長，為正三角形
+                    elif a == b and b == c:
+                        print("equilateral triangle") #印出 equilateral triangle
+
+                    #否則如果，任兩個邊相等 且 (相等兩個邊平方和) 大於 第三邊的平方
+                    #為等腰三角形
+                    elif ((a == b and ((a*a + b*b) > c*c)) or (b == c and ((b*b + c*c) > a*a)) or (a == c and (a*a + c*c) > b*b)):
+                        print("isosceles triangle") #印出 isosceles triangle
+
+                    #否則，都不滿足以上三種情況的話，要判斷是鈍角、銳角、直角三角形
+                    else:
+
+                        #如果a是最長的邊，此時兩短邊是b、c
+                        if a > b and a > c: 
+
+                            #如果兩短邊b、c的平方和 小於 最長邊a的平方
+                            #為鈍角三角型
+                            if (b*b + c*c) < (a*a): 
+                                print("obtuse triangle") #印出 obtuse triangle
+
+                            #否則如果，兩短邊b、c的平方和 大於 最長邊a的平方
+                            #為銳角三角形
+                            elif (b*b + c*c) > (a*a):
+                                print("acute triangle") #印出 acute triangle
+
+                            #否則如果，兩短邊b、c的平方和 等於 最長邊a的平方
+                            #為直角三角形
+                            elif (b*b + c*c) == (a*a):
+                                print("right triangle") # 印出 right triangle
+
+                        #否則如果，b是最長的邊，此時兩短邊是a、c
+                        elif b > a and b > c: 
+                            if (a*a + c*c) < (b*b):
+                                print("obtuse triangle")
+                            elif (a*a + c*c) > (b*b):
+                                print("acute triangle")
+                            elif (a*a + c*c) == (b*b):
+                                print("right triangle")
+
+                        #否則如果，c是最長的邊，此時兩短邊是a、b
+                        elif c > a and c > b: 
+                            if (a*a + b*b) < (c*c):
+                                print("obtuse triangle")
+                            elif (a*a + b*b) > (c*c):
+                                print("acute triangle")
+                            elif (a*a + b*b) == (c*c):
+                                print("right triangle")
+                    </code></pre>
+            </section>
+
+            <section data-auto-animate
+                data-no="8"
+                data-positionx="0.8" 
+                data-positiony="0.03" 
+                data-scale="1" 
+                data-motionno="0">
+                <font size=6>呼叫主程式</font>
+                <pre style="font-size: 26px;">
+                <code data-trim data-noescape>
+                main()
+                </code>
+                </pre>
+            </section>
+        </section>
+
+
+        </div>
+    </div>
+    <div id="pageIndex"></div>
+    <!-- reveal.js-->
+    <script src="vendor/reveal/reveal.js"></script>
+    <!--plugin-->
+    <script src="vendor/reveal/plugin/math/math.js"></script>
+    <script src="vendor/reveal/plugin/search/search.js"></script>
+    <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+    <script src="vendor/reveal/plugin/notes/notes.js"></script>
+    <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+    <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+    <script src="main-ppt.js"></script>
+</body>
+
+</html>
