@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>013 線段（進階）</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul,
+    ol {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .reveal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 26px;
+    }
+
+    #pageIndex {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .controls {
+        bottom: 24px !important;
+    }
+    .table, .th, .td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <!--Q1-->
+      <section>
+        <h3 style="text-align: left;">013 線段（進階）</h3>
+        <section 
+          data-no="6"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left">
+          請計算出(L1、L2、L3…Ln)N條線在 X 軸上所涵蓋的長度(不含重複線段)。<br>
+          例如: L1(x1,x2)表示L1線段為 X 軸上點 x1 到點 x2 的線。<br>
+          依序輸入起點和終點(起點 < 終點)，且較小的起點先輸入。<br><br>
+        <table class="table"><br>
+            <tr>
+                <th class="th">輸入說明</th>
+                <th class="th">輸出說明</th>
+            </tr>
+        <tr>
+            <td class="td">1. 輸入總共有多少條線段<br>（整數N, 1 <= N <= 40）<br>
+                        2. 輸入 L1 的 x1, x2 座標<br>（整數M, -20 <= M <=  20）<br>
+                        3~N. 重複第二行步驟直到Ln也輸入完成<br>
+            </td>
+            <td class="td">1. 輸出N條線段所涵蓋的長度（整數）<br>
+            </td>
+        </tr>
+        </table><br>
+        </section>
+    </section>
+
+    <section>
+        <h3>Input/Output</h3>
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <font size=5>第一行：總共有3條線段<br>
+        第二行：L1 的 (x1,x2) 座標為 (-1,1) ->（最小的起點先輸入，並以空格隔開）<br>
+        第三行：L2 的 (x1,x2) 座標為 (0,2)  ->（最小的起點先輸入，並以空格隔開）<br>
+        第四行：L3 的 (x1,x2) 座標為 (1,3)  ->（最小的起點先輸入，並以空格隔開）</font><br><br>
+        <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td">3<br>
+                            -1 1<br>
+                            0 2 <br>
+                            1 3
+                </td>
+                <td class="td">4
+                </td>
+            </tr>
+        </table> 
+        </section>
+        
+        <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"><br>
+            <img src="img/013/line_1.png" style="width: auto;height: 300px;"><br>
+            <font size=5>輸出：最左邊的點為-1，最右邊的點為3 (範圍為-1 ~ 3)，因此三條線所涵蓋的長度為4。</font>
+        </section>
+
+        <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">3<br>
+                            -5 -1<br>
+                            -2 2<br>
+                            3 5 
+                </td>
+                <td class="td">9<br>
+                </td>
+              </tr>
+            </table> 
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"><br>
+            <img src="img/013/line_2.jpg">
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">5<br>
+                    -5 -2<br>
+                    -1 1<br>
+                    2 5<br>
+                    3 6<br>
+                    19 20 
+                </td>
+                <td class="td">10<br>
+                </td>
+              </tr>
+            </table> 
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"><br>
+            <img src="img/013/line_3.jpg">
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">4<br>
+                    -7 -1<br>
+                    -2 3<br>
+                    1 9<br>
+                    -10 10
+                  </td>
+                  <td class="td">20<br>
+                    </td>
+              </tr>
+            </table> 
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"><br>
+            <img src="img/013/line_4.jpg">
+          </section>
+    </section>
+
+      <section>
+        <h3>Hints</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            def main():
+                #輸入總共有多少條線段
+                #初始化一個list，命名為lines，用來存每一條線的(x1,x2)座標
+                lines=[]
+                #利用for迴圈控制需輸入?條線的座標
+                for i in range(n):
+                    #輸入1~n條線座標，用' '分割字串
+                    #調整座標範圍為正的，原本-20~20 改成 0~40
+                    #新增座標到lines
+
+                linear(lines)
+          </code></pre>
+        </section>
+
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            def linear(lines):
+                #定義一個bool列表，先初始化成有40個False
+                #[False,False,False.....,False]
+                #利用雙層迴圈將每條線的範圍在bool list中設為True
+                #計數該list中的True數量
+        </code></pre>
+        <img src="img/013/s1.jpg" style="width: auto;height: 350px;">
+      </section>
+    </section>
+
+    <section>
+        <h3>for 迴圈</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br><br>
+          <font size=6>目的：讓指定的某段敘述在條件符合的情況下一直重複執行</font><br><br>
+          <font size=6>語法：</font>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            for x in sequence:
+             #要執行的敘述
+          </code></pre><br>
+          <p size=6>for 和 in 是Python的關鍵字，這兩個關鍵字之間會放我們自訂的變數，sequence是放一組序列資料，
+            迴圈會依序從序列（例如: 一連串清單資料，一組數字或一個名單）裡取得元素，並將元素指派給前面自訂的變數，並執行迴圈裡的內容。 </p><br>  
+        </section>
+
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br><br>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            Abook_sequence = [34,99,89,75]
+            for i in Abook_sequence:
+              print(i)
+          </code></pre>
+          <p size=6>輸出：34<br>
+          &emsp;&emsp;&emsp;99<br>
+          &emsp;&emsp;&emsp;89<br>
+          &emsp;&emsp;&emsp;75</p><br>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            two_list = [['bnana'],['apple'],['orange']]
+            for i in two_list:
+              print(i)
+          </code></pre>
+          <p>輸出：['bnana']<br>
+            &emsp;&emsp;&emsp;['apple']<br>
+            &emsp;&emsp;&emsp;['orange']</p>
+        </section>
+
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br><br>
+          <p>設定初始值、終止值，以及每次執行迴圈後控制變數遞增或是遞減的變化。<br>
+          for x in range(起始值, 終止值, 遞增(減)值)<br>
+          range(10)：產生從0到9的整數序列。<br>
+          range(1, 11)：產生從1到10的整數序列(未指定遞增值的情況下，其遞增值預設為1)。<br>
+          range(0, 10, 2)：產生從0, 2, 4, 6, 8的整數序列(遞增值為2)。
+          </p>  
+            <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            for i in range(10):
+              print(i, end=" ")
+                
+            print() #換行
+            for i in range(20, 2, -2):
+              print(i, end=" ")
+            </code></pre>
+            <p>輸出：<br>
+              0 1 2 3 4 5 6 7 8 9 <br>
+              20 18 16 14 12 10 8 6 4</p>
+        </section>
+      </section>
+
+      <section>
+        <h3>雙層for迴圈</h3>
+        <section
+            data-no="17" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br><br>
+            <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            bool_list = [False]*40
+            lines = [[1,2],[4,7],[3,9]]  
+            for i in range(len(lines)):
+                for j in range(lines[i][0], lines[i][1]): 
+                    bool_list[j] = True
+            print(bool_list)
+            print("True的數量:", bool_list.count(True))
+            </code></pre>
+            <p>輸出：[False, True, False, True, True, True, True, True, True, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]</p>
+            True的數量:7<br>
+        </section>
+
+        <section
+            data-no="17" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"><br><br>
+            <img src="img/013/s2.jpg" style="width: auto;height: 630px;">
+        </section>
+    </section>
+
+
+      <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+              data-no="8"
+              data-positionx="0.8" 
+              data-positiony="0.03" 
+              data-scale="1" 
+              data-motionno="0">
+              <font size=6>主程式</font>
+              <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+                def main():
+                    #輸入總共有多少條線段
+                    n = int(input())
+                    #定義變數lines，型態為list
+                    lines = []
+                    for i in range(n):
+                        #輸入Ln的座標，用空格分割字串
+                        line_point = input().split(' ')
+                        #把座標範圍 -20~20 變成 0~40，存進變數x1和x2
+                        x1, x2 = int(line_point[0])+20, int(line_point[1])+20
+                        #新增座標到變數lines
+                        lines.append([x1, x2])
+
+                    linear(lines)
+              </code></pre>
+          </section>
+
+          <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-linear()</font>
+            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="" class="language-python">
+            def linear(lines):
+                #建一個有40個False的list
+                count_list = [False]*40 
+                for i in range(len(lines)):
+                    for j in range(lines[i][0], lines[i][1]):
+                        count_list[j] = True
+                print(count_list.count(True))
+            </code></pre>
+          </section>
+      </section>
+
+    <section>
+        <h3 >解答</h3>
+            <section data-auto-animate
+                data-no="8"
+                data-positionx="0.8" 
+                data-positiony="0.03" 
+                data-scale="1" 
+                data-motionno="0">
+                <font size=6>呼叫主程式<br><br></font>
+                <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers>
+                  if __name__ == '__main__': 
+                    main()
+                </code></pre>
+            </section>
+          </section>
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>
