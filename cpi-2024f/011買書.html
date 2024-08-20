@@ -317,79 +317,7 @@
           gcd(x, y): 回傳 x 和 y 的最大公因數<br>
           pow(x, y): 回傳 x 的 y 次方<br>
           sqrt(x): 回傳 x 的平方根</font><br><br>
-          <a herf="https://steam.oxxostudio.tw/category/python/library/math.html">可參考更多math()方法</a>
         </section>
-      </section>
-
-      <section>
-        <h3>for 迴圈</h3>
-        <section data-auto-animate
-          data-no="17" 
-          data-positionx="0.8" 
-          data-positiony="0.03" 
-          data-scale="1" 
-          data-motionno="0"
-          style="text-align: left"><br><br>
-          <font size=6>目的：讓指定的某段敘述在條件符合的情況下一直重複執行</font><br><br>
-          <font size=6>語法：</font>
-          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
-            for x in sequence:
-             #要執行的敘述
-          </code></pre><br>
-          <p size=6>for 和 in 是Python的關鍵字，這兩個關鍵字之間會放我們自訂的變數，sequence是放一組序列資料，
-            迴圈會依序從序列（例如: 一連串清單資料，一組數字或一個名單）裡取得元素，並將元素指派給前面自訂的變數，並執行迴圈裡的內容。 </p><br>  
-        </section>
-
-        <section data-auto-animate
-          data-no="17" 
-          data-positionx="0.8" 
-          data-positiony="0.03" 
-          data-scale="1" 
-          data-motionno="0"
-          style="text-align: left"><br><br>
-          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
-            Abook_sequence = [34,99,89,75]
-            for i in Abook_sequence:
-              print(i)
-          </code></pre>
-          <p size=6>輸出：34<br>
-          &emsp;&emsp;&emsp;99<br>
-          &emsp;&emsp;&emsp;89<br>
-          &emsp;&emsp;&emsp;75</p><br>
-          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
-            two_list = [['bnana'],['apple'],['orange']]
-            for i in two_list:
-              print(i)
-          </code></pre>
-          <p>輸出：['bnana']<br>
-            &emsp;&emsp;&emsp;['apple']<br>
-            &emsp;&emsp;&emsp;['orange']</p>
-        </section>
-
-        <section data-auto-animate
-          data-no="17" 
-          data-positionx="0.8" 
-          data-positiony="0.03" 
-          data-scale="1" 
-          data-motionno="0"
-          style="text-align: left"><br><br>
-          <p>設定初始值、終止值，以及每次執行迴圈後控制變數遞增或是遞減的變化。<br>
-          for x in range(起始值, 終止值, 遞增(減)值)<br>
-          range(10)：產生從0到9的整數序列。<br>
-          range(1, 11)：產生從1到10的整數序列(未指定遞增值的情況下，其遞增值預設為1)。<br>
-          range(0, 10, 2)：產生從0, 2, 4, 6, 8的整數序列(遞增值為2)。
-          </p>  
-            <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
-            for i in range(10):
-              print(i, end=" ")
-                
-            print() #換行
-            for i in range(20, 2, -2):
-              print(i, end=" ")
-            </code></pre>
-            <p>輸出：<br>
-              0 1 2 3 4 5 6 7 8 9 <br>
-              20 18 16 14 12 10 8 6 4</p>
       </section>
 
       <section>
@@ -401,24 +329,73 @@
               data-scale="1" 
               data-motionno="0">
               <font size=6>主程式</font>
-              <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+              <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-9|11-15|17-21|23-33" class="language-python">
+              import math
               def main():
-                #輸入a線段的x1座標，轉換型態為int，存進變數a1
-                a1 = int(input())
-                #輸入a線段的x2座標，轉換型態為int，存進變數a2
-                a2 = int(input())
-                #輸入b線段的x1座標，轉換型態為int，存進變數b1
-                b1 = int(input())
-                #輸入b線段的x2座標，轉換型態為int，存進變數b2
-                b2 = int(input())
-                #輸入c線段的x1座標，轉換型態為int，存進變數c1
-                c1 = int(input())
-                #輸入c線段的x2座標，轉換型態為int，存進變數c2
-                c2 = int(input())
+                #輸入書本A的資訊，並以 , 分割字串
+                input_Abook = input().split(',')
+                #將輸入轉換為整數
+                Abook = int(input_Abook[0]) #input_Abook的第一個元素
+                A1 = int(input_Abook[1]) #input_Abook的第二個元素
+                A2 = int(input_Abook[2]) #input_Abook的第三個元素
+                A3 = int(input_Abook[3]) #input_Abook的第四個元素
+                
+                input_Bbook = input().split(',')
+                Bbook = int(input_Bbook[0])
+                B1 = int(input_Bbook[1])
+                B2 = int(input_Bbook[2])
+                B3 = int(input_Bbook[3])
+                
+                input_Cbook = input().split(',')
+                Cbook = int(input_Cbook[0])
+                C1 = int(input_Cbook[1])
+                C2 = int(input_Cbook[2])
+                C3 = int(input_Cbook[3])
+                
+                #獲取3本書處理過後的費用
+                #bookA_price()、bookB_price()、bookC_price()需另外再寫函式
+                bookA_Price = bookA_price(Abook,A1,A2,A3)
+                bookB_Price = bookB_price(Bbook,B1,B2,B3)
+                bookC_Price = bookC_price(Cbook,C1,C2,C3)
 
-                #呼叫linear(傳入以上輸入的變數當參數)
-                linear(a1,a2,b1,b2,c1,c2)
+                #呼叫比較書本價格並按順序輸出的函式
+                compare(bookA_Price,bookB_Price,bookC_Price)
+                #計算總費用
+                total_price = math.ceil(bookA_Price)+math.ceil(bookB_Price)+math.ceil(bookC_Price)
+                print(total_price)
               </code></pre>
+          </section>
+      </section>
+
+      <section>
+        <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-bookA_price()</font>
+            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="" class="language-python">
+              def bookA_price(bookA,A1,A2,A3):
+                #定義priceA變數，初始化為0，代表計算後的書本A價錢
+                priceA = 0 
+                #如果數量10本(含)以下
+                if(0 <= bookA <= 10): 
+                    priceA = 380*bookA #以原價計算
+                #否則如果，11~20本，打A1折
+                elif(11 <= bookA <= 20): 
+                    priceA = (380*bookA)*(A1/100)
+                #否則如果，21~30本，打A2折
+                elif(21 <= bookA <= 30):
+                    priceA = (380*bookA)*(A2/100)
+                #否則如果，31本以上，打A3折
+                #上限100本
+                elif(30 < bookA <= 100):
+                    priceA = (380*bookA)*(A3/100)
+                #回傳priceA的結果
+                return priceA
+            </code></pre>
           </section>
 
           <section data-auto-animate
@@ -427,46 +404,87 @@
             data-positiony="0.03" 
             data-scale="1" 
             data-motionno="0">
-            <font size=6>副程式-linear()</font>
-            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-7|9-17|18-22|24-29|30-37" class="language-python">
-              def linear(a1,a2,b1,b2,c1,c2):
-                #定義變數s為a線段的起點
-                s = a1 
-                #定義變數e為線段的終點
-                e = a2
-                #定義變數ans，初始化為0，用來存總長度
-                ans = 0 
+            <font size=6>副程式-bookB_price()</font>
+                <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="" class="language-python">
+                  def bookB_price(bookB,B1,B2,B3):
+                    priceB = 0
+                    if(0 <= bookB <= 10):
+                        priceB = 1200*bookB
+                    elif(11 <= bookB <= 20):
+                        priceB = (1200*bookB)*(B1/100)
+                    elif(21 <= bookB <= 30):
+                        priceB = (1200*bookB)*(B2/100)
+                    elif(30 < bookB <= 100):
+                        priceB = (1200*bookB)*(B3/100)
+                    return priceB
+                </code></pre>
+            </section>
 
-                #這裡的if-elif一定會更新到變數e
-                #如果a和b線段沒有重疊
-                if b1 >= e: 
-                    #算出a線段的長度並累加到 ans
-                    #獨立計算沒有重疊的長度
-                    ans += (e-s) #相當於ans = ans + (e-s)
-                    #更新起點與終點為b線段的座標
-                    s = b1
-                    e = b2
-                #否則如果，a和b線段有重疊
-                elif b2 > e:
-                    #更新終點為b線段的x2座標
-                    #此時s還是a線段的x1座標:a1
-                    e = b2
-
-                #如果c和更新後的終點e沒有重疊
-                if c1 >= e:  
-                    ans += (e-s) #ans = ans + (e-s)
-                    #更新起點與終點為c線段的座標
-                    s = c1
-                    e = c2
-                #否則如果，c線段和更新後的終點e有重疊
-                elif c2 > e:
-                    #更新終點為c線段的x2座標
-                    e = c2
-            
-                #計算總長度
-                ans += (e - s)
-                print(ans) #印出
-            </code></pre>
+            <section data-auto-animate
+            data-no="8"
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0">
+            <font size=6>副程式-bookC_price()</font>
+                <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="" class="language-python">
+                  def bookC_price(bookC,C1,C2,C3):
+                    priceC = 0
+                    if(0 <= bookC <= 10):
+                        priceC = 180*bookC
+                    elif(11 <= bookC <= 20):
+                        priceC = (180*bookC)*(C1/100)
+                    elif(21 <= bookC <= 30):
+                        priceC = (180*bookC)*(C2/100)
+                    elif(30 < bookC <= 100):
+                        priceC = (180*bookC)*(C3/100)
+                    return priceC
+                </code></pre>
+              </section>
+        </section>
+          
+        <section>
+          <h3 >解答</h3>
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>副程式-compare()</font>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-11|12-21|22-31" class="language-python">
+            def compare(bookA_price,bookB_price,bookC_price): 
+              #如果A書價格最高
+              if(bookA_price >= bookB_price and bookA_price >= bookC_price):
+                  print('A,',math.ceil(bookA_price)) 
+                  #比較B書和C書的價格
+                  if(bookB_price >= bookC_price):
+                      print('B,',math.ceil(bookB_price))
+                      print('C,',math.ceil(bookC_price))
+                  elif(bookC_price >= bookB_price):
+                      print('C,',math.ceil(bookC_price))
+                      print('B,',math.ceil(bookB_price))
+              # 如果B書價格最高
+              elif(bookB_price >= bookA_price and bookB_price >= bookC_price):
+                  print('B,',math.ceil(bookB_price))  
+                  #比較A書和C書的價格
+                  if(bookA_price >= bookC_price):
+                      print('A,',math.ceil(bookA_price))
+                      print('C,',math.ceil(bookC_price))
+                  elif(bookC_price >= bookA_price):
+                      print('C,',math.ceil(bookC_price))
+                      print('A,',math.ceil(bookA_price))
+              #如果C書價格最高
+              elif(bookC_price >= bookA_price and bookC_price >= bookB_price):
+                  print('C,',math.ceil(bookC_price))
+                  # 比較A書和B書的價格
+                  if(bookA_price >= bookB_price):
+                      print('A,',math.ceil(bookA_price))
+                      print('B,',math.ceil(bookB_price))
+                  elif(bookB_price >= bookA_price):
+                      print('B,',math.ceil(bookB_price))
+                      print('A,',math.ceil(bookA_price))
+          </code></pre>
           </section>
         </section>
    
