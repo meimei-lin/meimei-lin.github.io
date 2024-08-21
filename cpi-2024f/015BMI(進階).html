@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>015 BMI比較</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul,
+    ol {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .reveal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 26px;
+    }
+
+    #pageIndex {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .controls {
+        bottom: 24px !important;
+    }
+    .table, .th, .td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <!--Q1-->
+      <section>
+        <h3 style="text-align: left;">015 BMI比較</h3><br><br>
+        <section 
+          data-no="6"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left">
+          給定n個人輸入身高與體重並計算BMI，BMI計算後需先四捨六入五看偶取到小數點第二位，
+          並以捨入後的結果計算BMI的最大值、最小值、中位數、眾數。<br><br>
+          <b>BMI = 體重(公斤) / (身高*身高)(公尺)</b><br><br>
+          <b>四捨六入五看偶規則：</b>
+          保留位數的後一位如果是5，要看尾數「5」的前一位決定是捨去還是進入，
+          如果是奇數則進位，如果是偶數則捨去。例如5.215保留兩位小數為5.22，而 5.225保留兩位小數為5.22。<br><br>
+          <b>中位數：</b>為一數列經過排序後，處數列中間的數，如：<br>
+          [3,6,8,10,11] 則中位數 = 8<br>
+          若數列有偶數個數，則取中間兩數的平均為中位數，如：<br>
+          [2,3,5,8,13,21] 則中位數 = (5+8)/2 = 6.5<br><br>
+          <b>眾數：</b>為一數列當中出現最多次的數。如：<br>
+          [1,2,2,3,3,3,4,4,5] 則眾數 = 3<br>
+          若有多個眾數，則取最小者做為眾數。如：<br>
+          [2,2,2,3,3,3,4,4] 則眾數 = 2<br>
+        </section>
+
+        <section 
+          data-no="6"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left">
+          <table class="table"><br>
+            <tr>
+                <th class="th">輸入說明</th>
+                <th class="th">輸出說明</th>
+            </tr>
+            <tr>
+                <td class="td">1. 輸入一個整數，表示接下來將輸入n個人的身高體重（2<=n<=10）。<br>
+                            2.~N+1. 輸入兩個浮點數，以空白隔開。第一個浮點數為身高(公尺，
+                            1.50<=身高<=2.50)，第二個浮點數為體重(公斤，0.0<=體重<=150.0)。                            
+                </td>
+                <td class="td">1. 輸出為一浮點數，表示n個人中BMI的最大值。<br>
+                    2. 輸出為一浮點數，表示n個人中BMI的最小值。<br>
+                    3. 輸出為一浮點數，表示n個人中BMI的中位數。<br>
+                    4. 輸出為一浮點數，表示n個人中BMI的眾數。
+                </td>
+            </tr>
+            </table>
+        </section>
+    </section>
+
+    <section>
+        <h3>Input/Output</h3>
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <font size=5>第一行：表示接下來將有4筆輸入<br>
+        第二行：第1個人，身高=1.78公尺，體重=75.0公斤，BMI: 23.67<br>
+        第三行：第2個人，身高=1.77公尺，體重=84.5公斤，BMI: 26.97<br>
+        第四行：第3個人，身高=1.75公尺，體重=62.3公斤，BMI: 20.34<br>
+        第五行：第4個人，身高=1.56公尺，體重=48.5公斤，BMI: 19.93</font><br><br>
+        <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td">4<br>
+                    1.78 75.0<br>
+                    1.77 84.5<br>
+                    1.75 62.3<br>
+                    1.56 48.5   
+                </td>
+                <td class="td">26.97<br>
+                    19.93<br>
+                    22.00<br>
+                    19.93
+                </td>
+            </tr>
+        </table>
+        <font size=5>輸出：<br>
+            第一行：4人中BMI最大為26.97<br>
+            第二行：4人中BMI最小為19.93<br>
+            第三行：4人的BMI中位數為22.00，(20.34+23.67)/2=22.00<br>
+            第四行：4人的BMI眾數為19.93，沒有重複的BMI值，眾數取最小BMI。<br></font> 
+        </section>
+
+        <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <font size=5>第一行：表示接下來將有5筆輸入<br>
+                第二行：第1個人，身高=2.00公尺，體重=80.0公斤，BMI: 20<br>
+                第三行：第2個人，身高=1.88公尺，體重=85.3公斤，BMI: 24.13<br>
+                第四行：第3個人，身高=1.68公尺，體重=68.1公斤，BMI: 24.13<br>
+                第五行：第4個人，身高=1.53公尺，體重=48.2公斤，BMI: 20.59<br>
+                第六行：第5個人，身高=1.72公尺，體重=60.1公斤，BMI: 20.315 -> 20.32</font><br><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">5<br>
+                    2.00 80.0<br>
+                    1.88 85.3<br>
+                    1.68 68.1<br>
+                    1.53 48.2<br>
+                    1.72 60.1    
+                </td>
+                <td class="td">24.13<br>
+                    20.00<br>
+                    20.59<br>
+                    24.13<br>
+                </td>
+              </tr>
+            </table> 
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <font size=5>第一行：表示接下來將有5筆輸入<br>
+                第二行：第1個人，身高=1.88公尺，體重=69.5公斤，BMI: 19.66<br>
+                第三行：第2個人，身高=1.52公尺，體重=52.8公斤，BMI: 22.85<br>
+                第四行：第3個人，身高=1.68公尺，體重=55.5公斤，BMI: 19.66<br>
+                第五行：第4個人，身高=1.72公尺，體重=65.2公斤，BMI: 22.04<br>
+                第六行：第5個人，身高=1.62公尺，體重=60.4公斤，BMI: 23.01</font><br><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">5<br>     
+                    1.88 69.5<br>
+                    1.52 52.8<br>
+                    1.68 55.5<br>
+                    1.72 65.2<br>
+                    1.62 60.4
+                </td>
+                <td class="td">23.01<br>
+                    19.66<br>
+                    22.04<br>
+                    19.66<br>
+                </td>
+              </tr>
+            </table> 
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <font size=5>第一行：表示接下來將有7筆輸入<br>
+                第二行：第1個人，身高=1.72公尺，體重=75.6公斤，BMI: 25.55<br>
+                第三行：第2個人，身高=1.52公尺，體重=38.4公斤，BMI: 16.62<br>
+                第四行：第3個人，身高=1.66公尺，體重=64.7公斤，BMI: 23.48<br>
+                第五行：第4個人，身高=1.68公尺，體重=80.2公斤，BMI: 28.415 -> 28.42<br>
+                第六行：第5個人，身高=1.75公尺，體重=71.9公斤，BMI: 23.48<br>
+                第七行：第6個人，身高=1.62公尺，體重=74.6公斤，BMI: 28.42<br>
+                第八行：第7個人，身高=1.75公尺，體重=93.4公斤，BMI: 30.50</font><br><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">7<br>
+                    1.72 75.6<br>
+                    1.52 38.4<br>
+                    1.66 64.7<br>
+                    1.68 80.2<br>
+                    1.75 71.9<br>
+                    1.62 74.6<br>
+                    1.75 93.4 
+                  </td>
+                  <td class="td">30.50<br>
+                    16.62<br>
+                    25.55<br>
+                    23.48<br>
+                    </td>
+              </tr>
+            </table> 
+          </section>
+    </section>
+
+      <section>
+        <h3>Hints</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+          def main():
+            #共有n人要輸入身高體重
+            #定義最大bmi、最小bmi、中位數、眾數、存放bmi的list等變數
+            for i in range(n):
+              #輸入第1~n人的身高、體重，用空格分割字串
+              #轉換型態為float
+              #計算bmi，處理四捨六入五看偶規則，另寫函式
+              bmiList.append(bmi) #新增bmi到list中
+              #找出最大與最小bmi
+
+            bmiList.sort() #由小到大排序bmiList
+            #獲取中位數與眾數，另寫函式
+            #輸出最大bmi、最小bmi、中位數、眾數
+          </code></pre>
+          </section>
+
+          <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;">
+          <p>處理四捨六入五看偶原則的函式：</p>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            def round(bmi):
+              #bmi放大1000倍，再除以???所得的餘數會是bmi的小數第三位
+              if (int)(bmi * 1000 % ???) > 5: 
+              {
+                #進位
+              }
+              elif (int)(bmi * 1000 % ???) == 5: #bmi的小數第三位等於5
+              {
+                #bmi放大100倍，再除以???所得到的餘數是1或0(可以判斷是奇數還是偶數)
+                if (int)(bmi * 100) % ??? == 1: #bmi的小數第二位是奇數
+                {
+                  #進位
+                }
+              }
+          </code></pre>
+        </section>
+
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;">
+          <p>處理眾數的函式：</p>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            def getMode(bmiList):
+              #利用字典這個資料型態的特性
+              bmiDict = {}
+              #{key : vlaue} -> {bmi : num}
+              #讓key代表bmi，value代表數量
+              #找出num是最大的bmi
+          </code></pre>
+        </section>
+
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;">
+          <p>處理中位數的函式：</p>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            def getMedian(bmiList):
+              #取得總共有多少筆bmi數據
+              #如果是單數筆的話，就取最中間的bmi
+              if lenght % 2: #單數筆
+                #//:代表除法後取整數部分
+                #ex: 3 // 2 = 1
+                return bmiList[lenght // 2] 
+
+              else: #偶數筆
+                #取中間兩數的平均
+                return (bmiList[lenght // 2 - 1] + bmiList[lenght // 2]) / 2
+        </code></pre>
+      </section>
+    </section>
+
+    <section>
+        <h3>字典 dict</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br><br>
+          <p>字典（Dictionary）是 Python 中一個常用的資料結構，用於儲存一組鍵值對（Key-Value pairs）。<br>
+            每個key會對應到一個值，可以根據key來快速存取對應的值，它是一種無序的鍵值對集合，用於存可變的、可索引的資料。<br>
+            字典以大括號 {} 表示，每個鍵值對之間使用冒號 : 分隔。</p>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+          bmiDict = {23.21 : "數量1", 19.34 : "數量2", 22.33 : "數量3", 18.72 : "數量4"}
+          #使用key來取得字典的value
+          print(bmiDict[23.21])
+          print(bmiDict[22.33])
+          print(bmiDict[19.34])
+          print(bmiDict[18.72])
+          </code></pre>
+          <p >輸出：數量1<br>
+            &emsp;&emsp;&emsp;數量3<br>
+            &emsp;&emsp;&emsp;數量2<br>
+            &emsp;&emsp;&emsp;數量4</p><br>  
+        </section>
+
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br><br>
+          <font size=6>檢查鍵是否存在</font>
+          <p>可以使用 in 關鍵字來檢查特定的鍵是否存在於字典中。</p>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+          bmiList = [23.21, 19.34, 21.78, 22.33, 18.72, 16.62]
+          bmiDict = {23.21 : "數量1", 19.34 : "數量2", 22.33 : "數量3", 18.72 : "數量4"}
+          for i in range(len(bmiList)):
+            if(bmiList[i] in bmiDict.keys()):
+              print(bmiList[i],"鍵已存在")
+            else:
+              print(bmiList[i],"鍵不存在")
+          </code></pre>
+          <p size=6>輸出：23.21 鍵已存在<br>
+          &emsp;&emsp;&emsp;19.34 鍵已存在<br>
+          &emsp;&emsp;&emsp;21.78 鍵不存在<br>
+          &emsp;&emsp;&emsp;22.33 鍵已存在<br>
+          &emsp;&emsp;&emsp;18.72 鍵已存在<br>
+          &emsp;&emsp;&emsp;16.62 鍵不存在</p><br>
+        </section>
+
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br><br>
+          <font size=6>輪詢字典的鍵值對</font>
+          <p>可以使用 .items() 方法來輪詢字典的鍵值對，並同時取得鍵和值。</p>  
+            <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            bmiDict = {23.21 : "數量1", 19.34 : "數量2", 22.33 : "數量3", 18.72 : "數量4"}
+            for bmi,num in bmiDict.items():
+              print(f"{bmi}: {num}")
+            </code></pre>
+            <p>輸出：23.21: 數量1<br>
+              &emsp;&emsp;&emsp;19.34: 數量2<br>
+              &emsp;&emsp;&emsp;22.33: 數量3<br>
+              &emsp;&emsp;&emsp;18.72: 數量4</p>
+        </section>
+    </section>
+
+
+      <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+              data-no="8"
+              data-positionx="0.8" 
+              data-positiony="0.03" 
+              data-scale="1" 
+              data-motionno="0">
+              <font size=6>主程式</font>
+              <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-11|12-22|24-28|29-40" class="language-python">
+              def main():
+                #輸入接下來總共要輸入n個人的身高、體重
+                n = int(input())
+                #定義變數minBMI、maxBMI，初始化為999、0
+                #為了後面找到最小及最大BMI要更新的
+                minBMI = 999
+                maxBMI = 0
+
+                median = 0 #中位數
+                mode = 0 #眾數
+                bmiList = [] #存放bmi的list
+                for i in range(n): #i從0~n-1
+                  #輸入n個人的身高、體重，用空格分割字串
+                  height, weight = input().split(' ')
+                  height = float(height)
+                  weight = float(weight)
+
+                  #呼叫BMI()，回傳的值再當round()的參數
+                  #得到已處理完四捨六入五看偶的bmi值
+                  bmi = round(BMI(height,weight))
+                  #新增bmi到bmiList
+                  bmiList.append(bmi)
+
+                  #找出最大與最小bmi
+                  if(bmi < minBMI):
+                      minBMI = bmi
+                  if(bmi > maxBMI):
+                      maxBMI = bmi
+                #將bmiList的資料由小到大排序
+                bmiList.sort()
+                #呼叫getMedian()獲取中位數
+                #回傳的值當round()的參數，處理四捨六入
+                median = round(getMedian(bmiList))
+                #呼叫getMode()獲取眾數
+                mode = getMode(bmiList)
+
+                print(f"{maxBMI:.2f}")
+                print(f"{minBMI:.2f}")
+                print(f"{median:.2f}")
+                print(f"{mode:.2f}")
+              </code></pre>
+          </section>
+        </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-BMI()</font>
+            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="" class="language-python">
+              def BMI(height, weight):
+                return weight/(height*height) 
+            </code></pre>
+          <font size=6>副程式-round():四捨六入五看偶規則</font>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="" class="language-python">
+            def round(bmi):
+              #判斷bmi的小數點後第三位是否大於5
+              if (int)(bmi*1000 % 10) > 5: 
+                  bmi += 0.01
+              #判斷bmi的小數點後第三位是否等於5
+              elif (int)(bmi*1000 % 10) == 5: 
+                  #判斷bmi的小數點後第二位是否是奇數
+                  if (int)(bmi*100) % 2 == 1: 
+                      bmi += 0.01 #奇數就進位
+              #將四捨五入後的值取到小數點後兩位
+              bmi = (int)(bmi * 100) / 100 
+              return bmi
+          </code></pre>
+          </section>
+      </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-getMedian():處理中位數</font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python"> 
+        def getMedian(bmiList):
+          #取得bmiList的長度
+          length = len(bmiList)
+          #當length % 2 == 1成立，代表bmiList長度是奇數
+          if length % 2: 
+            # //是進行除法後取到答案的整數位
+            return bmiList[length // 2] 
+          else:
+            return (bmiList[length // 2 - 1] + bmiList[length // 2]) / 2
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+        <img src="img/015/s1.jpg" style="width: auto;height: 500px;">
+        </section>
+      </section>
+
+      <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-getMode():處理眾數</font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-10|12-19" class="language-python">
+          def getMode(bmiList):
+            #定義變數bmiDict，型態是字典
+            bmiDict = {}
+            for i in range(len(bmiList)):
+              #如果bmiList[i]在bmiDict中的key存在
+              if(bmiList[i] in bmiDict.keys()):
+                  #累加key對應的value
+                  bmiDict[bmiList[i]] += 1
+              else:
+                  bmiDict[bmiList[i]] = 1
+            
+            mode = 0
+            maxNum = 0
+            #輪詢字典的鍵值對，取得bmi和數量
+            for bmi,num in bmiDict.items():
+              if(num > maxNum):
+                maxNum = num
+                mode = bmi
+            return mode
+        </code></pre>
+    </section>
+
+        <section data-auto-animate
+            data-no="8"
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0">
+          <img src="img/015/s2.jpg" style="width: auto;height: 600px;">
+        </section>
+      </section>
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>
