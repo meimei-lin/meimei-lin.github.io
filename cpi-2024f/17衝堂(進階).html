@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>17 衝堂(進階)</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul,
+    ol {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .reveal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 26px;
+    }
+
+    #pageIndex {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .controls {
+        bottom: 24px !important;
+    }
+    .table, .th, .td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <!--Q1-->
+      <section>
+        <h3 style="text-align: left;">17 衝堂(進階)</h3><br><br>
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        給定N門課程資料，檢查課程是否衝堂或輸入錯誤，輸出檢查結果。<br>
+        依序輸入：<br>
+        課程編號（科目名稱 + 4位數字）、<br>
+        上課小時數（1-3 小時）、<br>
+        上課時間（依小時數輸入上課時間, 星期 1-5, 第 1-9,a,b,c 節）。<br>
+        <table class="table"><br>
+            <tr>
+                <th class="th">輸入說明</th>
+                <th class="th">輸出說明</th>
+            </tr>
+            <tr>
+                <td class="td">1. 輸入整數N(2 <= N <= 10)。<br>
+                    <b>接著輸入 N 門課程的資訊，每一門課程的輸入如下：</b><br>
+                    &emsp;1. 輸入課程名稱及編號(字串)<br>
+                    &emsp;2. 上課小時數，整數 H (1<=H<=3)<br>
+                    &emsp;<b>接下來 H 行：</b><br>
+                    &emsp;&emsp;每一行為一個字串，第一個字元表示星期幾，第二個字元表示第幾節。                            
+                </td>
+                <td class="td">輸入有任何錯誤，輸出<b> -1 </b>。<br>
+                    若無發生衝堂，則輸出<b>correct</b>。<br>
+                    若發生衝堂，輸出所有衝堂的課程，每次輸出兩個衝堂的課程編號，以及在哪一天的哪一節衝突，參考下列格式：<br>
+                <b>{課程1編號},{課程2編號},{衝堂在哪天哪節}</b><br>
+                先輸入的課程為課程1，後輸入的課程為課程2<br>
+                    
+                </td>
+            </tr>
+        </table>
+        </section>
+    </section>
+
+    <section>
+        
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <h3>Input/Output</h3><br>
+        <table class="table">
+            <tr>
+                <th class="th">Sample Input 1</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+              <td class="td">3<br>
+                Chinese1001<br>
+                3<br>
+                11<br>
+                12<br>
+                13<br>
+                English1002<br>
+                3<br>
+                21<br>
+                22<br>
+                23<br>
+                Math1003<br>
+                3<br>
+                31<br>
+                32<br>
+                13   
+                </td>
+
+                <td class="td">Chinese1001,Math1003,13<br></td>
+            </tr>
+        </table>
+        </section>
+
+        <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <table class="table">
+              <tr>
+                <th class="th" >輸入：</th>
+                <th class="th">輸出：</th>
+              </tr>
+              <tr>
+                <td class="td"><font size="5">第1行：3 -> 總共有三門課程<br>
+                  第2行：Chinese1001 -> 第一門課課程編號<br>
+                  第3行：3 -> 3小時，每節課1小時<br>
+                  第4行：11 -> 星期1 第1節課<br>
+                  第5行：12 -> 星期1 第2節課<br>
+                  第6行：13 -> 星期1 第3節課<br>
+                  第7行：English1002 -> 第二門課課程編號<br>
+                  第8行：3 -> 3小時，每節課1小時<br>
+                  第9行：21 -> 星期2 第1節課<br>
+                  第10行：22 -> 星期2 第2節課<br>
+                  第11行：23 -> 星期2 第3節課<br>
+                  第12行：Math1003 -> 第三門課課程編號 <br>               
+                  第13行：3 -> 3小時，每節課1小時<br>
+                  第14行：31 -> 星期3 第1節課<br>
+                  第15行：32 -> 星期3 第2節課<br>
+                  第16行：13 -> 星期1 第3節課</font></td>
+                  <td><font size="5">Chinese1001,Math1003,13（課程Chinese1001跟課程Math1003，
+                    在星期1第3節衝堂，因課程Chinese1001先輸入，所以課程Chinese1001放前面）</font></td>
+              </tr>
+            </table>
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input 2</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">4<br>Programming1002<br>2<br>3b<br>4c<br>Biology1003<br>2<br>11<br>
+                  3b<br>Math3003<br>2<br>11<br>3b<br>History4001<br>1<br>23
+                </td>
+                <td class="td">Programming1002,Biology1003,3b<br>
+                  Programming1002,Math3003,3b<br>
+                  Biology1003,Math3003,11<br>
+                  Biology1003,Math3003,3b 
+                </td>
+              </tr>
+            </table> 
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left">
+            <font soze="6" color=red><b>下一頁還有輸入資料!!!</b></font> 
+            <table>
+              <tr>
+                <th class="th">Sample Input 3</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">5<br>Physics3000<br>1<br>37<br>Biology2004<br>3<br>2a<br>2b<br>2c<br>
+                  Chemistry1003<br>1<br>1c<br>Chinese5001<br>2<br>31<br>32<br>
+                </td>
+                <td class="td">correct
+                </td>
+              </tr>
+            </table> 
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left">
+            <font soze="6" color=red><b>接續上一頁!!!</b></font> 
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input 3</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">Math5002<br>3<br>42<br>
+                  43<br>44
+                </td>
+                <td class="td">
+                </td>
+              </tr>
+            </table> 
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left">
+            <table>
+              <tr>
+                <th class="th">Sample Input 4</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">7<br>Math1011<br>2<br>45<br>46<br>Chinese1002<br>2<br>45<br>61<br>
+                  English1003<br>2<br>45<br>5a<br>Chemistry1004<br>1<br>4c<br>
+                </td>
+                <td class="td">-1
+                </td>
+              </tr> <font soze="5" color=red><b>下一頁還有輸入資料!!!</b></font> 
+           </table>
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left">
+            <font soze="5" color=red><b>接續上一頁!!!</b></font> 
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input 4</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">Biology2001<br>3<br>46<br>47<br>48<br>Physics2002<br>2<br>5a<br>5b<br>Programming2003<br>3<br>45<br>46<br>47 
+                </td>
+                <td class="td"></td>
+              </tr>
+            </table> 
+          </section>
+    </section>
+
+      <section>
+        <h3>Hints</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;">
+          <p>courses (list): N門課程的資訊，格式為 
+          [[課程編號1, 上課小時數H, 時間1, ...,時間H],
+          [課程編號2, 上課小時數H, 時間1, ...,時間H],
+          [課程編號3, 上課小時數H, 時間1, ..., 時間N],
+          ......,
+          [課程編號N, 上課小時數H, 時間1, ..., 時間H]]。</p>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers="1-13|15-27">
+          def main():
+            #共有n堂課要輸入
+            #檢查n的範圍是否超過(2~10)
+            #n沒有超過的話:
+              courses = [] #用來放n堂課程資訊
+              for i in range(n):
+                #呼叫輸入課程資訊的函式inputCourse()
+                #回傳的結果新增到courses中
+              errorFlag = False #紀錄有無其他輸入錯誤
+              for i in range(n):
+                if(呼叫檢查輸入課程錯誤的函式chechk()): #成立
+                  errorFlag = True
+                  break
+
+              if(errorFlag): #errorFlag = True
+                print(-1)
+              else: #檢查有無衝堂
+                conflictFlag = False #紀錄有無衝堂
+                #利用雙層for迴圈
+                #取courses[]的兩個課程資料進行比對
+                for i in range(n):
+                  for j in range(i + 1, n):
+                    if(呼叫比對函式compare()): #成立
+                      conflictFlag = True
+
+                if(not conflictFlag):
+                  print('correct')
+          </code></pre>
+          </section>
+
+          <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers="1-13|15-27">
+          def inputCourse():
+            course = [] #存放單堂課資訊
+            #輸入課程編號，新增到course[]
+            #輸入上課小時數，新增到course[]
+            for i in range(course[1]):
+              #根據上課小時數輸入上課時間，
+              #再新增到course[]
+            return course
+          </code></pre>
+
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers="1-13|15-27">
+            def check(course):
+              #檢查上課小時數是否在範圍1~3
+              for i in range(上課小時數):
+                #檢查上課時間是否是2位數
+                #檢查上課時間的第一個字元是否是1~5
+                #檢查上課時間的第二個字元是否是1~9或a、b、c
+                #回傳布林值
+                #條件不滿足的return False
+                #滿足的return Ture
+            </code></pre>
+          </section>
+
+          <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;">
+          <p>course1 (list): 第一門課程的資訊，格式[課程編號,上課小時數H,時間1,...,時間H]。<br>
+          course2 (list): 第二門課程的資訊，格式相同。</p>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+          #傳入的course1, course2參數為存放多堂課程資訊的list中取出的兩門課堂資訊         
+          def compare(course1, course2):
+            comflict = False #紀錄有無檢查到衝堂
+            #利用雙層for迴圈取出兩個上課時間組合做比對
+            #若出現兩個上課時間相等
+            comflict = True
+            return comflict
+          </code></pre>
+        </section>
+    </section>
+
+    <section>
+        <h3>break</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br><br>
+          <p>使用時機：主要用於中斷目前的迴圈執行。強制跳出 ❮整個❯ 迴圈</p>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+          #當偵測到字母 t 時，就會強制結束迴圈
+          count=0
+          for string in 'content':
+            count+=1
+            if string == 't':
+              break
+            print(string)
+              
+          print('迴圈結束')
+          print('迴圈執行了 %d 次' %count)
+          </code></pre>
+          <p >輸出：c<br>
+            &emsp;&emsp;&emsp;o<br>
+            &emsp;&emsp;&emsp;n<br>
+            &emsp;&emsp;&emsp;迴圈結束<br>
+            &emsp;&emsp;&emsp;迴圈執行了 4 次</p><br>  
+        </section>
+    </section>
+
+      <section>
+        <h3>continue</h3>
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p>使用時機：在某些情況下如果需要暫停『本次』迴圈時使用。強制跳出 ❮本次❯ 迴圈，繼續進入下一圈。</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+        #當偵測到字母 t 時，會跳過本次迴圈剩下的程式碼 print(string)，但不會結束迴圈，仍然會進入下一圈繼續執行
+        count=0
+        for string in 'content':
+          count+=1
+          if string == 't':
+            continue
+          print(string)         
+        print('迴圈結束')
+        print('迴圈執行了 %d 次' %count)
+        </code></pre>
+        <p size=5>輸出：c<br>
+        &emsp;&emsp;&emsp;o<br>
+        &emsp;&emsp;&emsp;n<br>
+        &emsp;&emsp;&emsp;e<br>
+        &emsp;&emsp;&emsp;n<br>
+        &emsp;&emsp;&emsp;迴圈結束<br>
+        &emsp;&emsp;&emsp;迴圈執行了 7 次</p><br>
+      </section>
+    </section>
+
+      <section>
+        <h3>pass</h3>
+          <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <p>不做任何事情，所有的程式都將繼續。</p>
+          <pre style="font-size: 24px;"><code data-trim data-noescape class="language-python">
+          #當偵測到字母 t 時，會忽略該條件，繼續像正常迴圈一樣運行程序
+          count=0
+          for string in 'content':
+            count+=1
+            if string == 't':
+              pass
+            print(string)     
+          print('迴圈結束')
+          print('迴圈執行了 %d 次' %count)
+          </code></pre>
+          <p size=5>輸出：c<br>
+          &emsp;&emsp;&emsp;o<br>
+          &emsp;&emsp;&emsp;n<br>
+          &emsp;&emsp;&emsp;t<br>
+          &emsp;&emsp;&emsp;e<br>
+          &emsp;&emsp;&emsp;n<br>
+          &emsp;&emsp;&emsp;t<br>
+          &emsp;&emsp;&emsp;迴圈結束<br>
+          &emsp;&emsp;&emsp;迴圈執行了 7 次</p><br>
+        </section>
+      </section>
+
+      <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+              data-no="8"
+              data-positionx="0.8" 
+              data-positiony="0.03" 
+              data-scale="1" 
+              data-motionno="0">
+              <font size=6>主程式</font>
+              <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-11|12-22|24-38" class="language-python">
+              def main():
+                  n = int(input())
+                  #如果n的範圍不在2~10
+                  if(n < 2 or n >10):
+                      print(-1)
+                  else:
+                      courses = []
+                      for i in range(n):
+                          #呼叫輸入課程資訊的inputCourse()，
+                          #回傳的結果新增到courses
+                          courses.append(inputCourse()) #courses會是一個二維列表
+                      #紀錄有無其他輸入錯誤
+                      errorFlag = False 
+                      for i in range(n):
+                          #如果呼叫檢查輸入課程錯誤的函式chechk()，
+                          #回傳的結果為False
+                          #代表輸入有錯誤
+                          if(check(courses[i])==False):
+                              #更新errorFlag為Ture
+                              errorFlag = True
+                              #跳出整個for迴圈
+                              break
+            
+                      if(errorFlag):
+                          print(-1)
+                      else:
+                          #紀錄有無衝堂
+                          conflictFlag = False
+                          for i in range(n):
+                              for j in range(i + 1, n):
+                                  #呼叫比對函式compare()，
+                                  #每次都取courses的兩個子list進行比對，
+                                  #回傳的結果為True
+                                  if(compare(courses[i], courses[j])):
+                                      #更新conflictFlag為True
+                                      conflictFlag = True
+                          if(not conflictFlag):
+                              print('correct')
+              </code></pre>
+          </section>
+
+          <section data-auto-animate
+              data-no="8"
+              data-positionx="0.8" 
+              data-positiony="0.03" 
+              data-scale="1" 
+              data-motionno="0"
+              style="text-align: left;">
+              <p>舉例跑一遍這個雙迴圈</p>
+              <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="" class="language-python">
+              for i in range(n):
+                  for j in range(i + 1, n):
+                      if(compare(courses[i], courses[j])):
+              </code></pre>
+            <p>courses:[['Programming1002', 2, '3b', '4c'], ['Biology1003', 2, '11', '3b'], ['Math3003', 2, '11', '3b'], ['History4001', 1, '23']]</p>
+            <p>n = 4，i會從0~3，當i=0，j的範圍1~3，所以courses[0]會跟courses[1]、courses[2]、courses[3]都比對到；<br>
+            當i=1，j的範圍2~3，所以courses[1]會跟courses[2]、courses[3]都比對到；<br>
+            當i=2，j的範圍3，所以courses[2]會跟courses[3]比對到；<br>
+            當i=3，j已經超出範圍，不進入第二層迴圈，全部結束。</p>
+        </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-inputCourse()</font>
+            <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers="" class="language-python">
+            def inputCourse():
+                course = []
+                course.append(input()) #課程編號
+                course.append(int(input())) #上課小時數
+                for i in range(course[1]):
+                    course.append(input()) #上課時間 
+                return course
+            </code></pre>
+          </section>
+
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>副程式-compare()</font>
+          <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers="" class="language-python">
+          def compare(course1, course2):
+              comflict = False
+              for i in range(course1[1]):
+                  for j in range(course2[1]):
+                      if(course1[2+i] == course2[2+j]):
+                          print(f'{course1[0]},{course2[0]},{course2[2+j]}')
+                          comflict = True
+              return comflict
+          </code></pre>
+          <p style="text-align: left;">舉例跑一遍這個雙迴圈:<br>
+          course1:['Programming1002', 2, '3b', '4c']、course2:['Biology1003', 2, '11', '3b']<br>
+          i的範圍0~1，j的範圍0~1，當i=0，j=0，比對course1[2]和course2[2]，j=1，比對course1[2]和course2[3]，有相等，印出衝堂課程資訊，comflict = True；<br>
+          當i=1，j=0，比對course1[3]和course2[2]，j=1，比對course1[3]和course2[3]，跳出迴圈。回傳comflict。</p>
+      </section>
+      <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-check()</font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python"> 
+        def check(course):
+            #如果上課小時數範圍不是1~3
+            if(course[1] > 3 or course[1] < 0):
+                return False #回傳False
+            for i in range(course[1]):
+                #如果上課時間的字串長度不等於2
+                if len(course[2+i]) != 2:
+                    return False
+                #如果上課時間的第一個字元不是1~5
+                if not ('1' <= course[2+i][0] <= '5'): 
+                    return False
+                #如果上課時間的第二個字元不是1~9或a、b、c
+                if not (('1' <= course[2+i][1] <= '9') or course[2+i][1] == 'a' or 
+                      course[2+i][1] == 'b' or course[2+i][1] == 'c'): 
+                    return False
+            return True
+        </code></pre>
+        </section>
+      </section>
+
+      <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>呼叫主程式</font>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          if __name__ == '__main__':
+              main()
+          </code></pre>
+        </section>
+      </section>
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>
