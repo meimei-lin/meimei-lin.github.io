@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>19 繪製圖形</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul,
+    ol {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .reveal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 26px;
+    }
+
+    #pageIndex {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .controls {
+        bottom: 24px !important;
+    }
+    .table, .th, .td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <!--Q1-->
+      <section>
+        <h3 style="text-align: left;">19 繪製三種不同的圖形</h3><br>
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        N代表圖形的行數，而N (3 <= N <= 50)<br><br>
+        第一種圖形為直角三角形：<br>
+        共有 N 行<br>
+        第一行輸出1<br>
+        第二行輸出121<br>
+        第三行輸出12321<br>
+        以此類推，第 i 行輸出 1… i-1 + i + i-1…1 (i 為 1~N中的任一行)<br>
+        每一行共有2 * i - 1個數字<br>  
+        例如，當N = 5時，輸出圖形為:<br>
+<pre style="font-size: 26px;">
+1
+121
+12321
+1234321
+123454321
+</pre>
+        </section>
+
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        第二種圖形為正三角形：<br>
+        共有N行<br>
+        第一行輸出 (N-1)個 _ +  1 + (N-1)個 _<br>
+        第二行輸出 (N-2)個 _ + 121 + (N-2)個 _<br>
+        第三行輸出 (N-3)個 _ + 12321 + (N-3)個 _<br>
+        以此類推，第 i 行輸出 (N-i)個 _ + (1...i-1 + i + i-1…1) + (N-i)個 _   (i 為 1~N中的任一行)<br>
+        每一行共有2 * N - 1個字元，包含(N-i)*2個_ 與 2 * i - 1個數字<br>
+        例如，當N = 4時，輸出圖形為:<br>
+<pre style="font-size: 26px;">
+___1___
+__121__
+_12321_
+1234321
+</pre>
+        </section>
+
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        第三種圖形為倒三角形：<br>
+        共有N行<br>
+        第一行輸出 0個 _ + 1...N-1 + N + N-1…1 + 0個 _<br>
+        第二行輸出 1個 _ + 1...N-2 + N-1 + N-2…1 + 1個_ <br>
+        第三行輸出 2個 _ + 1...N-3 + N-2 + N-3…1 + 2個 _<br>  
+        以此類推，第 i 行輸出 (i-1)個 _ + (1...N-i+1) + (N-i…1) + (i-1)個 _   (i 為 1~N中的任一行)<br>
+        每一行共有2 * N - 1個字元，包含(i-1)*2個_ 與 (2*(N-i)+1) 個數字<br>
+        例如，當N = 4，輸出圖形為:<br>
+<pre style="font-size: 26px;">
+1234321
+_12321_
+__121__
+___1___
+</pre>
+        </section>
+
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        <table class="table"><br>
+            <tr>
+                <th class="th">輸入說明</th>
+                <th class="th">輸出說明</th>
+            </tr>
+            <tr>
+                <td class="td">1. 輸入整數M，1<=M<=3，代表接下來要畫的圖形種類。<br>
+                    &emsp;M=1，為第一種圖形 直角三角形 (參考 範例輸出說明 1)<br>
+                    &emsp;M=2，為第二種圖形 正三角形 (參考 範例輸出說明 2)<br>
+                    &emsp;M=3，為第三種圖形 倒三角形 (參考 範例輸出說明 3)<br>
+                    2. 輸入整數 N ，代表這個圖形有N行，N (3 <= N <= 50)                          
+                </td>
+                <td class="td">根據輸入，畫出對應的圖形。
+                </td>
+            </tr>
+        </table>
+        </section>
+    </section>
+
+    <section>
+      <h3>Input/Output</h3><br>  
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;">
+        <p>範例輸入說明 1：<br>
+        第1行： 1 -> 輸出第1種圖形<br>
+        第2行： 5 -> 圖形行數為5</p>
+        <table class="table">
+            <tr>
+                <th class="th">Sample Input 1</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+              <td class="td">1<br>
+              5
+              </td>
+                <td class="td">1<br>121<br>12321<br>1234321<br>123454321<br>
+                </td>
+            </tr>
+        </table><br>
+        <p>範例輸出說明 1：第 i 行輸出 1… i-1 + i + i-1…1 (i 為 1~N中的任一行)
+          每一行共有2 * i - 1個數字。<br>第1行：i = 1, 第 1 行輸出 1，共有1個數字<br>第2行：i = 2, 
+          第 2 行輸出 121，共有3個數字<br>第3行：i = 3, 第 3 行輸出 12321，共有5個數字<br>
+          第4行：i = 4, 第 4 行輸出 1234321，共有7個數字<br>第5行：i = 5, 第 5 行輸出 123454321，共有9個數字
+        </p>
+        </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <p>範例輸入說明 2：<br>
+            第1行：2 -> 輸出第2種圖形<br>
+            第2行：4 -> 圖形行數為4</p>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input 2</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">2<br>
+                  4
+                </td>
+                <td class="td">
+<pre style="font-size: 26px;">
+___1___	
+__121__	
+_12321_	
+1234321
+</pre></td>
+              </tr>
+            </table>
+            <p>範例輸出說明 2：第 i 行輸出 (N-i)個 _ + (1...i-1 + i + i-1…1) + (N-i)個 _   (i 為 1~N中的任一行)
+              每一行共有2 * N - 1個字元，包含(N-i)*2個_ 與 2 * i - 1個數字。<br>第1行：i = 1, 第 1 行輸出 3個_+1+3個_，
+              包含6個_ 與 1個數字。<br>第2行：i = 2, 第 2 行輸出 2個_+121+2個_，包含4個_ 與 3個數字。<br>第3行：i = 3, 
+              第 3 行輸出 1個_+12321+1個_，包含2個_ 與 5個數字。<br>第4行：i = 4, 第 4 行輸出 0個_+1234321+0個_，包含0個_ 與 7個數字。
+            </p> 
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left">
+           <p>範例輸入說明 3：<br>
+            第1行：3 -> 輸出第3種圖形<br>
+            第2行：3 -> 圖形行數為3</p>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input 3</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">3<br>3
+                </td>
+                <td class="td">
+<pre style="font-size: 26px;">
+12321
+_121_
+__1__
+</pre>
+                </td>
+              </tr>
+            </table> 
+            <p>範例輸出說明 3：第 i 行輸出 (i-1)個 _ + (1...N-i+1) + (N-i…1) + (i-1)個 _   (i 為 1~N中的任一行)
+              每一行共有2 * N - 1個字元，包含(i-1)*2個_ 與 (2*(N-i)+1) 個數字。<br>
+              第1行：i = 1, 第 1 行輸出 0個_+12321+0個_，包含0個_ 與 5個數字。<br>
+              第2行：i = 2, 第 2 行輸出 1個_+121+1個_，包含2個_ 與 3個數字。<br>
+              第3行：i = 3, 第 3 行輸出 2個_+1+2個_，包含4個_ 與 1個數字。
+              </p>
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left">
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">1<br>8
+                </td>
+                <td class="td">
+<pre style="font-size: 26px;">
+1
+121
+12321
+1234321
+123454321
+12345654321
+1234567654321
+123456787654321
+</pre></td>
+              </tr>
+            </table> 
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left">
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">2<br>5
+                </td>
+                <td class="td">
+<pre style="font-size: 26px;">
+____1____
+___121___
+__12321__
+_1234321_
+123454321
+</pre></td>
+           </table>
+          </section>
+
+          <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left">
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">3<br>4
+                </td>
+                <td class="td">
+<pre style="font-size: 26px;">
+1234321
+_12321_
+__121__
+___1___
+</pre></td>
+              </tr>
+            </table> 
+          </section>
+    </section>
+
+      <section>
+        <h3>Hints</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;">
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+          def main():
+            #輸入option
+            #輸入行數rowNumber
+            #檢查rowNumber範圍(3~50)
+            if option == 1:
+              #呼叫繪出直角三角形的函數
+              rightTriangle(rowNumber)
+            elif option == 2:
+              #呼叫繪出正三角形的函數
+              equilateralTriangle(rowNumber)
+            elif option == 3:
+              #呼叫繪出倒三角形的函數
+              invertedTriangle(rowNumber)
+          </code></pre>
+        </section>
+
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <p>把畫出底線( _ )跟數字回文的部分分別寫成兩個函式，都是利用for迴圈去控制。</p>
+          <pre style="font-size: 24px;"><code data-trim data-noescape class="language-python">
+          #畫底線( _ )
+          # row代表當前行數，
+          #這裡的當前行數指的是呼叫printBottomLine()傳入row這個參數位置的變數
+          #因為如果是倒三角形，這個row的範圍就會從n~1
+          # n是總行數
+          def printBottomLine(row, n):
+            for i in range(0, ???):
+              #印出(n-row)個 _
+              print('_', end="") 
+          </code></pre>
+
+          <pre style="font-size: 24px;"><code data-trim data-noescape class="language-python">
+          #數字回文
+          def printPalindrome(row):
+            for i in range(1, ???):
+              #印出1~row(行數)
+              print(i, end="") #ex:123
+            for i in range(???):
+              #印出 (row-1)~1
+              print(i, end="") #21
+            </code></pre>
+          </section>
+      </section>
+
+      <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+              data-no="8"
+              data-positionx="0.8" 
+              data-positiony="0.03" 
+              data-scale="1" 
+              data-motionno="0">
+              <font size=6>主程式</font>
+              <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+                def main():
+                    option = int(input())
+                    rowNumber = int(input())
+                    if(rowNumber < 3 or rowNumber > 50):
+                          return
+                    if option == 1:
+                          rightTriangle(rowNumber)
+                    elif option == 2:
+                          equilateralTriangle(rowNumber)
+                    elif option == 3:
+                          invertedTriangle(rowNumber)
+              </code></pre>
+        </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-rightTriangle():直角三角形</font>
+            <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers="" class="language-python">
+              def rightTriangle(n):
+                #row的範圍 1~n
+                 for row in range(1, n+1):
+                      printPalindrome(row)
+                      print() #換行
+            </code></pre>
+        <font size=6>副程式-equilateralTriangle():正三角形</font>
+            <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers="" class="language-python">
+              def equilateralTriangle(n):
+                  # row的範圍 1~n
+                  for row in range(1, n+1): 
+                      printBottomLine(row, n)
+                      printPalindrome(row)
+                      printBottomLine(row, n)
+                      print()
+            </code></pre>
+          </section>
+
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>副程式-invertedTriangle():倒三角形</font>
+          <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers="" class="language-python">
+            def invertedTriangle(n):
+                #row的範圍 n~1 (會遞減)
+                #當row = n時，就不會畫出底線
+                for row in range(n, 0, -1): 
+                    printBottomLine(row, n)
+                    printPalindrome(row)
+                    printBottomLine(row, n)        
+                    print()
+          </code></pre>
+      </section>
+      </section>
+
+    <section>
+      <h3 >解答</h3>  
+      <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-printPalindrome():畫出數字回文</font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python"> 
+          def printPalindrome(row):
+              for i in range(1, row + 1):
+                  #印出數字1~row
+                  print(i, end="")
+              for i in range(row - 1, 0, -1):
+                  #印出數字(row-1) ~ 1
+                  print(i, end="")
+        </code></pre>
+        <font size=6>副程式-printBottomLine():畫出底線</font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python"> 
+          def printBottomLine(row, n):
+              for i in range(0, n - row):
+                  #會印出(n-row)個 _
+                  print('_', end="") 
+        </code></pre>
+        </section>
+      </section>
+
+      <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>呼叫主程式</font>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          if __name__ == '__main__':
+              main()
+          </code></pre>
+        </section>
+      </section>
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>
