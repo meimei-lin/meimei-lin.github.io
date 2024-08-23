@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>21 梭哈類型</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul,
+    ol {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .reveal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 26px;
+    }
+
+    #pageIndex {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .controls {
+        bottom: 24px !important;
+    }
+    .table, .th, .td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <!--Q1-->
+      <section>
+        <h3 style="text-align: left;">21 梭哈類型</h3><br><br>
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        <p>輸入5張牌，輸出牌型的類別編號，每張牌由牌面與花色組成，牌面與花色的表示如下：<br>
+        牌面： A、2~10、J、Q、K<br>
+        花色：S (Spade,黑桃),H (Heart,紅心),D (Diamond,方塊), C (Club,梅花)<br> 
+        例如：7S 表示黑桃7<br><br>
+        牌型編號(編號越大代表牌型越大)：<br>
+        (1)	High Card : 單一張牌。<br>
+        (2)	One pair: 兩張牌數字一樣。<br>
+        (3)	Two pairs : 兩組 Pair 的牌。<br>
+        (4)	Three of a kind : 三張牌數字一樣。<br>
+        (5)	Straight : 數字連續的五張牌，頭尾相接亦視為Straight。例如：<br>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[2, 3, 4, 5, 6],..,[Q,K , A, 2, 3], [K , A, 2, 3, 4], [A, 2, 3, 4, 5]。<br>
+        (6)	Flush : 五張同一花色的牌。<br>
+        (7)	Full House : Three of a Kind 加一個 Pair。<br>
+        (8)	Four of a kind: : 四張牌數字一樣。<br>
+        (9)	Straight flush : 數字連續的五張牌且花色一樣。<br>
+        </p>
+        </section>
+
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        <p><b>【特別要求】<br>
+            1. 如果一副牌中有不合法的輸入，像是不存在的牌面、花色，則輸出 "Error input"。<br>
+            2. 如果一副牌中有重複的牌出現，即一副牌當中有兩張以上牌面跟花色一模一樣，則輸出"Duplicate deal"。<br>
+            3. 如果"Error input"和"Duplicate deal"同時發生，則輸出"Error input"。</b>
+        </p><br>
+        <table class="table">
+            <tr>
+                <th class="th">輸入說明</th>
+                <th class="th">輸出說明</th>
+            </tr>
+            <tr>
+                <td class="td"> 輸入一行字串，包含五張牌，每張牌中間以空白隔開。<br>
+                範例輸入說明：<br>
+                7S 7H 7D 6C 6S <br>
+                （表示 黑桃7 紅心7 方塊7 梅花6 黑桃6）</td>
+                <td class="td">1. 輸出一個整數（1~9），表示最大的牌型編號。<br>
+                    範例輸出說明：<br>
+                    &emsp;&emsp;7 （對應牌型為編號7的Full house）
+                </td>   
+            </tr>
+        </table>
+        </section>
+    </section>
+
+    <section>
+        <h3>Input/Output</h3><br> 
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"> 
+        <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+              <td class="td">5S 5H 5D 5C 5R</td>
+              <td class="td">Error input</td>
+            </tr>
+            <tr>
+                <td class="td">6S 6H 6D 6C 6S</td>
+                <td class="td">Duplicate deal</td>
+            </tr>
+            <tr>
+                <td class="td">AS 2H 3D 5C 6SS</td>
+                <td class="td">Error input</td>
+            </tr>
+            <tr>
+                <td class="td">AS 5C 3D 5C 6SS</td>
+                <td class="td">Error input</td>
+            </tr>
+            <tr>
+                <td class="td">AS 3S 5S 7S 9S</td>
+                <td class="td">6</td>
+            </tr>
+            <tr>
+                <td class="td">AS 3S 5S 7S 9D</td>
+                <td class="td">1</td>
+            </tr>
+            <tr>
+                <td class="td">JS QS AS 10S KS</td>
+                <td class="td">9</td>
+            </tr>
+            <tr>
+                <td class="td">AS JH JD AD 5C</td>
+                <td class="td">3</td>
+            </tr>
+            <tr>
+                <td class="td">6S 4S 6H 10S 2D</td>
+                <td class="td">2</td>
+            </tr>
+            <tr>
+                <td class="td">3S 3H 9D 3D 3C</td>
+                <td class="td">8</td>
+            </tr>
+            <tr>
+                <td class="td">AS 8D 5C 8C 8H</td>
+                <td class="td">4</td>
+            </tr>     
+        </table>
+        </section>
+
+        <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">JS 9S KS 10S QD</td>
+                <td class="td">5</td>
+            </tr>
+              <tr>
+                <td class="td">7S 7H 7D 6C 6S</td>
+                <td>7</td>
+              </tr>
+              <tr>
+                <td class="td">7S 7H 7D 6C 6S</td>
+                <td>7</td>
+              </tr>
+            </table>
+          </section>
+    </section>
+
+      <section>
+        <h3>Hints</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;">
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+          def main():
+            #輸入五張牌，並用空格分割字串
+            #['牌型花色1','牌型花色2','牌型花色3','牌型花色4','牌型花色5']
+            #Init()會將原本的list轉換成二維list
+            #[['牌面1','花色1'],['牌面2','花色2'],['牌面3','花色3'],['牌面4','花色4'],['牌面5','花色5']]
+            player1 = Init(input().split(' '))
+            if(呼叫檢查錯誤的函式CheckError(player1)): #成立
+                print("Error input")
+            elif(呼叫檢查重複的函式CheckSelfDuplicate(player1)): #成立
+                print("Duplicate deal")
+            else:
+                #呼叫SortOrder()將player1的牌面由小到大排序
+                player1 = SortOrder(player1)
+                #呼叫判斷牌型的函式GetCardsType(player1)
+                #如果判斷牌型的回傳結果 小於 6 且 牌都同花色，result = 6
+                #否則result1就等於GetCardsType(player1)回傳的結果
+                result1 = 6 if GetCardsType(player1) < 6 and CheckFlush(player1)== 1 else GetCardsType(player1)
+                print(result1)
+          </code></pre>
+          </section>
+
+          <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+          #把一維陣列:EX:['5D','2S','3D']變成二維陣列:[['5','D'],['2','S'],['3','D']]
+          def Init(arr):
+            for i in range(len(arr)):
+                arr[i] = [arr[i][???], arr[i][???]]
+            return arr
+          </code></pre>
+
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+          def CheckError(arr):
+            for i in range(len(arr)):
+                #如果輸入字串的第二個字元不是'S'、'H'、'D'、'C'
+                    return 1
+                #如果輸入字串的第一個字元不是 2~10、A、J、Q、K
+                    return 1
+                #如果輸入字串的第一個字元長度 >=2 且 != "10"
+                    return 1
+            return 0
+            </code></pre>
+          </section>
+
+          <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;">
+          <pre style="font-size: 24px;"><code data-trim data-noescape class="language-python">
+            #檢查牌有沒有重複
+            def CheckSelfDuplicate(arr):
+                #利用雙層for迴圈讓j會遍歷到i後面的所有牌
+                #i=0、j=1、2、3、4
+                #i=1、j=2、3、4
+                #...
+                for i in range(0, len(arr)):
+                    for j in range(i+1, len(arr)):
+                        if(??? == ???):
+                            return 1
+                return 0
+          </code></pre>
+          <pre style="font-size: 24px;"><code data-trim data-noescape class="language-python">
+            def SortOrder(arr):
+                #使用氣泡排序法由小到大排序arr每一個子陣列的第一個元素
+
+                #將arr每一個子陣列的第一個元素(牌面)轉換為數字
+                for i in range(0, len(arr)): 
+                    #呼叫TransformValue()轉換牌面為int
+                    arr[i][0] = TransformValue(arr[i][0])
+                return arr
+          </code></pre>
+        </section>
+
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;">
+          <p>判斷何種牌型的函式，會需要額外寫多個副程式來判斷!!!</p>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            def GetCardsType(arr):
+                #取得牌面的數量，重複的數字都算1張
+                #Ex:12345 -> 5、22345 -> 4、33356 -> 3、33445 -> 3 、33322 -> 2
+                quantity = GetQuantity(arr)
+                #取牌面的數字由小到大排序，存進變數compare
+                compare = [arr[0][0], arr[1][0], arr[2][0], arr[3][0], arr[4][0]]
+                if(quantity==5):
+                    if(呼叫檢查數字連續CheckStraight() 且 檢查同花色CheckFlush()):
+                        return 9
+                    elif(呼叫檢查數字連續CheckStraight()):
+                        return 5
+                    else:
+                        return 1
+                elif(quantity==4):
+                    return 2
+                elif(quantity==3):
+                    if(呼叫計算牌面有幾張重複的函式CountMaxRepeat(compare)，若有3張牌牌面相同):
+                        return 4
+                    else:
+                        return 3
+                elif(quantity==2):
+                    if(呼叫計算牌面有幾張重複的函式CountMaxRepeat(compare)，若有4張牌牌面相同):
+                        return 8
+                    else:
+                        return 7
+          </code></pre>
+          </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;">
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+        #檢查有沒有同花色
+        def CheckFlush(arr):
+            _set = set()  #創建一個空集合
+            for i in range(0, len(arr)):
+                #利用集合的特性:重複的元素不會被添加進集合中
+                ...
+            result = 1 if len(_set)==1 else 0
+            return result
+        </code> </pre>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+        #計算牌面數量(相同數字算一張)
+        def GetQuantity(arr):
+            _set = set() #創建一個空集合
+            for i in range(0, len(arr)):
+                #利用集合的特性:重複的元素不會被添加進集合中
+                ...
+            return len(_set)
+        </code></pre>
+        </section> 
+        
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;">
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            #檢查牌面有沒有連續
+            def CheckStraight(arr):
+                #列出特殊的連續牌型
+                specialRule = [[1,10,11,12,13], [1,2,11,12,13], [1,2,3,12,13], [1,2,3,4,13]]
+                #取出arr中的每個子list的第一個元素，也就是牌面
+                compare = [arr[0][0], arr[1][0], arr[2][0], arr[3][0], arr[4][0]]
+                if(compare in specialRule):
+                    return 1
+                #檢查後一個牌面與前一個牌面是不是差1
+                if(...):
+                    return 1
+                return 0
+            </code></pre>
+        </section>
+
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;">
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            #計算有幾張牌的牌面一樣
+            def CountMaxRepeat(arr):
+                _max = 0
+                for i in range(0, len(arr)):
+                    _max = ...
+                return _max
+                </code></pre>
+        </section>
+    </section>
+
+    <section>
+        <h3>氣泡排序法(Bubble Sort)</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"><br><br>
+          <p style="text-align: left">原理是從第一筆資料開始，逐一比較相鄰兩筆資料，如果兩筆大小順序有誤則做交換，反之則不動，
+            接者再進行下一筆資料比較，所有資料比較完第1回合後，可以確保最後一筆資料是正確的位置。</p>
+        <img src="img/21/sort1.png" height="450px">
+        <img src="img/21/sort2.png" height="450px">
+        </section>
+
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"><br>
+          <img src="img/21/sort3.png" height="280px">
+          <img src="img/21/sort4.png" height="280px">
+          <p style="text-align: left">n=5<br>
+            第1回合比較了4次，n-1次<br>
+            第2回合比較了3次，n-2次<br>
+            第3回合比較了2次，n-3次<br>
+            第4回合比較了1次，n-4次<br>
+            總共比較了4回合，n-1回合<br>
+            (n-1) + (n-2) + .... + 1 = n(n-1) / 2<br>
+            平均時間複雜度為: O(n²)<br></p>
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+        arr = [40,30,60,50,20]
+        for i in range(0, len(arr)-1):
+            print("第",i+1,"回合:")
+            for j in range(0, len(arr)-1-i):
+                print("第",j+1,"次比較",arr[j],"和",arr[j+1])
+                if(arr[j]>arr[j+1]):  
+                    arr[j], arr[j+1] = arr[j+1], arr[j]
+                    print("交換:",arr)
+        print("排序後:",arr)
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br>
+        <img src="img/21/sort5.png" height="600px">
+        </section>
+    </section>
+
+      <section>
+        <h3>集合(set)</h3>
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p>集合 ( set ) 就像是「只有鍵，沒有值」的字典，一個集合裡所有的鍵都不會重複，
+        因為集合不會包含重複的資料的特性，常用來進行去除重複的字元、或判斷元素間是否有交集、聯集或差集之類的關聯性。</p><br>
+        <b>建立空集合：set()</b><br>
+        <b>加入項目：add()，使用「集合.add(項目)」可以將某個項目加入集合中。</b><br>
+        移除項目：remove()，使用「集合.remove(項目)」，可以將指定的項目移除，不過如果該項目不存在，就會執行錯誤。<br>
+        discard()，如果不希望在移除項目時發生執行錯誤的狀況，可以使用「集合.discard(項目)」，將指定項目移除。
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+        arr = [1,2,3,1,6]
+        _set = set() #創建一個空集合
+        for i in range(0, len(arr)):
+            _set.add(arr[i])
+        print(_set)   
+        </code></pre>
+        <p>輸出：{1, 2, 3, 6}</p>
+      </section>
+    </section>
+
+    <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+            data-no="8"
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0">
+            <font size=6>主程式</font>
+            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+            def main():
+                #input().split(' ')會得到一個一維的字串list['牌型花色1','牌型花色2','牌型花色3','牌型花色4','牌型花色5']
+                #Init()會把一維list變成二維list[['牌面1','花色1'],['牌面2','花色2'],['牌面3','花色3'],['牌面4','花色4'],['牌面5','花色5']]
+                player1 = Init(input().split(' ')) 
+                if(CheckError(player1)==1):
+                    print("Error input")
+                elif(CheckSelfDuplicate(player1)==1):
+                    print("Duplicate deal")
+                else:
+                    player1 = SortOrder(player1)
+                    result1 = 6 if GetCardsType(player1) < 6 and CheckFlush(player1) == 1 else GetCardsType(player1)
+                    print(result1)
+              </code></pre>
+          </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-Init()</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def Init(arr):
+            for i in range(len(arr)):
+                #arr[i][0:-1]:會取到第0位到結尾的前一個字串(不包含結尾)，Ex:'10S'，就會取'10'
+                #arr[i][-1]:只會取結尾的，Ex:'S'
+                arr[i] = [arr[i][0:-1], arr[i][-1]]
+            return arr
+        </code></pre>
+        <font size=6>副程式-CheckError():檢查輸入的牌有沒有錯誤</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def CheckError(arr):
+            for i in range(len(arr)):
+                if(not(arr[i][1]=='S' or arr[i][1]=='H' or arr[i][1]=='D' or arr[i][1]=='C')): #檢查輸入字串的第二個字元
+                    return 1
+                if(not((arr[i][0]>='2' and arr[i][0]<='9') or arr[i][0]=='10'  or arr[i][0]=='A' or arr[i][0]=='J' or arr[i][0]=='Q' or arr[i][0]=='K')):
+                    return 1
+                if(len(arr[i][0])>=2 and arr[i][0]!="10"):
+                    return 1
+            return 0
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-CheckSelfDuplicate():檢查牌面與花色有沒有重複</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def CheckSelfDuplicate(arr):
+            for i in range(0, len(arr)):
+                for j in range(i+1, len(arr)):
+                    if(arr[i][0]+arr[i][1] == arr[j][0]+arr[j][1]):
+                        return 1
+            return 0
+          </code></pre>
+        <font size=6>副程式-SortOrder():使用氣泡排序法由小到大排序arr每一個子陣列的第一個元素</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def SortOrder(arr): 
+            for i in range(0, len(arr)-1):
+                for j in range(0, len(arr)-1-i):
+                    if(TransformValue(arr[j][0])>TransformValue(arr[j+1][0])):
+                        arr[j], arr[j+1] = arr[j+1], arr[j]
+            for i in range(0, len(arr)):
+                arr[i][0] = TransformValue(arr[i][0])
+            return arr 
+        </code></pre>
+      </section>
+
+      <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-TransformValue():將牌面轉換為對應的整數數字</font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python"> 
+        def TransformValue(ch):
+            if(ch=='A'):
+                return 1
+            elif(ch=='10'):
+                return 10
+            elif(ch=='J'):
+                return 11
+            elif(ch=='Q'):
+                return 12
+            elif(ch=='K'):
+                return 13
+            else:
+                #將字元轉換成整數型態，ord(ch)會傳回字元ch所對應的 ASCII 值，'0'~'9'對應ASCII的48~57
+                #Ex:'2' -> ASCII:50，50-48=2
+                return ord(ch) - 48
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-GetCardsType()</font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-37|1-5|6-16|17-20|21-29|30-37" class="language-python">
+        def GetCardsType(arr):
+            #取得牌面的數量，重複的數字都算1張
+            quantity = GetQuantity(arr)
+            #取排序好arr的牌面數字，存進變數compare
+            compare = [arr[0][0], arr[1][0], arr[2][0], arr[3][0], arr[4][0]]
+            #如果牌面數量5張
+            if(quantity==5):
+                #如果牌面連續 且 同花色(5張牌)
+                if(CheckStraight(arr)==1 and CheckFlush(arr)==1):
+                    return 9
+                #否則如果單純牌面連續
+                elif(CheckStraight(arr)==1):
+                    return 5
+                #否則都不是以上的，就是(1)High Card
+                else:
+                    return 1
+            #否則如果，牌面數量4張
+            #兩張牌數字一樣
+            elif(quantity==4):
+                return 2
+            #否則如果，牌面數量3張
+            elif(quantity==3):
+                #如果牌面有3張相同
+                #三張牌數字一樣
+                if(CountMaxRepeat(compare)==3):
+                    return 4
+                #兩組 Pair 的牌
+                else:
+                    return 3
+            #否則如果，牌面數量2張
+            elif(quantity==2):
+                #如果牌面有4張相同
+                if(CountMaxRepeat(compare)==4):
+                    return 8
+                #Three of a Kind 加一個 Pair(Ex:33322)
+                else:
+                    return 7 
+        </code></pre>
+        </section>
+      </section>
+
+      <section>
+        <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-GetQuantity():計算牌面數</font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        #arr子陣列第一個元素的數量(利用集合的特性:重複的元素不會被添加進集合中)
+        def GetQuantity(arr):
+            _set = set() #創建一個空集合
+            for i in range(0, len(arr)):
+                _set.add(arr[i][0])
+            return len(_set)
+        </code></pre>
+        <font size=6>副程式-CheckStraight():檢查牌面連續</font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def CheckStraight(arr):
+            specialRule = [[1,10,11,12,13], [1,2,11,12,13], [1,2,3,12,13], [1,2,3,4,13]]
+            compare = [arr[0][0], arr[1][0], arr[2][0], arr[3][0], arr[4][0]]
+            if(compare in specialRule):
+                return 1
+            if((compare[1]-compare[0]==1) and (compare[2]-compare[1]==1) and (compare[3]-compare[2]==1) and (compare[4]-compare[3]==1)):
+                return 1
+            return 0
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-CheckFlush():檢查有沒有同花色</font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        #利用集合的特性:重複的元素不會被添加進集合中
+        #只會有1或0的結果
+        def CheckFlush(arr):
+            _set = set()
+            for i in range(0, len(arr)):
+                _set.add(arr[i][1])
+            result = 1 if len(_set)==1 else 0
+            return result
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-CountMaxRepeat():計算有幾張牌面重複</font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def CountMaxRepeat(arr):
+            _max = 0
+            for i in range(0, len(arr)):
+                _max = arr.count(arr[i]) if arr.count(arr[i])>_max else _max
+            return _max
+        </code></pre>
+        <img src="img/21/t1.png" height="350px">
+        </section>
+    </section>
+
+      <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>呼叫主程式</font>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          if __name__ == '__main__':
+              main()
+          </code></pre>
+        </section>
+      </section>
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>
