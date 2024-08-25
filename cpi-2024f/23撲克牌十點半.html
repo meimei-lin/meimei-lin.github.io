@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>23 撲克牌十點半</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul,
+    ol {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .reveal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 26px;
+    }
+
+    #pageIndex {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .controls {
+        bottom: 24px !important;
+    }
+    .table, .th, .td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <!--Q1-->
+      <section>
+        <h3 style="text-align: left;">23 撲克牌十點半</h3><br><br>
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        <p>電腦與玩家進行撲克牌比大小，兩方輪流發撲克牌，結束時加總點數最接近10.5者贏。<br><br>
+        點數：牌面A~10 點數為 1~10,J, K, Q 為 0.5。<br><br>規則：<br>
+        1.	第一回合雙方各發一張牌<br>
+        2.	除了第一回合外，玩家每回合開始可以決定是否要牌<br>
+        3.	任一方點數超過10.5，即分數歸零，另一方獲勝<br>
+        4.	任一回合並未要牌的一方，之後回合失去要牌權利<br>
+        5.	電腦判斷要牌標準：<br>
+        &emsp;1. 總點數比玩家小 或 2. 總點數8點以下(含)<br>
+        6.	結束時雙方點數相同則平手 </p>
+        </section>
+
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        <table class="table">
+            <tr>
+                <th class="th">輸入說明</th>
+                <th class="th">輸出說明</th>
+            </tr>
+            <tr>
+                <td class="td">1. 輸入一個字元，表示玩家獲得的第一張牌。<br>
+                2. 輸入一個字元，表示電腦獲得的第一張牌。<br>
+                3. 輸入一個字元，表示玩家是否繼續要牌。<br>
+                4. 輸入一個字元，表示如果玩家繼續要牌，玩家在這回合所獲得的牌。<br>
+                5. 輸入一個字元，表示如果電腦繼續要牌，電腦在這回合所獲得的牌。<br>
+                每回合重複第三行到第五行<br>
+                <b>注意: 第三行到第五行是可選的，依據電腦或玩家是否要牌。</b>
+                </td>
+                <td class="td">1. 輸出勝負結果字串。<br>
+                可能輸出：<br>
+                &emsp;1.computer win<br>
+                &emsp;2.player win<br>
+                &emsp;3.it's a tie</td>   
+            </tr>
+        </table>
+        </section>
+    </section>
+
+    <section>
+        <h3>Input/Output</h3><br> 
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p>範例輸入說明 1：<br>第1行：A -> 先發一張給給玩家，玩家獲得A<br>第2行：J -> 再發一張給電腦，電腦獲得J。<br>
+        第3行：Y -> 玩家選擇要牌<br>第4行：9 -> 發一張給玩家，玩家獲得9<br>第5行：2 -> 電腦牌面0.5點，未超過8點，電腦要牌，電腦獲得2<br>
+        第6行：N -> 玩家選擇不要牌<br>第7行：9 -> 電腦牌面2.5，未超過8點，電腦要牌，電腦獲得9</p>
+        <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+              <td class="td">A<br>J<br>Y<br>9<br>2<br>N<br>9</td>
+              <td class="td">player win</td>
+            </tr>
+        </table>
+        <p>輸出範例說明：電腦點數超過10.5，分數歸零</p>
+        </section>
+
+        <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <table class="table">
+              <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+              </tr>
+              <tr>
+                <td class="td">A<br>J<br>Y<br>9<br>2<br>N<br>3<br>5</td>
+                <td class="td">computer win</td>
+            </tr>
+            </table>
+          </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td">2<br>A<br>Y<br>3<br>5<br>N<br>6
+                </td>
+                <td class="td">player win</td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td">A<br>J<br>Y<br>2<br>2<br>Y<br>3<br>4<br>Y<br>5
+                </td>
+                <td class="td">computer win</td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <table class="table">
+          <tr>
+              <th class="th">Sample Input</th>
+              <th class="th">Outpue</th>
+          </tr>
+          <tr>
+              <td class="td">A<br>J<br>Y<br>2<br>2<br>Y<br>3<br>4<br>Y<br>A<br>7  
+              </td>
+              <td class="td">player win</td>
+          </tr>
+        </table>
+      </section>
+
+      <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <table class="table">
+          <tr>
+              <th class="th">Sample Input</th>
+              <th class="th">Outpue</th>
+          </tr>
+          <tr>
+              <td class="td">A<br>J<br>Y<br>2<br>9<br>Y<br>3<br>Y<br>5    
+              </td>
+              <td class="td">computer win</td>
+          </tr>
+        </table>
+      </section>
+
+      <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <table class="table">
+          <tr>
+              <th class="th">Sample Input</th>
+              <th class="th">Outpue</th>
+          </tr>
+          <tr>
+              <td class="td">2<br>A<br>Y<br>3<br>2<br>Y<br>3<br>7<br>Y<br>A<br>Y<br>J<br>Y<br>A<br>N       
+              </td>
+              <td class="td">player win</td>
+          </tr>
+        </table>
+      </section>
+
+      <section data-auto-animate
+      data-no="6" 
+      data-positionx="0.8" 
+      data-positiony="0.03" 
+      data-scale="1" 
+      data-motionno="0"
+      style="text-align: left"><br>
+      <table class="table">
+        <tr>
+            <th class="th">Sample Input</th>
+            <th class="th">Outpue</th>
+        </tr>
+        <tr>
+            <td class="td">2<br>8<br>Y<br>4<br>2<br>Y<br>4<br>N        
+            </td>
+            <td class="td">it's a tie</td>
+        </tr>
+      </table>
+    </section>
+
+    <section data-auto-animate
+      data-no="6" 
+      data-positionx="0.8" 
+      data-positiony="0.03" 
+      data-scale="1" 
+      data-motionno="0"
+      style="text-align: left"><br>
+      <table class="table">
+        <tr>
+            <th class="th">Sample Input</th>
+            <th class="th">Outpue</th>
+        </tr>
+        <tr>
+            <td class="td">K<br>Q<br>Y<br>10<br>A<br>N<br>3<br>3<br>3         
+            </td>
+            <td class="td">it's a tie</td>
+        </tr>
+      </table>
+    </section>
+
+    <section data-auto-animate
+      data-no="6" 
+      data-positionx="0.8" 
+      data-positiony="0.03" 
+      data-scale="1" 
+      data-motionno="0"
+      style="text-align: left"><br>
+      <table class="table">
+        <tr>
+            <th class="th">Sample Input</th>
+            <th class="th">Outpue</th>
+        </tr>
+        <tr>
+            <td class="td">5<br>10<br>Y<br>A<br>Y<br>6           
+            </td>
+            <td class="td">computer win</td>
+        </tr>
+      </table>
+    </section>
+
+    <section data-auto-animate
+      data-no="6" 
+      data-positionx="0.8" 
+      data-positiony="0.03" 
+      data-scale="1" 
+      data-motionno="0"
+      style="text-align: left"><br>
+      <table class="table">
+        <tr>
+            <th class="th">Sample Input</th>
+            <th class="th">Outpue</th>
+        </tr>
+        <tr>
+            <td class="td">5<br>9<br>Y<br>A<br>Y<br>4<br>N                
+            </td>
+            <td class="td">player win</td>
+        </tr>
+      </table>
+    </section>
+    </section>
+
+      <section>
+        <h3>Hints</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;">
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+          def main():
+            #玩家輸入第一張牌
+            #電腦輸入第一張牌的點數
+            #並另外寫一個函數將牌面轉換成點數
+            #定義紀錄遊戲結束、電腦、玩家可以進行遊戲的變數
+            while(player or comuter):
+                if (現在是玩家進行遊戲):
+                    #玩家是否要牌並更新點數
+                if (玩家點數超過 10.5):
+                    #遊戲結束
+                if (現在是電腦進行遊戲):
+                    #電腦判斷是否要牌並更新點數
+                if (電腦點數超過 10.5):
+                    #遊戲結束
+            if playerPoint > computerPoint:  #判斷最終勝負
+                print("player win")  #玩家點數較高，玩家獲勝
+            elif computerPoint > playerPoint:  
+                print("computer win") #電腦點數較高，電腦獲勝
+            else:
+                print("it's a tie")
+            
+          </code></pre>
+        </section>
+    </section>
+
+    <section>
+        <h3>While&emsp;Loop</h3>
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br>
+        <p style="text-align: left">當程式中一個敘述區段需重複執行的次數無法預測時，可使用條件式迴圈來解決。<br>
+        &emsp;&emsp;若&lt;條件式&gt;成立，則進入迴圈內執行&lt;敘述區段A&gt;一次；<br>
+        &emsp;&emsp;否則離開迴圈，執行敘述區段B</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+            while(條件式):
+                敘述區段A
+            敘述區段B
+        </code></pre>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+        x = 0
+        while x < 5:
+            print("第 {} 次執行 while 迴圈：".format(str(x+1)))
+            x= x + 1
+        print("總共執行 while 迴圈共：{} 次".format(str(x)))
+        </code></pre>
+        <p style="text-align: left">輸出：第 1 次執行 while 迴圈：<br>
+        &emsp;&emsp;&emsp;第 2 次執行 while 迴圈：<br>
+        &emsp;&emsp;&emsp;第 3 次執行 while 迴圈：<br>
+        &emsp;&emsp;&emsp;第 4 次執行 while 迴圈：<br>
+        &emsp;&emsp;&emsp;第 5 次執行 while 迴圈：<br>
+        &emsp;&emsp;&emsp;總共執行 while 迴圈共：5 次</p>
+        </section>
+    </section>
+
+    <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+            data-no="8"
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0">
+            <font size=6>主程式</font>
+            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-32|1-10|12-29|31-36" class="language-python">
+            def main():
+                #初始化over為False，紀錄遊戲是否結束
+                over = False
+                #初始化電腦和玩家為True，都可以進行遊戲
+                computer = player = True
+                #玩家輸入第一張牌
+                #並呼叫將牌面轉換成點數的函數
+                playerPoint = transferPoint(input())
+                #電腦輸入第一張牌的點數
+                computerPoint = transferPoint(input())
+                
+                #當player 或 computer為True時，進入迴圈
+                while (player or computer):
+                    #如果現在是玩家進行遊戲(要牌)
+                    if (player == True):
+                        #呼叫處理發牌的函數，
+                        #並更新是否要牌player、點數playerPoint與遊戲是否結束over
+                        player, playerPoint, over = deal(playerPoint, computerPoint, playerJudge)
+                    #如果玩家點數超過 10.5
+                    if (over == True):
+                        break #遊戲結束
+                    #如果現在是電腦進行遊戲(要牌)
+                    if (computer == True):
+                        #呼叫處理發牌的函數，
+                        #並更新是否要牌computer、點數computerPoint與遊戲是否結束over
+                        computer, computerPoint, over = deal(computerPoint, playerPoint, computerJudge)
+                    #如果電腦點數超過 10.5
+                    if (over == True):
+                        break #遊戲結束
+
+                if playerPoint > computerPoint:
+                    print("player win")
+                elif computerPoint > playerPoint:
+                    print("computer win")
+                else:
+                    print("it's a tie")
+              </code></pre>
+          </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-deal():處理發牌流程</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def deal(myPoint, bPoint, judge):
+            over = False
+            #judge(參數1,參數2)是指可以接受兩個參數，並傳回True或False的函數
+            #也就是在judge這個參數位置可以放playerJudge()或computerJudge()這兩個判斷是否要牌的函數
+            isWant = judge(myPoint, bPoint) 
+            if (isWant == True):
+                #如果電腦或玩家要牌，讓使用者輸入並更新當前點數
+                myPoint = myPoint + transferPoint(input())
+                #判斷點數是否超過 10.5
+                over, myPoint = justPoint(myPoint)
+            return isWant, myPoint, over
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-transferPoint():將牌的點數轉換</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def transferPoint(n):
+            if n == 'A':
+                return 1
+            elif n == 'J' or n == 'Q' or n == 'K':
+                return 0.5
+            else:
+                return float(n)
+          </code></pre>
+      </section>
+
+      <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-justPoint():判斷點數是否超過 10.5 點</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def justPoint(point):
+            #初始化 over 為 False
+            over = False
+            #如果點數超過 10.5  
+            if (point > 10.5): 
+                #點數歸0 
+                point = 0 
+                #over設為True，表示超過了 
+                over = True 
+            #回傳是否超過和當前的點數  
+            return over, point  
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-playerJudge():玩家是否要牌</font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def playerJudge(a, b):
+            #讓玩家輸入是否要牌，'Y' 代表要牌
+            isWant = input() 
+            if (isWant == 'Y'):
+                return True 
+            else: 
+                return False 
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-computerJudge():判斷電腦是否要牌  </font>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def computerJudge(a, b):
+            #如果電腦的點數小於玩家的點數，電腦要牌
+            if (a < b):  
+                return True 
+            #否則如果電腦的點數小於或等於8，電腦也要牌
+            elif (a <= 8):  
+                return True 
+            #否則其他情況下，電腦不要牌 
+            else: 
+                return False  
+        </code></pre>
+        </section>
+    </section>
+
+      <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>呼叫主程式</font>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          if __name__ == '__main__':
+              main()
+          </code></pre>
+        </section>
+      </section>
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>
