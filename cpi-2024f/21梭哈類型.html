@@ -230,7 +230,7 @@
           <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
           def main():
             #輸入五張牌，並用空格分割字串
-            #['牌型花色1','牌型花色2','牌型花色3','牌型花色4','牌型花色5']
+            #['牌面花色1','牌面花色2','牌面花色3','牌面花色4','牌面花色5']
             #Init()會將原本的list轉換成二維list
             #[['牌面1','花色1'],['牌面2','花色2'],['牌面3','花色3'],['牌面4','花色4'],['牌面5','花色5']]
             player1 = Init(input().split(' '))
@@ -256,7 +256,7 @@
           data-scale="1" 
           data-motionno="0">
           <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
-          #把一維陣列:EX:['5D','2S','3D']變成二維陣列:[['5','D'],['2','S'],['3','D']]
+          #把一維list:EX:['5D','2S','3D']變成二維list:[['5','D'],['2','S'],['3','D']]
           def Init(arr):
             for i in range(len(arr)):
                 arr[i] = [arr[i][???], arr[i][???]]
@@ -298,9 +298,9 @@
           </code></pre>
           <pre style="font-size: 24px;"><code data-trim data-noescape class="language-python">
             def SortOrder(arr):
-                #使用氣泡排序法由小到大排序arr每一個子陣列的第一個元素
+                #使用氣泡排序法由小到大排序arr每一個子list的第一個元素
 
-                #將arr每一個子陣列的第一個元素(牌面)轉換為數字
+                #將arr每一個子list的第一個元素(牌面)轉換為數字
                 for i in range(0, len(arr)): 
                     #呼叫TransformValue()轉換牌面為int
                     arr[i][0] = TransformValue(arr[i][0])
@@ -512,7 +512,7 @@
             <font size=6>主程式</font>
             <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
             def main():
-                #input().split(' ')會得到一個一維的字串list['牌型花色1','牌型花色2','牌型花色3','牌型花色4','牌型花色5']
+                #input().split(' ')會得到一個一維的字串list['牌面花色1','牌面花色2','牌面花色3','牌面花色4','牌面花色5']
                 #Init()會把一維list變成二維list[['牌面1','花色1'],['牌面2','花色2'],['牌面3','花色3'],['牌面4','花色4'],['牌面5','花色5']]
                 player1 = Init(input().split(' ')) 
                 if(CheckError(player1)==1):
@@ -671,7 +671,7 @@
         data-motionno="0"><br><br>
         <font size=6>副程式-GetQuantity():計算牌面數</font>
         <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
-        #arr子陣列第一個元素的數量(利用集合的特性:重複的元素不會被添加進集合中)
+        #arr子list第一個元素的數量(利用集合的特性:重複的元素不會被添加進集合中)
         def GetQuantity(arr):
             _set = set() #創建一個空集合
             for i in range(0, len(arr)):
