@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>25 牌型比大小</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul,
+    ol {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .reveal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 26px;
+    }
+
+    #pageIndex {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .controls {
+        bottom: 24px !important;
+    }
+    .table, .th, .td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <!--Q1-->
+      <section>
+        <h3 style="text-align: left;">25 牌型比大小</h3>
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br><br>
+        <font size=5>牌桌上有A和B兩位玩家進行牌型比大小，遊戲開始時會先各發給每人2張牌，接著再發4張牌到牌桌上。
+        玩家需要從自己有的2張牌和牌桌上的4張牌中，選出5張牌湊出最大的牌型。
+        最後比較玩家A和玩家B各自最大的牌型，輸出贏家名稱與贏家牌型編號。<br>
+        每張牌由花色與牌面組成，花色與牌面的表示如下：<br>
+        牌面： A、2~10、J、Q、K<br>
+        花色：S （Spade,黑桃）,H （Heart,紅心）,D （Diamond,方塊）, C （Club,梅花）<br> 
+        例如：S7 表示黑桃7<br>
+        牌型編號（編號越大代表牌型越大）：<br>
+        (1)	High Card : 單一張牌。<br>
+        (2)	One pair: 兩張牌數字一樣。<br>
+        (3)	Two pairs : 兩組 Pair 的牌。<br>
+        (4)	Three of a kind : 三張牌數字一樣。<br>
+        (5)	Straight : 數字連續的五張牌，頭尾相接亦視為Straight。例如[2, 3, 4, 5, 6],..,[Q,K , A, 2, 3], [K , A, 2, 3, 4], [A, 2, 3, 4, 5]。<br>
+        (6)	Flush : 五張同一花色的牌。<br>
+        (7)	Full House : Three of a Kind 加一組 Pair。<br>
+        (8)	Four of a kind: : 四張牌數字一樣。<br>
+        (9)	Straight flush : 數字連續的五張牌且花色一樣。<br></font>
+        </section>
+
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        <p><b>【特別要求】<br>
+          1. 如果牌桌上的牌以及A和B手上的牌中有不合法的輸入，如不存在的牌面、花色，則輸出 "Error input"<br>
+          2. 如果牌桌上的牌以及A和B手上的牌重複，即所有牌當中有兩張以上牌面跟花色一模一樣，則輸出"Duplicate deal"<br>
+          3. 如果"Error input"和"Duplicate deal"同時發生，則輸出"Error input"<br>
+          4. 如果最後A和B選擇的牌型相同，則輸出"Tie"<br></b>
+          </p>
+        <table class="table">
+            <tr>
+                <th class="th">輸入說明</th>
+                <th class="th">輸出說明</th>
+            </tr>
+            <tr>
+                <td class="td">1. 輸入一行字串，包含2張牌，每張牌中間以空白隔開，表示A拿到的2張牌。<br>
+                2. 輸入一行字串，包含2張牌，每張牌中間以空白隔開，表示B拿到的2張牌。<br>
+                3. 輸入一行字串，包含4張牌，每張牌中間以空白隔開，表示牌桌上的牌。<br></td>
+                <td class="td">1. 輸出贏家名稱及牌型編號，以空白隔開。<br>
+                </td>   
+            </tr>
+        </table>
+        </section>
+    </section>
+
+    <section>
+        <h3>Input/Output</h3><br> 
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p>範例輸入說明 1：<br>第1行：CA H7 -> 玩家A拿到梅花A、紅心7<br>第2行：S2 SA -> 玩家B拿到黑桃2、黑桃A<br>
+        第3行：SJ SK SQ HA -> 牌桌上有黑桃J、黑桃K、黑桃Q、紅心A</p>
+        <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+              <td class="td">CA H7<br>S2 SA<br>SJ SK SQ HA</td>
+              <td class="td">B 9</td>
+            </tr>
+        </table>
+        </section>
+
+        <section data-auto-animate
+            data-no="6" 
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0"
+            style="text-align: left"><br>
+            <p>輸出範例說明1：A有CA H7，牌桌上有SJ SK SQ HA。從中選5張有以下組合<br>
+              CA SJ SK SQ HA 為 One pair (A手上的CA和牌桌上的SJ、SK、SQ、HA組成5張牌)<br>
+              H7 SJ SK SQ HA 為 High Card (A手上的H7和牌桌上的SJ、SK、SQ、HA組成5張牌)<br>
+              CA H7 SJ SK SQ 為 High Card (A手上的CA、H7和牌桌上的SJ、SK、SQ組成5張牌)<br>
+              CA H7 SJ SK HA 為 One pair (A手上的CA、H7和牌桌上的SJ、SK、HA組成5張牌)<br>
+              CA H7 SJ SQ HA 為 One pair (A手上的CA、H7和牌桌上的SJ、SQ、H組成5張牌)<br>
+              CA H7 SK SQ HA 為 One pair (A手上的CA、H7和牌桌上的SK、SQ、HA組成5張牌)<br>
+              故A最大的牌型為 One pair，編號為2。<br><br>
+              B有S2 SA，牌桌上有SJ SK SQ HA。從中選5張有以下組合<br>
+              S2 SJ SK SQ AH 為 Straight (B手上的S2和牌桌上的SJ、SK、SQ、HA成5張牌)<br>
+              SA SJ SK SQ AH 為 One pair (B手上的SA和牌桌上的SJ、SK、SQ、HA組成5張牌)<br>
+              S2 SA SJ SK SQ 為 Straight flush (B手上的S2、SA和牌桌上的SJ、SK、SQ組成5張牌)<br>
+              S2 SA SJ SK HA 為 One pair (B手上的S2、SA和牌桌上的SJ、SK、HA組成5張牌)<br>
+              S2 SA SJ SQ HA 為 One pair (B手上的S2、SA和牌桌上的SJ、SQ、HA組成5張牌)<br>
+              S2 SA SK SQ HA 為 One pair (B手上的S2、SA和牌桌上的SK、SQ、HA組成5張牌)<br>
+              故B最大的牌型為 Straight flush，編號為9。<br>
+              <b>A和B比較各自有的最大牌型，B的牌型較大，故輸出B 9</b></p>
+          </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td">SA CA<br>
+                  S7 C7<br>
+                  C2 R5 D6 R9<br>
+                </td>
+                <td class="td">Error input</td>
+            </tr>
+            <tr>
+              <td class="td">SA CA<br>
+                S7 C7<br>
+                C2 CC5 D6 C9<br></td>
+                <td class="td">Error input</td>
+            </tr>
+            <tr>
+              <td class="td">D4 D5<br>
+                D6 S7<br>
+                C10 HQ D6 SJ<br></td>
+                <td class="td">Duplicate deal</td>
+            </tr>
+            <tr>
+              <td class="td">SK C2<br>
+                F10 CA<br>
+                C2 CC3 C6 S4<br></td>
+                <td class="td">Error input</td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td">D4 H9<br>
+                  S9 C10<br>
+                  H5 H6 H8 H7<br></td>
+                <td class="td">A 9</td>
+            </tr>
+            <tr>
+              <td class="td">HK C9<br>
+                SJ C3<br>
+                DA DQ H10 CK<br></td>
+              <td class="td">B 5</td>
+            </tr>
+            <tr>
+              <td class="td">S4 C4<br>
+              H2 C9<br>
+              C2 D4 H4 S8<br></td>
+              <td class="td">A 8</td>
+            </tr>
+            <tr>
+              <td class="td">CK D10<br>
+                SQ H2<br>
+                S3 H7 D5 CA<br></td>
+              <td class="td">Tie</td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <table class="table">
+          <tr>
+              <th class="th">Sample Input</th>
+              <th class="th">Outpue</th>
+          </tr>
+          <tr>
+              <td class="td">C5 C8<br>
+                S6 H6<br>
+                D6 D5 S5 H5<br></td>
+              <td class="td">A 8</td>
+          </tr>
+          <tr>
+            <td class="td">S6 C9<br>
+              S5 H4<br>
+              H6 H5 D5 C7<br></td>
+            <td class="td">B 4</td>
+        </tr>
+        </table>
+      </section>
+    </section>
+
+      <section>
+        <h3>Hints</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;"><br>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+          #result原始的結構:[['A','花色牌面1','花色牌面2',...],['A',...],['B',...],['B',...]]，會包含所有可能的組合。
+          #check_error_list原始的結構:['花色牌面1','花色牌面2',...'花色牌面8']
+          # 呼叫Init()轉換為list結構:
+          #result的結構:[['A',['花色1','牌面1'],['花色2','牌面2'],['花色3','牌面3'],['花色4','牌面4'],['花色5','牌面5']],
+          #...['B',['花色1','牌面1'],....[]]]
+          #check_error_list的結構:[['花色1','牌面1'],['花色2','牌面2'],...,['花色8','牌面8']]
+          def main():
+            #處理輸入A、B兩張牌與牌桌上的牌進行每種可能的組合，存進變數result，型態是list
+            #使用者輸入的8張牌(A、B各2張+牌桌上的4張)放進變數check_error_list，用來檢查有無任何輸入錯誤與重複的牌
+            result,check_error_list = initinput()
+            result,check_error_list = Init(result,check_error_list)
+            if(CheckError(check_error_list)==1):
+                print("Error input")
+            elif(CheckSelfDuplicate(check_error_list)==1):
+                print("Duplicate deal")
+            else:
+                #將牌面由小到大排序，回傳的結果存進變數list1
+                list1 = SortOrder(result)
+                #回傳每種組合的牌型編號，存進變數result1
+                #result1的結構:[['A',9],['A',1],...['B',1],['B',4]...]
+                result1 = GetCardsType(list1)
+                #Result()會將牌型編號的list由大到小排序，
+                #再找出有最大牌型編號的玩家
+                Result(result1)
+          </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <p>flush_results的結構:[['A',0],['A',1],['B',0],....['B',1]]，0代表沒有同花色，1代表有同花色。<br>
+        straight_results的結構:[['A',0],['A',1],['B',0],....['B',1]]，0代表沒有連續，1代表有連續<br>
+        max_repeats的結構:[['A',3],['B',2]...['B',1]]，數字代表有幾張牌面重複的牌<br>
+        回傳的type_result的結構:[['A',牌型編號1],['A',牌型編號2],...['B',牌型編號1],...['B',牌型編號N]]</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        def GetCardsType(arr):
+            type_result = []
+            flush_results = CheckFlush(arr) #檢查同一花色
+            straight_results = CheckStraight(arr) #檢查連續
+            max_repeats = CountMaxRepeat(arr) #檢查幾張牌重複
+            for idx, player in enumerate(arr): #player是一個LIST，代表arr的子列表；idx代表arr的索引
+              #判斷符合哪種牌型編號
+              ....
+            return type_result
+          </code></pre>
+          </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        def Result(result):
+          #將result的第二個元素(牌型編號)由大到小排序
+          sort_result = SortResult(result)
+          #定義變數紀錄A、B最大的牌型編號
+          A_max=0
+          B_max=0
+          #遍歷sort_result每一個子列表
+          for i in sort_result:
+            #更新A_max、 B_max
+            ...
+          if(A_max>B_max):
+            print("A"+" "+str(A_max))
+          elif(A_max==B_max):
+              print("Tie")
+          else:
+              print("B"+" "+str(B_max))
+          return 1
+        </code></pre>
+    </section>
+    </section>
+
+    <section>
+        <h3>Counter函數</h3>
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br>
+        <p style="text-align: left">Counter() 是一個非常有用的模組，
+          它可以計算一個可迭代物件中每個元素出現的次數。可以快速知道一個可迭代物件中每個元素出現的次數，
+          而不需要自己去計算。<br>
+          Counter() 是一個可以接受任何可迭代物件的函式，它會回傳一個字典，其中的鍵是可迭代物件中的元素，值則是該元素出現的次數。<br><br>
+        在作業第21題梭哈類型的GetQuantity()，計算不同牌面數有幾張，重複的算同一張，可以用Counter()函數做替代，就不用額外再多寫一個副程式了!!!<br><br>
+        <font color="red">需要<b>from collections import Counter</b></font></p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python">
+        from collections import Counter
+        my_list = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5]
+        my_list_count = Counter(my_list)
+        print(my_list_count)
+        </code></pre>
+        <p style="text-align: left">輸出：Counter({1: 2, 2: 2, 3: 2, 4: 2, 5: 2})</p>
+        </section>
+    </section>
+
+    <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+            data-no="8"
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0">
+            <font size=6>主程式</font>
+            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+            from collections import Counter
+            def main():
+                result,check_error_list = initinput()
+                result,check_error_list = Init(result,check_error_list)
+                if(CheckError(check_error_list)==1):
+                    print("Error input")
+                elif(CheckSelfDuplicate(check_error_list)==1):
+                    print("Duplicate deal")
+                else:
+                    list1 = SortOrder(result)
+                    result1 = GetCardsType(list1)
+                    Result(result1)
+              </code></pre>
+          </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-initinput():處理輸入的牌，並把A、B玩家的牌與牌桌上的牌做組合</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers="1-42|1-11|12-25|26-42" class="language-python">
+        def initinput():
+            result=[]
+            check_error_result=[] #用來放輸入的8張牌
+            list1=[] #用來放A、B先發的兩張牌
+            for i in range(2):
+                a=input() #輸入A、B玩家的各兩張牌
+                list_temp=a.split(" ")
+                list1.append(list_temp[0])
+                list1.append(list_temp[1])
+                check_error_result.append(list_temp[0])
+                check_error_result.append(list_temp[1])
+            a=input() #輸入牌桌的4張牌
+            list_temp=a.split(" ") #list_temp最後會放牌桌的四張牌
+            #這個雙層for迴圈會得到的是A、B各一張自己的牌配牌桌的四張牌
+            for i in range(4):
+                temp=[]
+                if(i < 2):
+                    temp.append("A")
+                else:
+                    temp.append("B")
+                temp.append(list1[i])
+                check_error_result.append(list_temp[i])
+                for j in list_temp:
+                    temp.append(j)
+                result.append(temp)
+            #這個三層for迴圈會得到A、B有兩張自己的牌+牌桌的牌取三張做組合
+            for i in range(2):
+                for j in range(4):
+                    temp=[]
+                    if(i==0):
+                        temp.append("A")
+                        temp.append(list1[0])
+                        temp.append(list1[1])
+                    else:
+                        temp.append("B")
+                        temp.append(list1[2])
+                        temp.append(list1[3])
+                    for k in range(4):
+                        if(k!=j):
+                            temp.append(list_temp[k])
+                    result.append(temp)
+            return result,check_error_result
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <p style="text-align: left;">假設輸入：D4 H9<br>&emsp;&emsp;&emsp;&emsp;&emsp;S9 C10<br>&emsp;&emsp;&emsp;&emsp;&emsp;H5 H6 H8 H7<br><br>
+        result: [['A', 'D4', 'H5', 'H6', 'H8', 'H7'], ['A', 'H9', 'H5', 'H6', 'H8', 'H7'], 
+        ['B', 'S9', 'H5', 'H6', 'H8', 'H7'], ['B', 'C10', 'H5', 'H6', 'H8', 'H7'], 
+        ['A', 'D4', 'H9', 'H6', 'H8', 'H7'], ['A', 'D4', 'H9', 'H5', 'H8', 'H7'], 
+        ['A', 'D4', 'H9', 'H5', 'H6', 'H7'], ['A', 'D4', 'H9', 'H5', 'H6', 'H8'], 
+        ['B', 'S9', 'C10', 'H6', 'H8', 'H7'], ['B', 'S9', 'C10', 'H5', 'H8', 'H7'], 
+        ['B', 'S9', 'C10', 'H5', 'H6', 'H7'], ['B', 'S9', 'C10', 'H5', 'H6', 'H8']]<br><br>
+        check_error_list: ['D4', 'H9', 'S9', 'C10', 'H5', 'H6', 'H8', 'H7']</p>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-Init():將result和check_error_list的花色與牌面分開存</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def Init(result,check_error_list): 
+            #遍歷result的每一個子列表
+            for i in range(0,len(result)):
+                #遍歷每個子列表的第1~5個元素(也就是花色牌面)
+                for j in range(1,6):
+                    #花色牌面的字串長度為3，代表牌面是'10'
+                    if(len(result[i][j]) == 3):
+                        #取[花色,牌面]放進result
+                        result[i][j] = [result[i][j][0], result[i][j][1:]]
+                    else:
+                        result[i][j] = [result[i][j][0:-1], result[i][j][-1]]
+            #遍歷check_error_list的每個元素
+            for i in range(len(check_error_list)):
+                if(len(check_error_list[i]) == 3):
+                    check_error_list[i] = [check_error_list[i][0], check_error_list[i][1:]]
+                else:
+                    check_error_list[i] = [check_error_list[i][0:-1], check_error_list[i][-1]]
+            return result,check_error_list
+          </code></pre>
+      </section>
+
+      <section data-auto-animate
+      data-no="8"
+      data-positionx="0.8" 
+      data-positiony="0.03" 
+      data-scale="1" 
+      data-motionno="0"><br><br>
+      <p style="text-align: left;">轉換後:<br>
+        result: [['A', ['D', '4'], ['H', '5'], ['H', '6'], ['H', '8'], ['H', '7']], 
+        ['A', ['H', '9'], ['H', '5'], ['H', '6'], ['H', '8'], ['H', '7']], 
+        ['B', ['S', '9'], ['H', '5'], ['H', '6'], ['H', '8'], ['H', '7']], 
+        ['B', ['C', '10'], ['H', '5'], ['H', '6'], ['H', '8'], ['H', '7']], 
+        ['A', ['D', '4'], ['H', '9'], ['H', '6'], ['H', '8'], ['H', '7']], 
+        ['A', ['D', '4'], ['H', '9'], ['H', '5'], ['H', '8'], ['H', '7']], 
+        ['A', ['D', '4'], ['H', '9'], ['H', '5'], ['H', '6'], ['H', '7']], 
+        ['A', ['D', '4'], ['H', '9'], ['H', '5'], ['H', '6'], ['H', '8']], 
+        ['B', ['S', '9'], ['C', '10'], ['H', '6'], ['H', '8'], ['H', '7']], 
+        ['B', ['S', '9'], ['C', '10'], ['H', '5'], ['H', '8'], ['H', '7']], 
+        ['B', ['S', '9'], ['C', '10'], ['H', '5'], ['H', '6'], ['H', '7']], 
+        ['B', ['S', '9'], ['C', '10'], ['H', '5'], ['H', '6'], ['H', '8']]]<br><br>
+        check_error_list: [['D', '4'], ['H', '9'], ['S', '9'], ['C', '10'], 
+        ['H', '5'], ['H', '6'], ['H', '8'], ['H', '7']]</p>
+      </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>副程式-CheckError():檢查輸入有沒有任何錯誤</font>
+          <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          def CheckError(arr):
+              for i in range(len(arr)):
+                  if(not(arr[i][0]=='S' or arr[i][0]=='H' or arr[i][0]=='D' or arr[i][0]=='C')): #檢查輸入字串的第二個字元
+                      return 1
+                  if(not((arr[i][1]>='2' and arr[i][1]<='9') or arr[i][1]=='10'  or arr[i][1]=='A' or arr[i][1]=='J' or arr[i][1]=='Q' or arr[i][1]=='K')):
+                      return 1
+                  if(len(arr[i][1])>=2 and arr[i][1]!="10"):
+                      return 1
+              return 0 
+          </code></pre>
+          </section>
+
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>副程式-CheckSelfDuplicate():檢查牌有沒有重複</font>
+          <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          def CheckSelfDuplicate(arr):
+              seen_cards = set() #建一個空集合
+              for i in range(len(arr)):
+                  card = arr[i][0] + arr[i][1]
+                  if card in seen_cards:
+                      return 1
+                  seen_cards.add(card)
+              return 0
+          </code></pre>
+          </section>
+
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>副程式-SortOrder():用氣泡排序法將arr的牌面由小到大排序，並轉換牌面為對應的數值</font>
+          <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          def SortOrder(arr): 
+              for i in range(len(arr)):
+                  for j in range(1, 5):
+                      for k in range(1,5):
+                          if(TransformValue(arr[i][k][1])>TransformValue(arr[i][k+1][1])):
+                              arr[i][k], arr[i][k+1] = arr[i][k+1], arr[i][k]
+              for i in range(0, len(arr)):
+                  for j in range(1,6):
+                      arr[i][j][1] = TransformValue(arr[i][j][1])
+              return arr
+          </code></pre>
+          </section>
+
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>副程式-TransformValue():將牌面轉換為對應的數值</font>
+          <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          def TransformValue(ch):
+              if(ch=='A'):
+                  return 1
+              elif(ch=='10'):
+                  return 10
+              elif(ch=='J'):
+                  return 11
+              elif(ch=='Q'):
+                  return 12
+              elif(ch=='K'):
+                  return 13
+              else:
+                  return ord(ch)-48 #將字元轉換成整數型態，ord(ch)會傳回字元ch所對應的 ASCII 值，'0'~'9'對應ASCII的48~57
+          </code></pre>
+          </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"><br>
+          <font size=6>副程式-GetCardsType():獲取玩家牌的每種組合的牌型編號，回傳type_result</font>
+          <p style="text-align: left;">arr的結構就跟6.4頁的result結構一樣，只是放進arr這個位置的變數會是SortOrder()牌面由小到大排序後的。</p>
+          <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers="1-47|1-12|14-18|20-29|30-33|34-43|44-47" class="language-python">
+          def GetCardsType(arr):
+              type_result = []
+              flush_results = CheckFlush(arr) #檢查同一花色
+              straight_results = CheckStraight(arr) #檢查連續
+              max_repeats = CountMaxRepeat(arr) #檢查幾張牌重複
+
+              #遍歷arr的每個子列表
+              #player是一個LIST，代表arr的子列表；idx代表arr每個子列表的索引
+              for idx, player in enumerate(arr): 
+                  is_flush = flush_results[idx][1]
+                  is_straight = straight_results[idx][1]
+                  max_repeat = max_repeats[idx][1]
+   
+                  if is_flush == 1 and is_straight == 1:
+                      type_result.append([player[0],9]) #數字連續的五張牌且花色一樣
+                 
+                  elif max_repeat == 4:
+                      type_result.append([player[0],8]) #四張牌數字一樣 
+                  
+                  elif max_repeat == 3: #三張牌數字一樣
+
+                          #計算每位玩家牌的第二個元素(牌面部分)，利用Counter()，會傳回一個字典的型態
+                          #keys()是這個迭代的元素，也就是牌面的部分，value就是他的數量
+                          #例如:card[0]=['2','5','7','2','5']，Counter(...)=Counter({'2':2, '5':2, '7':1})
+                          #.keys()=dict_keys('2','5','7')
+                      if len(Counter(card[1] for card in player[1:]).keys()) == 2: #玩家有2種不同的牌面
+                          type_result.append([player[0],7])  #三張牌數字一樣 + 1個pair
+                      else:
+                          type_result.append([player[0],4])  #三張牌數字一樣
+                  elif is_flush:
+                      type_result.append([player[0],6])  #五張同一花色的牌
+                  elif is_straight:
+                      type_result.append([player[0],5])  #數字連續的五張牌
+                  elif max_repeat == 2: #兩張牌數字一樣
+                      #card[1] for card in player[1:]提取了目前玩家的所有牌面
+                      #[v for v in counter(...).values() if v == 2] -> 遍歷所有牌面的出現次數，只保留出現兩次的牌面
+                      #加上len()會計算這個列表中元素的數量，也就是說，它會計算有多少種牌面出現了兩次。
+                      #Ex:如果有兩張相同的5和兩張相同的6，這個列表就會是[2, 2]，len([2,2])=2
+                      pairs = len([v for v in Counter(card[1] for card in player[1:]).values() if v == 2])
+                      if pairs == 2:
+                          type_result.append([player[0],3])  #兩組 Pair 的牌
+                      else:
+                          type_result.append([player[0],2])  #一組 Pair 的牌
+                  else:
+                      type_result.append([player[0],1])  #單一張牌
+
+              return type_result
+          </code></pre>
+        </section>
+
+        <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"><br>
+          <font size=6>副程式-CheckFlush():檢查5張牌有沒有都同花色</font>
+          <p style="text-align: left;">使用flush_results這個LIST來存放有無同花色的紀錄，結構:<br>
+          [['A', 1], ['A', 0], ['A', 1], ['A', 0], ['B', 0], ['B', 0], ['B', 0], ['B', 0]]，1代表有同花色，0代表沒有同花色。</p>
+          <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          #利用集合的特性:重複的元素不會被添加進集合中
+          def CheckFlush(arr):
+              flush_results = []
+              for player in arr:
+                  _set = set()
+                  for card in player[1:]:
+                      _set.add(card[0])
+                  result = 1 if len(_set) == 1 else 0
+                  flush_results.append([player[0], result])
+              return flush_results
+          </code></pre>
+          </section>
+
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"><br>
+          <font size=6>副程式-CheckStraight():檢查牌面有沒有連續</font>
+          <p style="text-align: left;">使用straight_result這個list來放有無連續的紀錄，結構:<br>
+            [['A', 1], ['A', 0], ['A', 1], ['A', 0], ['B', 0], ['B', 0], ['B', 0], ['B', 0]]，1代表有連續，0代表沒有連續。</p>
+          <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          def CheckStraight(arr):
+              straight_result = []
+              specialRule = [[1,10,11,12,13], [1,2,11,12,13], [1,2,3,12,13], [1,2,3,4,13]]
+              for player in arr:
+                  #取得arr每個子列表的每個包含牌的列表的第二個元素(牌面)
+                  compare = [player[j][1] for j in range(1, 6)] 
+                  if compare in specialRule:
+                      straight_result.append([player[0], 1])
+                      continue
+                  if all(compare[k] + 1 == compare[k + 1] for k in range(4)):
+                      straight_result.append([player[0],1])
+                  else:
+                      straight_result.append([player[0],0])
+          
+              return straight_result
+          </code></pre>
+        </section>
+
+        <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"><br>
+          <font size=6>副程式-CountMaxRepeat():計算共有幾張牌的牌面重複</font>
+          <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          def CountMaxRepeat(arr):
+              repeat_result = []
+              for player in arr:
+                  #提取牌面
+                  cards = [card[1] for card in player[1:]]  
+                  _max = 0
+                  for card in cards:
+                      count = cards.count(card)
+                      if count > _max:
+                          _max = count
+                  repeat_result.append([player[0],_max])
+              return repeat_result          
+          </code></pre>
+        </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-Result():找出有最大牌型編號的玩家</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers="1-23|1-15|16-23" class="language-python">
+        def Result(result):
+            #將result的牌型編號由大到小排序
+            sort_result = SortResult(result)
+            A_max=0
+            B_max=0
+            for i in sort_result:
+                if((i[0]=="A")&(A_max==0)):
+                    #更新A玩家的最大牌型編號
+                    A_max=i[1]
+                if((i[0]=="B")&(B_max==0)):
+                    #更新B玩家的最大牌型編號
+                    B_max=i[1]
+                #如果A、B玩家都有找到各自最大的牌型編號
+                if(A_max*B_max!=0):
+                    break #跳出整個迴圈
+            #比較牌型編號的大小
+            if(A_max>B_max):
+                print("A"+" "+str(A_max))
+            elif(A_max==B_max):
+                print("Tie")
+            else:
+                print("B"+" "+str(B_max))
+            return 1
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-SortResult():將牌型編號的list由大到小排序</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        #一樣使用氣泡排序法進行排序
+        def SortResult(result):
+            for i in range(0, len(result)-1):
+                for j in range(0, len(result)-1-i):
+                    if(result[j][1] < result[j+1][1]):
+                        result[j], result[j+1] = result[j+1], result[j]
+            return result
+        </code></pre>
+        </section>
+      </section>
+
+      <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>呼叫主程式</font>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          if __name__ == '__main__':
+              main()
+          </code></pre>
+        </section>
+      </section>
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>
