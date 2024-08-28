@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>29 數位電路模擬</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul,
+    ol {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .reveal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 26px;
+    }
+
+    #pageIndex {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .controls {
+        bottom: 24px !important;
+    }
+    .table, .th, .td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <!--Q1-->
+      <section>
+        <h3 style="text-align: left;">29 數位電路模擬</h3>
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br><br>
+        <p>請撰寫一個程式模擬一個數位電路，輸入是二進位八位元，輸出是二進位四位元。此數位電路具有回饋電路，其功能如下：<br>
+        C(m) = m          , if m = 0 or m = 1<br>
+        C(m) = C(m/2)     , if m is even<br>
+        C(m) = C((m+1)/2) , if m is odd<br>
+        此電路會有一個紀錄器，會記錄跑過幾次回饋迴路，最後輸出為回饋電路跑過的次數，以二進位四位元表示。<br><br> 
+        例如m=00001010(十進位 10)，則電路內部運算回饋電路輸入依序為十進位5,3,2,1<br>
+        C(10)=C(5)=C(3)=C(2)=C(1)<br>
+        共跑過四次，則此電路輸出為 0100 (十進位 4)<br><br>
+        當輸入-1時，則結束執行。</p>
+        </section>
+
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        <table class="table">
+            <tr>
+                <th class="th">輸入說明</th>
+                <th class="th">輸出說明</th>
+            </tr>
+            <tr>
+                <td class="td">1. 第一個測試案例資料(二進位八位元)。<br>
+                2. 0 (分隔測試資料)。<br>
+                3. 第二個測試案例資料(二進位八位元)<br>
+                4. 0 (分隔測試資料)<br>
+                5. 第三個測試案例資料(二進位八位元)<br>
+                ...<br>
+                N. -1 (結束)</td>
+                <td class="td">每一行輸出一個測試案例資料的結果(二進位四位元)
+                </td>   
+            </tr>
+        </table>
+        </section>
+    </section>
+
+    <section>
+        <h3>Input/Output</h3><br> 
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p>範例輸入說明 1：<br>第1行：00000000 -> 第一個測試案例資料，二進位八位元<br>
+        第2行：0 -> 分隔測試資料<br>第3行：11111111 -> 第二個測試案例資料，二進位八位元<br>
+        第4行：-1 -> 結束</p>
+        <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+              <td class="td">00000000<br>0<br>11111111<br>-1
+              </td>
+              <td class="td">0000<br>
+                1000<br>
+              </td>
+            </tr>
+        </table>
+        <p>範例輸出說明1：<br>0000 (回饋電路跑過的次數為0次，轉成二進位四位元表示方式為0000)<br>
+        1000 (回饋電路跑過的次數為8次，轉成二進位四位元表示方式為1000)<br>
+        </p>
+        </section>
+
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br>
+        <p style="text-align: left">二進位八位元轉成十進位的計算：<br>
+        11111111 = 由右到左:2^0 * 1 + 2^1 * 1 + 2^2 * 1 + 2^3 * 1 + 2^4 * 1 + 2^5 * 1 + 2^6 * 1 + 2^7 * 1 = 255(十進位)<br>
+        C(255)=C(128)=C(64)=C(32)=C(16)=C(8)=C(4)=C(2)=C(1)<br>
+        共跑過8次，將十進位 8 轉成 二進位四位元=1000<br></p>
+        <img src="img/29/s1.jpg" style="height: 450px;">
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td">00000000<br>0<br>11111111<br>0<br>00000001<br>0<br>10000000<br>-1<br>    </td>
+                <td class="td">0000<br>1000<br>0000<br>0111<br></td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td">01111110<br>0<br>00001000<br>0<br>00111100<br>0<br>00011000<br>0<br>11000011<br>-1<br></td>
+                <td class="td">0111<br>0011<br>0110<br>0101<br>1000</td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td">11000111<br>0<br>01110111<br>0<br>11110001<br>0<br>00001010<br>0<br>01010000<br>0<br>00000111<br>-1<br></td>
+                <td class="td">1000<br>0111<br>1000<br>0100<br>0111<br>0011</td>
+            </tr>
+          </table>
+        </section>
+    </section>
+
+      <section>
+        <h3>Hints</h3>
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        def main():
+            list = []
+            while True:
+                #輸入測試案例資料(二進位八位元)
+                if 輸入為0:
+                    #繼續
+                if 輸入為-1:
+                    #結束
+                #將輸入資料的二進位字串轉成十進位整數
+                #新增到list中
+            result = []
+            for i in range(len(list)):
+                #實現回饋電路的功能(會使用到遞迴)
+                #並計數跑過幾次回饋迴路
+                #將計數的結果轉成二進位
+                #新增到result中
+        
+            for i in range(len(result)):
+                #印出result中每一個元素
+          </code></pre>
+        </section>
+    </section>
+
+    <section>
+        <h3>recursion 遞迴</h3>
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p>當一個函式在執行當中，會不斷地自己呼叫自己時，
+        這個函式就具有遞迴的性質。常常用來解決可以分解成更小的、相似的子問題。<br>為了避免函式永無止盡地自我呼叫 (self-calling)，
+        需要設計一個明確的終止條件。因此，設計一個遞迴函式有兩個重點：遞迴自我呼叫的方式以及結束呼叫的終止條件。<br>
+        常見的例子：階層、費氏數列等等......。
+        </p>
+        <p>階層：n! = 1 x 2 x ... x (n-1) x n &emsp;->&emsp;n! = [1 x 2 x ... x (n-1)] x n = (n-1)! x n<br>
+        公式：0! = 1<br>
+        &emsp;&emsp;&emsp;1! = 1<br>
+        &emsp;&emsp;&emsp;n! = n * (n-1)!, n >= 1</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def factorial(n):
+            if n == 0 or n == 1:
+                return 1
+            else:
+                return n * factorial(n - 1)
+        print(factorial(3))
+        </code></pre>
+        <p>輸出：6</p>
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br>
+        <img src="img/29/s3.jpg">
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p>費氏數列：指的是一個數列，每一項都等於他的前兩項的和，也就是說第 n 項等於第 n-1 項以及第 n-2 項的和。<br>
+        公式：f(0) = 0, f(1) = 1<br>
+        &emsp;&emsp;&emsp;f(n) = f(n-1) + f(n-2), n>=2<br>Ex:0、1、1、2、3、5、8、13....以此類推</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def fibonacci(n):
+            if n == 0:
+                return 0
+            elif n == 1:
+                return 1
+            else:
+                return fibonacci(n-1) + fibonacci(n-2)
+        print(fibonacci(7))
+        </code></pre>
+        <p style="text-align: left;">輸出：13</p>
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br>
+        <img src="img/29/s2.jpg">
+        </section>
+    </section>
+
+    <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+            data-no="8"
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0">
+            <font size=6>主程式</font>
+            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+            def main():
+                list = []
+                while True:
+                    n = input()
+                    if n == '0':
+                        continue
+                    if n == '-1':
+                        break
+                    list.append(BinaryToDecimal(n))
+            
+                result = []
+                for i in range(len(list)):
+                    count = 0
+                    result.append(DecimalToBinary(Circuit(list[i], count)))
+            
+                for i in range(len(result)):
+                    print(result[i])
+              </code></pre>
+          </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-BinaryToDecimal():二進位字串轉成十進位整數</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def BinaryToDecimal(binary):
+            #第二個參數2代表binary是二進位的
+            return int(binary,2)
+        </code></pre>
+        <font size=6>副程式-Circuit():計數回饋電路跑過的次數</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def Circuit(value, count):
+            #一直遞迴，直到value = 0 or value = 1回傳count
+            if (value == 0 or value == 1):
+                return count
+            if (value % 2 == 0): #是偶數
+                return Circuit(value / 2, count + 1) 
+            if (value % 2 == 1): #是奇數
+                return Circuit((value + 1) / 2, count + 1)
+          </code></pre>
+        </section>
+
+      <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0">
+        <font size=6>副程式-DecimalToBinary():將Circuit()回傳的count結果轉成二進位</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def DecimalToBinary(decimal):
+            #將十進位轉成二進位，並把"0b"用空字串取代掉
+            result = bin(decimal).replace("0b", "") 
+            zero = ""
+            #result的長度 < 4的話，前面需補0
+            for i in range(4-len(result)):
+                zero += "0"
+        
+            result = zero + result
+            return result
+          </code></pre>
+        </section>
+    </section>
+
+    <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>呼叫主程式</font>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          if __name__ == '__main__':
+              main()
+          </code></pre>
+        </section>
+      </section>
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>
