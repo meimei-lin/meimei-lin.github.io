@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>27 成對檢查</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul,
+    ol {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .reveal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 26px;
+    }
+
+    #pageIndex {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .controls {
+        bottom: 24px !important;
+    }
+    .table, .th, .td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <!--Q1-->
+      <section>
+        <h3 style="text-align: left;">27 成對檢查</h3>
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br><br>
+        <p>給定 N 個 ( 1 <= N <= 3 ) 字串，<br>
+        每一個字串M (1 <= len(M) <= 50) 由括號與英文字母組成<br>
+        括號共有三種： {, }, [, ], (, )<br>
+        檢查這字串M中的括號是否成對出現，<br>
+        如果括號成對出現，代表通過檢查，輸出"pass"<br>
+        如果括號沒有成對出現，代表未通過檢查，輸出"fail"<br>
+        並且輸出深度D(1<= D <= 6) 中的所有英文字母 <br><br>       
+        深度：字串由左至右閱讀，深度從0開始，當遇到左括號深度加一層，遇到右括號深度減一層，且字串中括號必須成對出現，深度才成立。<br>
+        例: {a[b(c)d]e}<br>
+        深度 1: a, e<br>
+        深度 2: b, d<br>
+        深度 3: c</p>
+        </section>
+
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left">
+        <table class="table">
+            <tr>
+                <th class="th">輸入說明</th>
+                <th class="th">輸出說明</th>
+            </tr>
+            <tr>
+                <td class="td">1. 輸入一整數N (1<=N<=3)。<br>
+                2. 輸入一整數D (1<= D <= 6)。<br>
+                第3~N+2行. 輸入一字串<br></td>
+                <td class="td">1. 根據輸入的各行字串判斷如下:<br>
+                (1)如果字串內括號成對出現，輸出"pass, "<br>
+                &emsp;依照深度要求，接續輸出深度內的所有字母。<br>
+                &emsp;如果深度要求內沒有任何字母，輸出"EMPTY"。<br>
+                (2)如果字串內括號沒有成對出現，輸出"fail"。
+                </td>   
+            </tr>
+        </table>
+        </section>
+    </section>
+
+    <section>
+        <h3>Input/Output</h3><br> 
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p>範例輸入說明 1：<br>第1行：3 -> 3個字串<br>第2行：3 -> 深度3<br>
+        第3行：{b[bc][c(bd)]} -> 字串1<br>第4行：{q(ac)(df)(bn)r} -> 字串2<br>第5行：{b{[h]}dc[d(i)a]} -> 字串3</p>
+        <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+              <td class="td">3<br>3<br>{b[bc][c(bd)]}<br>{q(ac)(df)(bn)r}<br>{b{[h]}dc[d(i)a]}
+              </td>
+              <td class="td">pass, bd<br>
+                pass, EMPTY<br>
+                pass, hi
+              </td>
+            </tr>
+        </table>
+        <p>輸出範例說明1：pass, bd (括號皆有成對，且深度要求內也有字母)<br>
+            pass, EMPTY(括號皆有成對，但深度要求內沒有字母)<br>
+            pass, hi (括號皆有成對，且深度要求內也有字母)
+            </p>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td">3<br>
+                3<br>
+                {[()][]}<br>
+                {}[(])<br>
+                {{{{{{<br>    
+                </td>
+                <td class="td">pass, EMPTY<br>
+                  fail<br>
+                  fail
+                  </td>
+            </tr>
+            <tr>
+              <td class="td">2<br>
+                1<br>
+                (he[ad(dsa{fd}asdf)srfa]l(ssd)lo)<br>
+                {(qq{ww}ee){rr}}<br>
+                <br></td>
+                <td class="td">pass, hello<br>
+                pass, EMPTY<br>
+                </td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+              <td class="td">1<br>
+                2<br>
+                ([{abc}]qwe({}[qe)qw]hgh)<br></td>
+                <td class="td">fail</td>
+            </tr>
+            <tr>
+              <td class="td">3<br>
+                4<br>
+                {a(b[c(d)e][f(g)h]i)(j[k(l)m][n(o)p]q)r}<br>
+                (q[w(e{[q]}r)a][a(s{}d)f]z)<br>
+                [p(o{i})l((j{h}t)j}g{m)h]<br></td>
+                <td class="td">pass, dglo<br>
+                  pass, EMPTY<br>
+                  fail</td>
+            </tr>
+          </table>
+        </section>
+    </section>
+
+      <section>
+        <h3>Hints</h3>
+        <section data-auto-animate
+          data-no="17" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left;"><br>
+          <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+          def main():
+            #輸入整數N，代表有多少字串
+            #輸入整數D，代表深度
+            strings=[]  #建一個list
+            for i in range(整數N):
+                #輸入N個字串
+                #將字串新增到strings這個list中
+            for i in range(整數N):
+                #呼叫檢查字串的函式
+                checkString(strings[i],整數D)
+          </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        def checkString(string1,depth_num):
+            left=['(','{','[']
+            right=[')','}',']']
+            stack=[]
+            state=True
+            depth_chars=""
+            for i in range(len(string1)):
+                #檢查string[i]的類型並更新狀態
+                state=checkType(string1[i],left,right,stack)
+                if(不匹配):
+                   break
+                if(stack的深度 等於 depth_num深度):
+                    if(string1[i] 不是括號的話):
+                        #將string[i]加到depth_chars中
+                        ...
+            if(整個字串檢查完畢且狀態為 True):
+                if(stack已清空):
+                    if(depth_chars是空字串):
+                        ...
+                    print("pass,"+depth_chars)
+                    return True
+            print("fail")
+            return False
+          </code></pre>
+          </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        def checkType(compared_char,left,right,stack):
+            if(compared_char 是左括號):
+                #新增到stack中
+                ...
+                return True
+            elif(compared_char 是右括號):
+                #呼叫checkStacktopbepair()
+                #檢查compared_char跟stack的top有沒有成對
+                return checkStacktopbepair(compared_char,left,right,stack)
+            else:
+                #其他字元，就回傳True
+                return True
+        </code></pre>
+    </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        def checkStacktopbepair(compared_char,left,right,stack):
+            if(stack是空的):
+                return False
+            else:
+                if(compared_char與stack的top字元成對):
+                    #移除stack最頂端(top)的字元
+                    ...
+                    return True
+                #不成對
+                else:
+                    return False
+        </code></pre>
+        </section>
+    </section>
+
+    <section>
+        <h3>stack 堆疊</h3>
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br>
+        <p style="text-align: left">是一個線性長條狀的資料結構。規定推入資料、取出資料都必須在頂端TOP操作。<br>
+        Stack具有<b>先進後出First-in Last-out</b>的特質。(類似疊盤子的概念)<br>
+        可以用LIST來實作Stack的應用。<br><br>
+        Stack的操作：<br>
+        1. 在stack中加入元素: push<br>
+        &emsp;這個功能可以使用list的append方法來做。<br><br>
+        2. 把最頂端的元素彈出來: pop<br>
+        &emsp;Python的list有內建的pop方法可以達成這個任務，當我們使用pop方法時，會把最後一個元素彈出去，並回傳這個元素。
+        </p>
+        
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        stack = []
+        stack.append(3)
+        stack.append(5)
+        stack.append(8)
+
+        print(stack)
+
+        a = stack.pop()
+        print(a)
+        print(stack)
+        </code></pre>
+        <p style="text-align: left;">輸出：[3, 5, 8]<br>&emsp;&emsp;&emsp;8<br>&emsp;&emsp;&emsp;[3, 5]</p>
+        </section>
+    </section>
+
+    <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+            data-no="8"
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0">
+            <font size=6>主程式</font>
+            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+            def main():
+                #輸入一整數，代表有多少字串，存進變數string_num
+                string_num=int(input())
+                #輸入一整數，代表深度，存進變數depth_num
+                depth_num=int(input())
+                #建一個list
+                strings=[]
+                for i in range(string_num):
+                    #輸入字串
+                    string1=input()
+                    #新增字串到strings中
+                    strings.append(string1)
+                for i in range(string_num):
+                    #呼叫checkString()
+                    #檢查每個字串
+                    checkString(strings[i],depth_num)
+              </code></pre>
+          </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-checkString():檢查每個字串</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers="1-35|1-10|12-24|25-35" class="language-python">
+        def checkString(string1,depth_num):
+            #定義左括號和右括號的列表
+            left=['(','{','[']
+            right=[')','}',']']
+            #定義一個空的stack
+            stack=[]
+            #定義變數state，用來記錄有無成對出現
+            state=True
+            #初始化一個空字串，用來存深度達到 depth_num 時的字元
+            depth_chars=""
+
+            #遍歷字串中的每個字元
+            for i in range(len(string1)):
+                #檢查目前字元的類型並更新state
+                state=checkType(string1[i],left,right,stack)
+                #如果檢查結果為 False，表示不成對，跳出整個迴圈
+                if(state==False):
+                   break
+                #如果目前stack的深度 等於 depth_num
+                if(len(stack)==depth_num):
+                    #如果該字元不是左右括號
+                    if(string1[i] not in left and string1[i] not in right):
+                        #將string1[i]加到 depth_chars 中
+                        depth_chars+=string1[i]
+            #如果整個字串檢查完畢且state為 True，表示有成對出現
+            if(state):
+                #如果stack已清空
+                if(len(stack)==0):
+                    #如果depth_chars是空字串，表示在指定深度沒有不是括號的字元
+                    if(depth_chars==""):
+                        depth_chars="EMPTY"
+                    print("pass,"+depth_chars)
+                    return True
+            print("fail")
+            return False
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-checkType():檢查目前字元的類型(左括號、右括號或其它字元)</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def checkType(compared_char,left,right,stack):
+            #如果compared_char是left列表中的元素
+            if(compared_char in left):
+                #將compared_char新增到stack
+                stack.append(compared_char)
+                return True
+            #否則如果，compared_char是right列表中的元素
+            elif(compared_char in right):
+                #呼叫checkStacktopbepair()
+                #檢查compared_char跟stack的top有沒有成對
+                #回傳checkStacktopbepair()的結果
+                return checkStacktopbepair(compared_char,left,right,stack)
+            else:
+                return True
+          </code></pre>
+      </section>
+
+      <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>副程式-checkStacktopbepair():檢查目前字元與stack的Top字元有沒有成對出現</font>
+          <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def checkStacktopbepair(compared_char,left,right,stack):
+            #如果stack是空的
+            if(len(stack)==0):
+                #回傳False，因為沒有括號字元可以檢查
+                return False
+            else:
+                #right.index(compared_char):compared_char在right列表中的位置
+                #left[...]:在left列表中相同位置的字元 等於 stack Top的字元
+                #代表有成對
+                if(left[right.index(compared_char)]==stack[len(stack)-1]):
+                    #移除stack最頂端的字元
+                    stack.pop(len(stack)-1)
+                    return True
+                else:
+                    return False 
+          </code></pre>
+        </section>
+    </section>
+
+    <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>呼叫主程式</font>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          if __name__ == '__main__':
+              main()
+          </code></pre>
+        </section>
+      </section>
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>
