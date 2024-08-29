@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>33 無人機距離檢測</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul,
+    ol {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .reveal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 26px;
+    }
+
+    #pageIndex {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .controls {
+        bottom: 24px !important;
+    }
+    .table, .th, .td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <!--Q1-->
+      <section>
+        <h3 style="text-align: left;">33 無人機距離檢測</h3>
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br><br>
+        <p>N 台無人機在空中飛行，每一台無人機有整數編號、空間座標 (x, y, z)。
+        為了防止無人機距離過近相撞，請寫一個程式，針對 N 台無人機空間座標 (x, y, z)，
+        偵測每一組兩台無人機距離，輸出前三組最接近的2台無人機編號和座標。<br> <br>
+        <b>距離公式 = sqrt( (x1-x2)^2 + (y1-y2)^2 + (z1-z2)^2 )</b><br></p>
+        <table class="table">
+            <tr>
+                <th class="th">輸入說明</th>
+                <th class="th">輸出說明</th>
+            </tr>
+            <tr>
+                <td class="td">1. 輸入整數N (3 <= N < 20)。<br>
+                2~N+1. 輸入4個整數，表示無人機編號與座標 x,y,z。<br>
+                其中編號為正整數<br>-10 <= x,y,z <= 10。<br>每個整數以一個空白隔開。
+                </td>
+                <td class="td">1. 最接近的兩台無人機編號和各自的座標，中間以空白隔開。<br>
+                2. 第二接近的兩台無人機編號和各自的座標，中間以空白隔開。<br>
+                3. 第三接近的兩台無人機編號和各自的座標，中間以空白隔開
+                </td>   
+            </tr>
+        </table>
+        </section>
+    </section>
+
+    <section>
+        <h3>Input/Output</h3><br> 
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p>範例輸入說明 1：<br>第1行：5 -> 共有5台無人機。<br>
+        第2行：1 -2 -6 8 -> 無人機編號1，座標(x,y,z) = (-2,-6,8)。<br>第3行：2 1 7 4 -> 無人機編號2，座標(x,y,z) = (1,7,4)。<br>
+        第4行：3 10 -9 2 -> 無人機編號3，座標(x,y,z) = (10,-9,2)。<br>第5行：4 9 8 -4 -> 無人機編號4，座標(x,y,z) = (9,8,-4)。<br>
+        第6行：5 -1 8 8 -> 無人機編號5，座標(x,y,z) = (-1,8,8)。</p>
+        <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+              <td class="td">5<br>
+                1 -2 -6 8<br>
+                2 1 7 4<br>
+                3 10 -9 2<br>
+                4 9 8 -4<br>
+                5 -1 8 8<br>
+              </td>
+              <td class="td">2 5 1 7 4 -1 8 8<br>
+                2 4 1 7 4 9 8 -4<br>
+                1 3 -2 -6 8 10 -9 2<br>
+              </td>
+            </tr>
+        </table>
+        <p>範例輸出說明1：2 5 1 7 4 -1 8 8 (編號2和編號5最接近且座標為(1,7,4)、(-1,8,8))<br>
+        2 4 1 7 4 9 8 -4 (編號2和編號4第二接近且座標為(1,7,4)、(9,8,-4))<br>
+        1 3 -2 -6 8 10 -9 2 (編號1和編號3第三接近且座標為(-2,-6,8)、(10,-9,2))
+        </p>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td">7<br>
+                    1 8 10 -5<br>
+                    2 -7 8 2<br>
+                    3 4 -6 0<br>
+                    4 -4 -2 -2<br>
+                    5 1 2 -3<br>
+                    6 -9 2 10<br>
+                    7 7 1 5<br>
+                </td>
+                <td class="td">4 5 -4 -2 -2 1 2 -3<br>
+                    3 5 4 -6 0 1 2 -3<br>
+                    3 7 4 -6 0 7 1 5<br>
+                </td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td" style="font-size: 23px;">18<br>
+                    1 -5 -1 4<br>
+                    2 -6 -1 2<br>
+                    3 3 -1 2<br>
+                    4 -8 -8 1<br>
+                    5 -8 -7 -6<br>
+                    6 -10 -4 3<br>
+                    7 -1 -10 -3<br>
+                    8 9 -7 0<br>
+                    9 -9 7 4<br>
+                    10 -6 -9 -9<br>
+                    11 -6 -6 7<br>
+                    12 7 2 -2<br>
+                    13 8 -5 -8<br>
+                    14 -2 -4 -5<br>
+                    15 -5 -7 -1<br>
+                    16 -2 10 3<br>
+                    17 -10 5 -4<br>
+                    18 9 5 -3<br>
+                </td>
+                <td class="td">1 2 -5 -1 4 -6 -1 2<br>
+                4 15 -8 -8 1 -5 -7 -1<br>
+                12 18 7 2 -2 9 5 -3
+                </td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td">10<br>
+                    1 -8 -2 2<br>
+                    2 -8 -8 -8<br>
+                    3 -4 -8 -3<br>
+                    4 3 -6 -10<br>
+                    5 -8 -3 -10<br>
+                    6 5 9 -5<br>
+                    7 0 1 -9<br>
+                    8 -7 -9 -1<br>
+                    9 4 -2 -2<br>
+                    10 -7 2 10<br>
+                </td>
+                <td class="td">3 8 -4 -8 -3 -7 -9 -1<br>
+                    2 5 -8 -8 -8 -8 -3 -10<br>
+                    2 3 -8 -8 -8 -4 -8 -3 <br>                  
+                </td>
+            </tr>
+          </table>
+        </section>
+    </section>
+
+      <section>
+        <h3>Hints</h3>
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        def main():
+            #輸入整數N，表示有N台無人機
+            record = [] #用來存無人機的資料
+            result = [] #用來存兩台無人機之間的距離
+        
+            for i in range(N):
+                #輸入N個無人機編號、座標x、y、z
+                #新增[無人機編號N,x,y,z]到record中
+                #record會是一個二維list
+        
+            #計算每對無人機之間的距離
+            for i in range(0, N):
+                for j in range(i+1, N):
+                    #計算兩台無人機在座標x、y、z上的距離差
+                    #計算兩台無人機的距離
+                    #新增[無人機編號1,無人機編號2,距離]到result
+        
+            #result中的距離由小到大排序，寫成函式
+            #印出結果，寫成函式
+          </code></pre>
+        </section>
+    </section>
+
+    <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+            data-no="8"
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0">
+            <font size=6>主程式</font>
+            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+            import math
+            def main():
+                #輸入整數N，表示有N台無人機
+                N = int(input())
+                record = [] #用來存無人機的資料
+                result = [] #用來存兩台無人機之間的距離
+
+                #取得每台無人機的編號及座標 (x, y, z)
+                for i in range(N):
+                    #輸入N個無人機編號、座標x、y、z，用空格分割字串
+                    _input = input().split(" ")
+                    #將輸入的座標x、y、z轉換為整數
+                    x = int(_input[1])
+                    y = int(_input[2])
+                    z = int(_input[3])
+                    #新增[無人機編號, x, y, z]到record列表中
+                    record.append([int(_input[0]), x, y, z])
+                #計算每對無人機之間的距離
+                for i in range(0, N):
+                    for j in range(i+1, N):
+                        #計算兩台無人機在座標x、y、z上的距離差
+                        x = record[i][1]-record[j][1]
+                        y = record[i][2]-record[j][2]
+                        z = record[i][3]-record[j][3]
+
+                        #列表的第三個元素是計算兩台無人機的距離
+                        #新增[無人機編號1,無人機編號2,距離]到result
+                        #math.ceil()會回傳往上捨入的整數，ex:math.ceil(3.4)=4
+                        result.append([record[i][0], record[j][0], math.ceil(math.sqrt(x*x+y*y+z*z) * 100) / 100.0])
+                #result中的距離由小到大排序
+                Sort(result)
+                #印出結果
+                showResult(record, result)
+              </code></pre>
+          </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-Sort():利用氣泡排序法將arr的第三個元素由小排到大</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def Sort(arr):
+            for i in range(len(arr)-1):
+                for j in range(len(arr)-1-i):
+                    if(arr[j][2]>arr[j+1][2]):
+                        arr[j], arr[j+1] = arr[j+1], arr[j]
+        </code></pre>
+
+        <font size=6>副程式-showResult()</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def showResult(record, result):
+            index = 0
+            for i in result:
+                if(index < 3):
+                    #利用遍歷result的每個子列表i的[索引0的元素(無人機編號1)-1]與[索引1的元素(無人機編號2)-1]，
+                    #會對應到record的子列表索引，再取出record列表的第二(索引1)~第四個(索引3)元素(也就是座標x、y、z)
+                    locationA = "{0} {1} {2}".format(record[i[0]-1][1], record[i[0]-1][2], record[i[0]-1][3])
+                    locationB = "{0} {1} {2}".format(record[i[1]-1][1], record[i[1]-1][2], record[i[1]-1][3])
+                    print(i[0], i[1], locationA, locationB)
+                index += 1
+        </code></pre>
+        </section>
+    </section>
+
+    <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>呼叫主程式</font>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          if __name__ == '__main__':
+              main()
+          </code></pre>
+        </section>
+      </section>
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>
