@@ -306,14 +306,13 @@
         <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
         def main():
             #輸入整數N，代表總共有N間學校
-            schools = [] #存[[學校名稱1,屬性...],[學校名稱2,屬性...],...]
+            schools = {}  #使用字典存學校資料
             conditions = [] #存要查詢的屬性
 
             for i in range(N): #迴圈跑N次
                 #輸入N個學校名稱以及該學校擁有的屬性，學校名稱、每個屬性間以一個空白隔開
-                #新增到schools中
-                #schools的結構-
-                #Ex:[['NSYSU', 'NC', 'CT', 'NS', 'NM'], ['NTU', 'BC', 'NC', 'CT', 'NS'], ['NCCU', 'BC', 'NL', 'HL']]
+                #用空格分割字串，得到的list索引0的字串為學校名稱，索引1~結尾是該學校的屬性
+                #將學校名稱作為key，屬性列表作為value存入字典
 
             #輸入整數M (1 <= M <= 4)，代表有幾組想要查詢的屬性
 
@@ -336,118 +335,6 @@
                     #印出結果
           </code></pre>
         </section>
-
-        <section data-auto-animate
-        data-no="17" 
-        data-positionx="0.8" 
-        data-positiony="0.03" 
-        data-scale="1" 
-        data-motionno="0"
-        style="text-align: left;"><br>
-        <p>舉例跑一遍如何遍歷schools列表與conditions列表，並檢查有沒有符合條件。</p>
-        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
-        schools =[['NSYSU', 'NC', 'CT', 'NS', 'NM'], ['NTU', 'BC', 'NC', 'CT', 'NS'], ['NCCU', 'BC', 'NL', 'HL']]
-        conditions=[['BC NS','CT HL'],['BC','NS']]
-        result=[]
-        for idx,school in enumerate(schools):
-            print("schools的第",idx+1,"個子列表:",school)
-            for idx,subCondition in enumerate(conditions):
-                print("conditions的第",idx+1,"個子列表:",subCondition)
-                for schoolAttr in school[1:]:
-                    print("schoolAttr會得到",school[0],"的屬性:",schoolAttr)
-                    if(schoolAttr in subCondition):
-                        print("學校:",school[0],"的屬性",schoolAttr,"有在查詢屬性中")
-                        result.append(school[0])
-                        print(result)
-                    else:
-                        print("沒有符合條件的屬性")    
-        </code></pre>
-        </section>
-
-        <section data-auto-animate
-        data-no="17" 
-        data-positionx="0.8" 
-        data-positiony="0.03" 
-        data-scale="1" 
-        data-motionno="0"
-        style="text-align: left;font-size: 24px;"><br>
-        <p>輸出：schools的第 1 個子列表: ['NSYSU', 'NC', 'CT', 'NS', 'NM']<br>
-            conditions的第 1 個子列表: ['BC NS', 'CT HL']<br>
-            schoolAttr會得到 NSYSU 的屬性: NC<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NSYSU 的屬性: CT<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NSYSU 的屬性: NS<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NSYSU 的屬性: NM<br>
-            沒有符合條件的屬性<br>
-            conditions的第 2 個子列表: ['BC', 'NS']<br>
-            schoolAttr會得到 NSYSU 的屬性: NC<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NSYSU 的屬性: CT<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NSYSU 的屬性: NS<br>
-            學校: NSYSU 的屬性 NS 有在查詢屬性中<br>
-            ['NSYSU']<br>
-            schoolAttr會得到 NSYSU 的屬性: NM<br>
-            沒有符合條件的屬性<br>
-            </p>
-        </section>
-
-        <section data-auto-animate
-        data-no="17" 
-        data-positionx="0.8" 
-        data-positiony="0.03" 
-        data-scale="1" 
-        data-motionno="0"
-        style="text-align: left;font-size: 24px;"><br>
-        <p>schools的第 2 個子列表: ['NTU', 'BC', 'NC', 'CT', 'NS']<br>
-            conditions的第 1 個子列表: ['BC NS', 'CT HL']<br>
-            schoolAttr會得到 NTU 的屬性: BC<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NTU 的屬性: NC<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NTU 的屬性: CT<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NTU 的屬性: NS<br>
-            沒有符合條件的屬性<br>
-            conditions的第 2 個子列表: ['BC', 'NS']<br>
-            schoolAttr會得到 NTU 的屬性: BC<br>
-            學校: NTU 的屬性 BC 有在查詢屬性中<br>
-            ['NSYSU', 'NTU']<br>
-            schoolAttr會得到 NTU 的屬性: NC<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NTU 的屬性: CT<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NTU 的屬性: NS<br>
-            學校: NTU 的屬性 NS 有在查詢屬性中<br>
-            ['NSYSU', 'NTU', 'NTU']<br></p>
-        </section>
-
-        <section data-auto-animate
-        data-no="17" 
-        data-positionx="0.8" 
-        data-positiony="0.03" 
-        data-scale="1" 
-        data-motionno="0"
-        style="text-align: left;"><br>
-        <p>schools的第 3 個子列表: ['NCCU', 'BC', 'NL', 'HL']<br>
-            conditions的第 1 個子列表: ['BC NS', 'CT HL']<br>
-            schoolAttr會得到 NCCU 的屬性: BC<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NCCU 的屬性: NL<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NCCU 的屬性: HL<br>
-            沒有符合條件的屬性<br>
-            conditions的第 2 個子列表: ['BC', 'NS']<br>
-            schoolAttr會得到 NCCU 的屬性: BC<br>
-            學校: NCCU 的屬性 BC 有在查詢屬性中<br>
-            ['NSYSU', 'NTU', 'NTU', 'NCCU']<br>
-            schoolAttr會得到 NCCU 的屬性: NL<br>
-            沒有符合條件的屬性<br>
-            schoolAttr會得到 NCCU 的屬性: HL<br>
-            沒有符合條件的屬性</p>
-        </section>
     </section>
 
     <section>
@@ -459,40 +346,45 @@
             data-scale="1" 
             data-motionno="0">
             <font size=6>主程式</font>
-            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-34|1-10|12-18|20-34" class="language-python">
+            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
             def main():
                 #輸入整數N，代表總共有N間學校
                 N = int(input()) 
-                schools = [] #存學校與屬性的資料
-                conditions = [] #存要查詢的屬性
-                _type = None #初始化輸出類型的變數
+                schools = {}  #使用字典存學校資料
+                conditions = [] #使用list#存要查詢的屬性
+                
                 for i in range(N):
-                    #每行輸入學校名稱以及該學校擁有的屬性，學校名稱、每個屬性間以一個空白隔開。
-                    #新增到schools中
-                    schools.append(input().split(' ')) 
-
+                    #輸入N個學校名稱以及該學校擁有的屬性，用空格分割字串  
+                    school_data = input().split(' ')
+                    #得到的list索引0的字串為學校名稱
+                    school_name = school_data[0]
+                    #索引1~結尾是該學校的屬性
+                    #存入school_attrs這個list中
+                    school_attrs = school_data[1:]
+                    #將學校名稱作為key，屬性列表作為value存入字典
+                    schools[school_name] = school_attrs
+                
                 #輸入整數M (1 <= M <= 4)，代表有幾組想要查詢的屬性
-                M = int(input()) 
-
+                M = int(input())  
                 for i in range(M):
                     #輸入M組查詢，用' + '分割字串
                     #新增到conditions中
-                    conditions.append(input().split(' + ')) 
+                    conditions.append(input().split(' + '))
                 
                 #輸入整數_type (0 <= _type <= 1)，決定輸出的方式
-                _type = int(input()) 
-                if(_type==0):
+                _type = int(input())
+                if _type == 0:
                     for i in range(M):
                         #處理能符合所有查詢屬性的大學
                         #第二個參數位置傳入的conditions[i]是conditions的子列表
                         result = CheckCompleteRule(schools, conditions[i])
-                        if(result!=[]):
+                        if result != []:
                             showResult(result)
-                elif(_type==1):
+                elif _type == 1:
                     for i in range(M):
                         #處理能部分符合且符合最多條件的大學
                         result = CheckContainRule(schools, conditions[i])
-                        if(result!=[]):
+                        if result != []:
                             showResult(result)
               </code></pre>
           </section>
@@ -510,18 +402,23 @@
         <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
         def CheckCompleteRule(schools, condition):
             result = []
-            for school in schools: #遍歷每個學校
-                for subCondition in condition: #遍歷每個查詢條件的子條件
-                    count = 0 #計算學校屬性符合子條件的數量
-                    for schoolAttr in school[1:]: #遍歷學校的屬性（跳過第一個元素，即學校名稱）
-                        if(schoolAttr in subCondition): #如果學校的屬性在子條件中
-                            count += 1
-
-                    #利用計算subCondition中空格的數量+1來取得(有且)的條件數量
-                    #EX: BC NS(有大校園且靠海)，空格數量1，再加1，條件數量為2
-                    #還要確保school[0]不會重複被新增到result中
-                    if(count==subCondition.count(' ')+1 and school[0] not in result):
-                        result.append(school[0])
+            #遍歷每個學校，school_name是學校名稱，school_attrs是該學校的屬性列表
+            for school_name, school_attrs in schools.items():
+                #遍歷每個查詢條件的子條件
+                for subCondition in condition:
+                    count = 0
+                    #將子條件中的屬性用空格分開
+                    for cond in subCondition.split(' '):
+                        #檢查是否存在於學校的屬性列表中
+                        if cond in school_attrs:
+                            count += 1 #有的話count+1
+        
+                    #利用計算subCondition中空格的數量+1來取得子條件中屬性數量
+                    #EX:BC NS(有大校園且靠海)，空格數量1，再加1，屬性數量為2
+                    #表示學校完全符合該子條件
+                    #還要確保該學校不在結果列表中
+                    if count == subCondition.count(' ') + 1 and school_name not in result:
+                        result.append(school_name)
             return result
         </code></pre>
         </section>
@@ -537,20 +434,21 @@
         def CheckContainRule(schools, condition):
             result = []
             _max = 0 #紀錄最多的符合條件數量
-            for school in schools:
+            for school_name, school_attrs in schools.items():
                 count = 0
                 for subCondition in condition:
-                    for schoolAttr in school[1:]:
-                        if(schoolAttr in subCondition.split(' ')):
+                    for cond in subCondition.split(' '):
+                        if cond in school_attrs:
                             count += 1
-                if(count>_max):
+                #如果目前學校符合的屬性數量超過了之前的最大值
+                if count > _max:
                     #更新 _max 並將result列表設為當前學校名稱
                     #會覆蓋掉原本result列表的資料
                     _max = count
-                    result = [school[0]]
-                elif(count==_max):
-                    #將該學校名稱加入result列表
-                    result.append(school[0]) 
+                    result = [school_name]
+                elif count == _max:
+                    #將該學校名稱加入結果列表
+                    result.append(school_name)  
             return result
         </code></pre>
         </section>
