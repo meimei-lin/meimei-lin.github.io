@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1900">
+  <title>37 全班學生成績處理</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <link rel="stylesheet" href="vendor/reveal/reset.css">
+  <link rel="stylesheet" href="vendor/reveal/reveal.css">
+  <link rel="stylesheet" href="vendor/reveal/theme/sky.css">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css"><!--edit-->
+  <!-- Pollyfill script -->
+  <script src="https://unpkg.com/core-js-bundle@3.6.1/minified.js"></script>
+  <!-- Live2DCubismCore script -->
+  <script src="./dist/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <script src="./dist/bundle.js"></script>
+  <style>
+    ul,
+    ol {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .reveal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 26px;
+    }
+
+    #pageIndex {
+        position: absolute;
+        right: 24px;
+        bottom: 24px;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    .controls {
+        bottom: 24px !important;
+    }
+    .table, .th, .td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      padding: 0px; 
+      width: 1100px;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!--
+         data-no: 老師網頁的cubism人物編號(從0開始，網頁上的編號-1)
+         data-positionx: cubism人物水平位移範圍(建議-1 ~ 0.9)
+         data-positiony: cubism人物垂直位移範圍(建議-0.9~0.4)
+         data-scale: cubism人物縮放(建議1~2之間的小數值，最大極限是3)
+         data-motionno: cubism人物指定動作編號(從0開始，請參閱model3.json檔案的ALL MOTION GROUP)
+      -->
+
+      <!--Q1-->
+      <section>
+        <h3 style="text-align: left;">37 全班學生成績處理</h3>
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br><br>
+        <p>某學校有一系統的資料庫儲存各項課程資訊，其提供的功能如下：<br><br>
+            1.	輸出各科系、各年級的每一學年平均成績前三名的名次百分比和撤選百分比。<br>
+            2.	輸出每項課程每年的最高學期成績、平均學期成績、最低學期成績和撤選百分比、前三名的成績和名次百分比。<br>
+            3.	可搜尋某課程歷年學期分數最高的前兩名學號和最多人數的科系。<br><br>
+                
+            每個課程資訊包含課程編碼、學期編碼、學生學校學號編碼和學生成績。<br><br>各項編碼資訊如下：<br>
+            學校學號：共八碼，前三碼是入學年度，中間三碼是科系編碼、後兩碼是座號。<br>
+            課程編碼：共四碼，前三碼是學科編碼（整數，英文一是101、國文一是201），後一碼是學分數（整數）。<br>
+            學期編碼：共四碼，前三碼是學年度（整數）、後一碼是學期（第一學期1、第二學期2）。<br> 
+        </p>
+        </section>
+
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br><br>
+        <p>每個學科一學年僅開一次，且每位學生一年至少上完一堂課，各項數值計算如下：<br>
+            1.排名：成績較高排名較前，若成績相同則學號編碼較小排名較前<br>
+            2.課程撤選百分比：課程撤選人數/課程總人數<br>
+            3.學生撤選百分比：學生撤選的課程數/學生選修的課程數<br>
+            4.學年平均成績：該學年所有非撤選課程成績*該課程學分數加總/該學年所有非撤選學分數且無條件捨去至整數<br>
+            5.名次百分比：<br>
+            假如總人數(包含撤選人數)有50人<br>
+            百分比為1%的人數=（50*0.01且無條件進位至整數）=1<br>
+            百分比為2%的人數=（50*0.02且無條件進位至整數）-（百分比為1%的人數）=1-1=0<br>
+            百分比為3%的人數=（50*0.03且無條件進位至整數）-（百分比為1-2%人數）=2-1=1<br>
+            因此排名第一名為1%，第二名的百分比為3%<br> 
+            請輸入多項課程資訊到資料庫，並依序執行所有功能。<br>
+            <b>【特殊要求】<br>
+            各項資料請用 dictionary儲存</b>
+             </p>
+        </section>
+
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br><br>
+        <table class="table">
+            <tr>
+                <th class="th">輸入說明</th>
+                <th class="th">輸出說明</th>
+            </tr>
+            <tr>
+                <td class="td" style="font-size: 20px;">1. 輸入課程數N（整數）。<br>
+                2~倒數第2行. 輸入各科課程資料。如果學生退選，則學期成績為w。<br>
+                <b>非國文一或英文一的課程，僅包含學期成績(無會考成績)。</b><br>
+                &emsp;第N行：輸入課程編碼，學年度和學生人數，中間用空格隔開。<br>
+                &emsp;第N+1行：輸入修課學生1學號和學生學期成績，中間用空格隔開。<br>
+                &emsp;第N+2行：輸入修課學生2學號和學生學期成績，中間用空格隔開。<br>
+                
+                <b style="color: red;">國文一和英文一的學期成績包含課程學期成績和會考成績，分別占比70%、30%，總分為無條件進位至整數，如果學生退選則僅輸入學期成績w。</b><br>
+                &emsp;第N行：輸入課程編碼，學年度和學生人數，中間用空格隔開。<br>
+                &emsp;第N+1行：輸入修課學生1學號、課程學期成績和會考成績，中間用空格隔開。<br>
+                &emsp;第N+2行：輸入修課學生2學號、課程學期成績和會考成績，中間用空格隔開。<br>
+                …  <br>
+                最後1行：搜尋課程資料。<br>
+                &emsp;輸入想要搜尋的課程編碼。
+               
+                </td>
+                <td class="td">輸出分為以下三部分，每一部分中間無間隔。<br>
+                    1.	輸出各科系、各年級、每年的平均成績前三名的名次百分比與撤選百分比。<br>
+                    2.	輸出每個課程、每年所有非撤選學生的最高學期成績、平均學期成績、最低學期成績和課程的撤選百分比（無條件捨去至整數），前三名的成績和名次百分比。<br>
+                    3.	輸出在搜尋的學科編碼，歷年學期分數最高的前兩名學號和最多人數的科系。<br>                    
+                </td>   
+            </tr>
+        </table>
+        </section>
+
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br><br>
+        <p>各個部份的輸出規範如下：<br><br>
+            1.輸出各科系（編碼由小到大）、各年級（編碼由小到大）的每一學年（編碼由小到大）學年平均成績前三名的名次百分比和撤選百分比（無條件捨去至整數）。<br>某科系，某年級的某學年輸出如下：<br>
+            &emsp;第N行：科系編碼，年級編碼，學年，中間以一個空白隔開<br>
+            &emsp;第N+1行：第一名學生學號編碼，學年平均成績，名次百分比，撤選百分比，中間以一個空白隔開<br>
+            &emsp;第N+2行：第二名學生學號編碼，學年平均成績，名次百分比，撤選百分比，中間以一個空白隔開<br>
+            &emsp;第N+3行：第三名學生學號編碼，學年平均成績，名次百分比，撤選百分比，中間以一個空白隔開<br>
+           </p>
+        </section>
+
+        <section 
+        data-no="6"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br><br>
+        <p>2.輸出每個課程（編碼由小到大）每年（年份由小到大）所有非撤選學生的最高學期成績、平均學期成績（無條件捨去至整數）、最低學期成績和課程的撤選百分比（無條件捨去至整數），前三名的成績和名次百分比。<br>某年某課程的輸出如下：<br>
+            &emsp;第N行：課程編碼，學年，中間以一個空白隔開<br>
+            &emsp;第N+1行:最高學期成績，平均學期成績，最低學期成績，撤選百分比，中間以一個空隔開<br>
+            &emsp;第N+1行：第一名學生學號編碼，學期成績，名次百分比，中間以一個空白隔開<br>
+            &emsp;第N+2行：第二名學生學號編碼，學期成績，名次百分比，中間以一個空白隔開<br>
+            &emsp;第N+3行：第三名學生學號編碼，學期成績，名次百分比，中間以一個空白隔開<br><br>3.搜尋結果：
+            輸出課程歷年學期分數最高的前兩名學號和最多人數的科系<br>
+            &emsp;第N行:第一名學號編碼，第二名學號編碼，人數最多的科系編碼，人數第二多的科系編碼(如果沒有則不用輸出)，中間以一個空白隔開<br> </p>
+        </section>
+    </section>
+
+    <section>
+        <h3>Input/Output</h3><br> 
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <table class="table">
+            <tr>
+                <th class="th" style="font-size: 21px;">Sample Input 1</th>
+                <th class="th" style="font-size: 21px;">Outpue</th>
+            </tr>
+            <tr>
+              <td class="td" style="font-size: 21px;">2<br>
+                1013 1121 9<br>
+                11153001 59 63<br>
+                11153002 68 72<br>
+                11153003 39 64<br>
+                11153004 w<br>
+                11153005 68 82<br>
+                11253001 67 91<br>
+                11253002 78 92<br>
+                11253003 72 68<br>
+                11253004 91 76<br>
+                1214 1131 9<br>
+                11153001 63<br>
+                11153002 75<br>
+                11153003 82<br>
+                11153004 92<br>
+                11153005 83<br>
+                11253001 82<br>
+                11253002 79<br>
+                11253003 90<br>
+                11253004 70<br>
+                1013
+                <br>
+              </td>
+              <td class="td" style="font-size: 17px;">530 111 112<br>
+                11153005 73 1% 0%<br>
+                11153002 70 21% 0%<br>
+                11153001 61 41% 0%<br>
+                530 111 113<br>
+                11153004 92 1% 0%<br>
+                11153005 83 21% 0%<br>
+                11153003 82 41% 0%<br>
+                530 112 112<br>
+                11253004 87 1% 0%<br>
+                11253002 83 26% 0%<br>
+                11253001 75 51% 0%<br>
+                530 112 113<br>
+                11253003 90 1% 0%<br>
+                11253001 82 26% 0%<br>
+                11253002 79 51% 0%<br>
+                1013 112<br>
+                87 70 47 11%<br>
+                11253004 87 1%<br>
+                11253002 83 12%<br>
+                11253001 75 23%<br>
+                1214 113<br>
+                92 79 63 0%<br>
+                11153004 92 1%<br>
+                11253003 90 12%<br>
+                11153005 83 23%<br>
+                11253004 11253002 530<br>
+              </td>
+            </tr>
+        </table>
+        </section>
+
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p style="font-size: 23px;">範例輸入說明1：2 （課程數）<br>
+            1013 1121 9（課程編碼1013、112學年度上學期，學生數量9）<br>
+            11153001 59 63（學生入學年度111年，科系530，號碼01，課程學期成績59，會考成績63）<br>
+            11153002 68 72（學生入學年度111年，科系530，號碼02，課程學期成績68，會考成績62）<br>
+            11153003 39 64（學生入學年度111年，科系530，號碼03，課程學期成績39，會考成績64）<br>
+            11153004 w  （學生入學年度111年，科系530，號碼04，退選）<br>
+            11153005 68 82（學生入學年度111年，科系530，號碼05，課程學期成績68，會考成績82）<br>
+            11253001 67 91（學生入學年度112年，科系530，號碼01，課程學期成績67，會考成績91）<br>
+            11253002 78 92（學生入學年度112年，科系530，號碼02，課程學期成績78，會考成績92）<br>
+            11253003 72 68（學生入學年度112年，科系530，號碼03，課程學期成績72，會考成績68）<br>
+            11253004 91 76（學生入學年度112年，科系530，號碼04，課程學期成績91，會考成績76）<br>
+            1214 1131 9（課程編碼1214，113學年度上學期，學生數量9）<br>
+            11153001 63（學生入學年度111年，科系530，號碼01，學期成績63）<br>
+            11153002 75（學生入學年度111年，科系530，號碼02，學期成績75）<br>
+            11153003 82（學生入學年度111年，科系530，號碼03，學期成績82）<br>
+            11153004 92（學生入學年度111年，科系530，號碼04，學期成績92）<br>
+            11153005 83（學生入學年度111年，科系530，號碼05，學期成績83）<br>
+            11253001 82（學生入學年度112年，科系530，號碼01，學期成績82）<br>
+            11253002 79（學生入學年度112年，科系530，號碼02，學期成績79）<br>
+            11253003 90（學生入學年度112年，科系530，號碼03，學期成績90）<br>
+            11253004 70（學生入學年度112年，科系530，號碼04，學期成績70）<br>
+            1013（搜尋課程編碼1013歷年學期分數最高的前兩名學號和最多人數的科系）
+            </p>
+        </section>
+
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p style="font-size: 23px;">範例輸出說明1：<br>
+            530 111 112 （科系530，入學年度111，112年）<br>
+            11153005 73 1% 0% (112年課程:1013，1013成績=68*0.7+82*0.3=72.2且無條件進位至整數=73，學年成績=73*3/3=73，同科同年級總人數=5，學年平均成績排名=1，5*1%=0.05無條件進位至整數=1=排名，撤選百分比=該學年退選科目數量/該學年選修科目數量=0%)<br>
+            11153002 70 21% 0%
+            (112年課程:1013，1013成績=68*0.7+72*0.3=69.2且無條件進位至整數=70，學年成績=70*3/3=70，同科同年級總人數=5，學年平均成績排名=2，5*21%=1.05無條件進位至整數=2=排名，撤選百分比=該學年退選科目數量/該學年選修科目數量=0%)<br>
+            11153001 61 41% 0%
+            (112年課程:1013，1013成績:=59*0.7+63*0.3=60.2且無條件進位至整數=61，學年成績=61*3/3=61，同科同年級總人數=5，學年平均成績排名=3，5*41%=2.05無條件進位至整數=3=排名，撤選百分比=該學年退選科目數量/該學年選修科目數量=0%)<br>
+            530 111 113（科系530，入學年度111，113年）<br>
+            11153004 92 1% 0%
+            (113年課程:1214，1214成績=92，學年成績=92*4/4=92，同科同年級總人數=5，學年平均成績排名=1，5*1%=0.05無條件進位至整數=1=排名，撤選百分比=該學年退選科目數量/該學年選修科目數量=0%)<br>
+            11153005 83 21% 0%
+            (113年課程:1214，1214成績=83，學年成績=83*4/4=83，同科同年級總人數=5，學年平均成績排名=2，5*21%=1.05無條件進位至整數=2=排名，撤選百分比=該學年退選科目數量/該學年選修科目數量=0%)<br>
+            11153003 82 41% 0%
+            (113年課程:1214，1214成績=82，學年成績=82*4/4=82，同科同年級總人數=5，學年平均成績排名=3，5*41%=2.05無條件進位至整數=3=排名，撤選百分比=該學年退選科目數量/該學年選修科目數量=0%)<br>
+        </p>
+        </section>
+
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p style="font-size: 23px;">範例輸出說明1：<br>530 112 112（科系530，入學年度112，112年）<br>
+            11253004 87 1% 0%
+            (112年課程:1013，1214成績=91*0.7+76*0.3=86.5且無條件進位=87，學年成績=87*3/3=87，同科同年級總人數=4，學年平均成績排名=1，4*1%=0.04無條件進位至整數=1=排名，撤選百分比=該學年退選科目數量/該學年選修科目數量=0%)<br>
+            11253002 83 26% 0%
+            (112年課程:1013，1214成績=78*0.7+92*0.3=82.2且無條件進位=83，學年成績=83*3/3=83，同科同年級總人數=4，學年平均成績排名=2，4*26%=1.04無條件進位至整數=2=排名，撤選百分比=該學年退選科目數量/該學年選修科目數量=0%)<br>
+            11253001 75 51% 0%
+            (112年課程:1013，1214成績=59*0.7+63*0.3=74.2且無條件進位=75，學年成績=75*3/3=83，同科同年級總人數=4，學年平均成績排名=3，4*51%=2.05無條件進位至整數=3=排名，撤選百分比=該學年退選科目數量/該學年選修科目數量=0%)<br>
+            530 112 113（科系530，入學年度112，113年）<br>
+            11253003 90 1% 0%
+            (113年課程:1214，1214成績=90，學年成績=90*4/4=90，同科同年級總人數=4，學年平均成績排名=1，4*1%=0.04無條件進位至整數=1=排名，撤選百分比=該學年退選科目數量/該學年選修科目數量=0%)<br>
+            11253001 82 26% 0%
+            (113年課程:1214，1214成績=82，學年成績=82*4/4=82，同科同年級總人數=4，學年平均成績排名=2，4*26%=1.04無條件進位至整數=2=排名，撤選百分比=該學年退選科目數量/該學年選修科目數量=0%)<br>
+            11253002 79 51% 0%
+            (113年課程:1214，1214成績=79，學年成績=79*4/4=79，同科同年級總人數=4，學年平均成績排名=3，4*51%=2.04無條件進位至整數=3=排名，撤選百分比=該學年退選科目數量/該學年選修科目數量=0%)<br>
+            1013 112（課程1013，112年）<br></p>
+        </section>
+
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <p style="font-size: 23px;">範例輸出說明1：<br>
+          87 70 47 11%（最高學期成績87，平均學期成績70，最低學期成績47，撤選百分比11%）<br>
+          11253004 87 1%（學期成績第一名11253004，學期成績87，名次百分比1%）<br>
+          11253002 83 12%（學期成績第二名11253002，學期成績83，名次百分比12%）<br>
+          11253001 75 23%（學期成績第三名11253001，學期成績75，名次百分比23%）<br>
+          1214 113（課程1214，113年）<br>
+          92 79 63 0%（最高學期成績92，平均學期成績79，最低學期成績63，撤選百分比0%）<br>
+          11153004 92 1%（學期成績第一名11153004，學期成績92，名次百分比1%）<br>
+          11153003 90 12%（學期成績第二名11153003，學期成績90，名次百分比12%）<br>
+          11153005 83 23%（學期成績第三名11153003，學期成績82，名次百分比23%）<br>
+          11253004 11253002 530（課程編碼1013，歷年學期成績第一名11253004，歷年學期第二名11253002，最多人數科系編碼530）
+        </p>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <b>下一頁還有輸入資料!!!</b>
+          <table>
+            <tr>
+                <th class="th">Sample Input 2</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td" style="font-size: 20px;">2<br>
+                    1012 1101 17<br>
+                    11029301 72 63<br>
+                    11029302 64 72<br>
+                    11029303 65 75<br>
+                    11029307 72 81<br>
+                    11029308 85 83<br>
+                    11029309 75 72<br>
+                    11029310 86 77<br>
+                    11029311 83 79<br>
+                    11029312 76 75<br>
+                    11029313 82 74<br>
+                    11029314 85 73<br>
+                    11029315 89 72<br>
+                    11029316 75 65<br>
+                    11029317 83 72<br>
+                    11029319 84 56<br>
+                    11029320 82 73<br>
+                    11029321 89 92<br>
+                    1021 1102 20<br>
+                    11029301 92<br>
+                   
+                    
+                </td>
+                <td class="td">293 110 110<br>
+                    11029308 88 1% 0%<br>
+                    11029306 85 6% 0%<br>
+                    11029310 84 11% 0%<br>
+                    1012 110<br>
+                    90 78 67 0%<br>
+                    11029321 90 1%<br>
+                    11029308 85 6%<br>
+                    11029310 84 12%<br>
+                    1021 110<br>
+                    95 80 53 5%<br>
+                    11029308 95 1%<br>
+                    11029301 92 6%<br>
+                    11029307 92 11%<br>
+                    11029321 11029308 293<br>
+                </td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <b>接續上一頁!!!</b>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input 2</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td" style="font-size: 22px;">
+                    11029302 53<br>
+                    11029303 57<br>
+                    11029304 66<br>
+                    11029305 82<br>
+                    11029306 85<br>
+                    11029307 92<br>
+                    11029308 95<br>
+                    11029309 82<br>
+                    11029310 86<br>
+                    11029311 82<br>
+                    11029312 86<br>
+                    11029313 89<br>
+                    11029314 87<br>
+                    11029315 85<br>
+                    11029316 86<br>
+                    11029317 73<br>
+                    11029319 w<br>
+                    11029320 76<br>
+                    11029321 74<br>
+                    1012
+                </td>
+                <td class="td"></td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <b>下一頁還有!!!</b>
+          <table>
+            <tr>
+                <th class="th">Sample Input 3</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td" style="font-size: 18px;">3<br>
+                    1033 1132 17<br>
+                    11263001 65<br>
+                    11263002 67<br>
+                    11263003 68<br>
+                    11263004 73<br>
+                    11263005 69<br>
+                    11263006 83<br>
+                    11363001 92<br>
+                    11363002 59<br>
+                    11363003 88<br>
+                    11363004 95<br>
+                    11363005 76<br>
+                    11363006 82<br>
+                    11363007 62<br>
+                    11363008 w<br>
+                    11363009 59<br>
+                    11363010 87<br>
+                    11363011 72<br>
+                    1033 1142 9<br>
+                    11363001 83<br>
+                    11363002 92<br>
+                    11363003 70<br>
+                    11363004 60<br>
+                    11363005 81<br>
+                </td>
+                <td class="td">630 112 113<br> 
+                    11263006 83 1% 0%<br> 
+                    11263004 73 17% 0%<br> 
+                    11263005 69 34% 0%<br> 
+                    630 112 114<br> 
+                    11263002 95 1% 0%<br> 
+                    11263001 82 17% 0%<br> 
+                    11263004 81 34% 0%<br> 
+                    630 113 113<br> 
+                    11363004 95 1% 0%<br> 
+                    11363001 92 10% 0%<br> 
+                    11363003 88 19% 0%<br> 
+                    630 113 114<br> 
+                    11363010 92 1% 0%<br> 
+                    11363002 90 10% 0%<br> 
+                    11363005 86 19% 0%<br> 
+                    1033 113<br>                 
+                </td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <b>接續上一頁!!!</b>
+          <table class="table">
+            <tr>
+                <th class="th">Sample Input 3</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td" style="font-size: 18px;">   
+                    11363006 59<br>
+                    11363007 66<br>
+                    11363008 75<br>
+                    11363009 71<br>
+                    1072 1141 17<br>
+                    11263001 82<br>
+                    11263002 95<br>
+                    11263003 78<br>
+                    11263004 81<br>
+                    11263005 77<br>
+                    11263006 53<br>
+                    11363001 86<br>
+                    11363002 88<br>
+                    11363003 87<br>
+                    11363004 72<br>
+                    11363005 95<br>
+                    11363006 78<br>
+                    11363007 83<br>
+                    11363008 92<br>
+                    11363009 83<br>
+                    11363010 92<br>
+                    11363011 75<br>
+                    1033<br>
+                </td>
+                <td class="td">95 74 59 5%<br> 
+                    11363004 95 1%<br> 
+                    11363001 92 6%<br> 
+                    11363003 88 12%<br> 
+                    1033 114<br> 
+                    92 73 59 0%<br> 
+                    11363002 92 1%<br> 
+                    11363001 83 12%<br> 
+                    11363005 81 23%<br> 
+                    1072 114<br> 
+                    95 82 53 0%<br> 
+                    11263002 95 1%<br> 
+                    11363005 95 6%<br> 
+                    11363008 92 12%<br> 
+                    11363004 11363001 630<br>                    
+                </td>
+            </tr>
+          </table>
+        </section>
+
+        <section data-auto-animate
+        data-no="6" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left"><br>
+        <b>下一頁還有輸入資料!!!</b>
+        <table>
+          <tr>
+              <th class="th">Sample Input 4</th>
+              <th class="th">Outpue</th>
+          </tr>
+          <tr>
+              <td class="td">
+                3<br>
+                1012 1121 11<br>
+                11252001 62 78<br>
+                11252002 56 93<br>
+                11252003 85 64<br>
+                11252004 92 71<br>
+                11252005 83 72<br>
+                11252006 73 64<br>
+                11252007 81 63<br>
+                11252101 63 59<br>
+                11252102 73 64<br>
+                11252103 82 94<br>
+                11252104 75 64<br>
+                2012 1131 11<br>
+                11252001 82 94<br>
+                11252002 72 64<br>         
+              </td>
+              <td class="td">520 112 112<br>
+                11252004 86 1% 0%<br>
+                11252005 80 15% 0%<br>
+                11252003 79 29% 0%<br>
+                520 112 113<br>
+                11252003 83 1% 0%<br>
+                11252005 78 15% 0%<br>
+                11252004 76 29% 0%<br>
+                521 112 112<br>
+                11252103 86 1% 0%<br>
+                11252104 72 26% 0%<br>
+                11252102 71 51% 0%<br>
+                521 112 113<br>
+                11252104 86 1% 0%<br>
+                11252102 84 26% 0%<br>
+                11252103 84 51% 0%<br>
+                1012 112<br>
+                
+                </td>
+          </tr>
+        </table>
+      </section>
+
+      <section data-auto-animate
+          data-no="6" 
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"
+          style="text-align: left"><br>
+          <b>接續上一頁!!!</b>
+          <table class="table" style="font-size: 23px;">
+            <tr>
+                <th class="th">Sample Input 4</th>
+                <th class="th">Outpue</th>
+            </tr>
+            <tr>
+                <td class="td"> 11252003 92 71<br>
+                11252004 61 89<br>
+                11252005 69 96<br>
+                11252006 74 63<br>
+                11252007 32 69<br>
+                11252101 81 92<br>  
+                11252102 70 65<br>
+                11252103 80 64<br>
+                11252104 75 68<br>
+                1035 1132 8<br>
+                11252001 53<br>
+                11252002 69<br>
+                11252003 82<br>
+                11252004 79<br>
+                11252101 83<br>
+                11252102 90<br>
+                11252103 88<br>
+                11252104 92<br>
+                1012      
+                </td>
+                <td class="td">86 74 62 0%<br>
+                    11252004 86 1%<br>
+                    11252103 86 10%<br>
+                    11252005 80 19%<br>
+                    1035 113<br>
+                    92 79 53 0%<br>
+                    11252104 92 1%<br>
+                    11252102 90 13%<br>
+                    11252103 88 26%<br>
+                    2012 113<br>
+                    86 73 44 0%<br>
+                    11252001 86 1%<br>
+                    11252003 86 10%<br>
+                    11252101 85 19%<br>
+                    11252004 11252103 520 521                   
+                </td>
+            </tr>
+          </table>
+        </section>
+    </section>
+
+      <section>
+        <h3>Hints</h3>
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <p>處理輸入的資料</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        def data_input():
+         #輸入課程數
+
+         #初始化字典
+         department_dictionary = {}  #存各科系學生名單
+         department_year_dictionary = {}  #存各科系所有年級
+         students_grade_dictionary = {}  #存每位學生的各項成績
+         class_year_dictionary = {}  #存每年課程
+         classes_directory={} #存每堂課學生資料
+         for i in range(a):
+          classContentInput(...) #處理輸入的課程資訊與學生成績資料
+
+         #統整完存入變數dictionary
+         #這個字典每個key的value是一個字典
+         dictionary={
+          "departments_students":department_dictionary,
+          "departments_years":department_year_dictionary,
+          "students_grade":students_grade_dictionary,
+          "years_classes":class_year_dictionary,
+          "classes_student":classes_directory
+         }
+        
+         return dictionary
+          </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <p>處理輸入的課程資訊與學生成績資料</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        def classContentInput(...):
+         #輸入課程資訊
+         #取得課程編號與學年度(沒有上下學期)
+         addInDictionary(class_year_dictionary,...) #將key:學年度與vlaue:課程編碼加到class_year_dictionary
+         for i in range(學生數量):
+          #輸入學生成績資料
+          #將輸入的資料以空格分隔，存入 temp_content 列表
+          #取得學生入學年度,科系編碼,整個學號
+          #取得學生學期成績
+          addInDictionary(department_dictionary,...) #將key:學生科系編碼與value:學號加到department_dictionary
+          addInDictionary(department_year_dictionary, ...) #將key:學生科系編碼與value:學生入學年度加到department_year_dictionary
+          if ((課程編碼的學科編碼不是101跟201) 或 學生學期成績是w): #代表學生的成績資料只會有一個   
+           addInDictionary(students_grade_dictionary, ...) #將key:學生學號與vlaue:[課程編碼(四碼),學期編碼的學年度(三碼),學生學期成績]加到students_grade_dictionary
+           addInDictionary(classes_directory,...) #將key:課程編碼 學期編碼的學年度與vlaue:[學號,學期成績]加到classes_directory
+          else:
+           #students_grade_dictionary跟classes_directory的vlaue的list多加一個會考成績
+           addInDictionary(students_grade_dictionary, ...,
+                        [..., temp_content[2]])
+           addInDictionary(classes_directory, ..., [...,temp_content[2]]) 
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <p>輸入資料加入字典</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        def addInDictionary(dictionary, key, item):
+         if 字典沒有這個key:
+          #在字典中新增這個key，並將 item 放入對應的值 (以列表形式儲存)
+         if item不在該列表中:
+          #將item新增到列表中       
+        </code></pre>
+        <p style="font-size: 22px;">dictionary的結構(用Sample Input 1舉例):<br>
+        {<b>'departments_students'</b>: {'530': ['11153001', '11153002', '11153003', '11153004', '11153005', '11253001', '11253002', '11253003', '11253004']},<b>'departments_years'</b>: {'530': ['111', '112']},<b> 'students_grade'</b>: {'11153001': [['1013', '112', '59', '63'], ['1214', '113', '63']], '11153002': [['1013', '112', '68', '72'], ['1214', '113', '75']], '11153003': [['1013', '112', '39', '64'], ['1214', '113', '82']], '11153004': [['1013', '112', 'w'], ['1214', '113', '92']], '11153005': [['1013', '112', '68', '82'], ['1214', '113', '83']], '11253001': [['1013', '112', '67', '91'], ['1214', '113', '82']], '11253002': [['1013', '112', '78', '92'], ['1214', '113', '79']], '11253003': [['1013', '112', '72', '68'], ['1214', '113', '90']], '11253004': [['1013', '112', '91', '76'], ['1214', '113', '70']]},<b> 'years_classes'</b>: {'112': ['1013'], '113': ['1214']},<b> 'classes_student'</b>: {'1013 112': [['11153001', '59', '63'], ['11153002', '68', '72'], ['11153003', '39', '64'], ['11153004', 'w'], ['11153005', '68', '82'], ['11253001', '67', '91'], ['11253002', '78', '92'], ['11253003', '72', '68'], ['11253004', '91', '76']], '1214 113': [['11153001', '63'], ['11153002', '75'], ['11153003', '82'], ['11153004', '92'], ['11153005', '83'], ['11253001', '82'], ['11253002', '79'], ['11253003', '90'], ['11253004', '70']]}}</p>
+        </section>
+    </section>
+
+    <section>
+        <h3>排序-Sorted函數</h3>
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <p>函式 sorted 的使用：<br>語法：<b>sorted(串列名稱, reverse=False, key=rule_fn)</b><br>
+        第一個參數是要排序的串列名稱，需注意要用來排序的串列內容必須都是相同型態的元素。<br>
+        第二個參數reverse決定是否要反轉，預設是 False，就是由小到大排，反之，當 reverse=True 時則代表這個串列要由大到小排。<br>
+        第三個參數key，是指要用來排序的規則。當串列是一個數字串列時（意即元素型態皆為 int 或是 float 這類的數值型態），預設的規則就是依照數值大小進行排序；而當串列的元素都是字串 str 時，預設的規則是字母順序，也就是英文字典的排序規則。<br>
+        reverse跟key都不是必要的參數，再不設定的情況底下都會有內建的預設值，而是當有需要使用到時再設定即可。<br>
+        sorted()函數會回傳一個經排序後的list，並不會改變list本身的值。因此，如果需要使用排序過後的串列，需要另外使用一個變數來接著這個回傳的有序串列。</p>
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <p>一、整數串列排序</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        student_grade = [80,75,90,55,76]
+        student_grade_list = sorted(student_grade)
+        print(student_grade_list)
+        student_grade_reverse = sorted(student_grade, reverse = True)
+        print(student_grade_reverse)
+        </code></pre>
+        <p>輸出：[55, 75, 76, 80, 90]<br>
+        &emsp;&emsp;&emsp;[90, 80, 76, 75, 55]</p>
+        </section>
+
+        <section data-auto-animate
+        data-no="17" 
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"
+        style="text-align: left;"><br>
+        <p>二、字典排序</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        years_classes={'112': ['1013'], '113': ['1214'], '110':['2013']}
+        years_classes_list = sorted(years_classes)
+        print(years_classes_list)
+        </code></pre>
+        <p>&emsp;輸出：['110', '112', '113']<br>&emsp;會排序字典的key。<br><br>&emsp;如果要排序字典的value</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        for i in years_classes_list:
+            value_list = sorted(years_classes[i], reverse=True)
+            print(value_list)
+        </code></pre>
+        <p>&emsp;輸出：['2013']<br>
+        &emsp;&emsp;&emsp;&emsp;['1013']<br>
+        &emsp;&emsp;&emsp;&emsp;['1214']
+        </p>
+        </section>
+    </section>
+
+    <section>
+      <h3>lambda 匿名函式</h3>
+      <section data-auto-animate
+      data-no="17" 
+      data-positionx="0.8" 
+      data-positiony="0.03" 
+      data-scale="1" 
+      data-motionno="0"
+      style="text-align: left;"><br>
+      <p>不需要定義函式名稱的一種函式。它的功能就像是使用def的方式一樣，只是寫法上更為簡潔，可以寫在行內，在使用前不需要先把函式綁定在一個特定的名稱上。<br>
+      Lambda函式只能有一行運算式，一般函式(Function)可以有多行運算式。<br><br>語法：<b>func = lambda 參數1, 參數2, ... : 運算式</b><br><br>
+      對應到一般函式：<br></p>
+      <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+      def func(參數1, 參數2, ...):
+        運算式
+        return 回傳值
+      </code></pre>
+      </section>
+
+      <section data-auto-animate
+      data-no="17" 
+      data-positionx="0.8" 
+      data-positiony="0.03" 
+      data-scale="1" 
+      data-motionno="0"
+      style="text-align: left;"><br>
+      <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+      students = [
+      ['Joey', 'A', 15],
+      ['Monica', 'B', 10],
+      ['Ross', 'C', 8],
+      ['Rachel', 'B', 12]
+      ]
+      student_sort = sorted(students, key = lambda student : student[2])
+      print(student_sort)
+      </code></pre>
+      <p>輸出：[['Ross', 'C', 8], ['Monica', 'B', 10], ['Rachel', 'B', 12], ['Joey', 'A', 15]]<br><br>
+      會由小到大排序students每個子列表的索引2的元素</p>
+      </section>
+    </section>
+
+    <section>
+      <h3>filter篩選函式</h3>
+      <section data-auto-animate
+      data-no="17" 
+      data-positionx="0.8" 
+      data-positiony="0.03" 
+      data-scale="1" 
+      data-motionno="0"
+      style="text-align: left;"><br>
+      <p>語法：<b>filter(function, sequence)</b><br><br>
+        filter()函數用來篩選序列，過濾掉不符合條件的元素，傳回由符合條件元素組成的新列表。
+        此接收兩個參數，第一個為函數，第二個為序列，序列的每個元素作為參數傳遞給函數進行判斷，然後傳回True或False，最後將傳回True 的元素放到新列表中。</p>
+      <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>  
+      students_grade = {'11153001': [['1013', '112', '59', '63'], ['1214', '113', '63']], 
+      '11153002': [['1013', '112', '68', '72'], ['1214', '113', '75']], 
+      '11153003': [['1013', '112', '39', '64'], ['1214', '113', '82']], 
+      '11153004': [['1013', '112', 'w'], ['1214', '113', '92']], 
+      '11153005': [['1013', '112', '68', '82'], ['1214', '113', '83']]
+      }
+      #篩選出沒有退選的學生
+      students = dict(filter(lambda item: all('w' not in value for sublist in item[1] for value in sublist), students_grade.items()))
+      print(students)
+      </code></pre>
+      <p>輸出：{'11153001': [['1013', '112', '59', '63'], ['1214', '113', '63']], '11153002': [['1013', '112', '68', '72'], ['1214', '113', '75']], '11153003': [['1013', '112', '39', '64'], ['1214', '113', '82']], '11153005': [['1013', '112', '68', '82'], ['1214', '113', '83']]}</p>
+      </section>
+    </section>
+
+    <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+            data-no="8"
+            data-positionx="0.8" 
+            data-positiony="0.03" 
+            data-scale="1" 
+            data-motionno="0">
+            <font size=6>主程式</font>
+            <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+            import math
+            def main():
+                dictionary = data_input()
+                search_content = input().split()
+                getEachDepartmentContent(dictionary)
+                getEachClass(dictionary["classes_student"])
+                getHistoryHigh(dictionary,search_content)
+              </code></pre>
+          </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-data_input():處理輸入的資料</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def data_input():
+            a = int(input()) #輸入課程數
+            department_dictionary = {}  # 存各科系學生名單
+            department_year_dictionary = {}  # 存放各科系所有年級
+            students_grade_dictionary = {}  # 存每位學生的各項成績
+            class_year_dictionary = {}  # 存放每年課程
+            classes_directory={}#存每堂課學生資料
+            for i in range(a):
+                classContentInput(class_year_dictionary, department_dictionary, department_year_dictionary
+                                  , students_grade_dictionary,classes_directory)
+            dictionary={
+                "departments_students":department_dictionary,
+                "departments_years":department_year_dictionary,
+                "students_grade":students_grade_dictionary,
+                "years_classes":class_year_dictionary,
+                "classes_student":classes_directory
+            }
+            return dictionary
+              return result
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-classContentInput():處理輸入的課程資訊與學生成績資料</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers="1-8|10-19|21-31|1-31" class="language-python">
+          def classContentInput(class_year_dictionary, department_dictionary,
+                                department_year_dictionary, students_grade_dictionary,classes_directory):
+              #輸入課程資訊，用空格分割字串，存到變數class_infor
+              class_infor = input().split(" ") 
+              #取得課程編碼與學年度三碼(沒有上下學期)
+              class_name, class_year = class_infor[0], class_infor[1][:3] 
+              #將key:學年度與vlaue:課程編碼加到class_year_dictionary
+              addInDictionary(class_year_dictionary, class_year, class_name) 
+
+              for i in range(int(class_infor[2])): #class_infor[2]是學生數量
+                  content=input() #輸入學生成績資料
+                  temp_content = content.split(" ") #將輸入的資料以空格分隔，存入 temp_content 列表
+                  #取得學生入學年度,科系編碼,完整學號
+                  student_year, student_department, student_number = temp_content[0][:3], temp_content[0][3:6], temp_content[0] 
+                  student_grade = temp_content[1] #取得學生學期成績
+                  #將key:學生科系編碼與value:學號加到department_dictionary
+                  addInDictionary(department_dictionary, student_department, student_number) 
+                  #將key:學生科系編碼與value:學生入學年度加到department_year_dictionary
+                  addInDictionary(department_year_dictionary, student_department, student_year) 
+
+                  #如果課程編碼中的學科編碼(前三碼)不是101跟201 或 學生學期成績是w
+                  #非國文一跟英文一的課程只會有學期成績
+                  if ((class_name[:3] != "101" and class_name[:3] != "201") or student_grade == "w"):
+                      #將key:學生學號與vlaue:[課程編碼(四碼),學期編碼的學年度(三碼),學生學期成績]加到students_grade_dictionary
+                      addInDictionary(students_grade_dictionary, student_number, [class_name, class_year, student_grade]) 
+                      #將key:課程編碼 學期編碼的學年度與vlaue:[學號,學期成績]加到classes_directory
+                      addInDictionary(classes_directory, class_name+" "+class_year, [student_number, student_grade]) 
+                  else: #國文一及英文一的課程會多加一個會考成績
+                      addInDictionary(students_grade_dictionary, student_number,
+                                      [class_name, class_year, student_grade, temp_content[2]])
+                      addInDictionary(classes_directory, class_name+" "+class_year, [student_number, student_grade,temp_content[2]])
+        </code></pre>
+        </section>
+
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <font size=6>副程式-addInDictionary():將輸入資料加入字典</font>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
+        def addInDictionary(dictionary, key, item):
+            #如果字典沒有這個key
+            if (key not in dictionary): 
+                #在字典中新增這個key，並將 item 放入對應的值 (以列表形式儲存)
+                dictionary[key] = [item]
+            #如果item不在該列表中
+            if (item not in dictionary[key]):
+                #將item新增到列表中
+                dictionary[key].append(item)
+        </code></pre>
+        </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <p>副程式-getEachDepartmentContent()、getEachDepartmentYear()、getEachYear()、getEachContent()、
+          getPercentage()、getEachGrade()、compute101and201()
+        </p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-16|18-26|28-38|40-52|69-93|103-106|92-101|53-67|108-117|1-117" class="language-python">
+        def getEachDepartmentContent(dictionary):
+            #由小到大排序科系編碼
+            department_year_list=sorted(dictionary["departments_years"],key=lambda x:x)
+            for i in department_year_list:
+                #排序每個科系學生入學年度
+                dictionary["departments_years"][i]=sorted(dictionary["departments_years"][i]) 
+            for i in department_year_list:
+                #在dictionary新增一個key是"department_name"，對應的value是i
+                #代表當前處理的科系編碼
+                dictionary["department_name"]=i 
+        
+                #在dictionary新增一個key是"department_years"， 對應的value是dictionary["departments_years"][i]的value
+                #代表該科系的所有學生入學年度列表
+                dictionary["department_years"]=dictionary["departments_years"][i] 
+                #處理科系與學生入學年度
+                getEachDepartmentYear(dictionary)
+      
+        def getEachDepartmentYear(dictionary):
+            #遍歷該科系的所有學生入學年度
+            for i in dictionary["department_years"]:
+        
+                #新增一個key是"department_year"，對應的value是i
+                #代表當前處理的學生入學年度
+                dictionary["department_year"]=i 
+                #處理課程年度
+                getEachYear(dictionary)
+      
+        def getEachYear(dictionary):
+            #排序課程學年度
+            class_year_list = sorted((dictionary["years_classes"]), key=lambda x: x) 
+            for i in class_year_list: #遍歷課程學年度
+                #新增一個key是"class_year"
+                #代表當前處理的課程學年度
+                dictionary["class_year"]=i 
+                #新增一個key是"classes"，對應的value是dictionary["years_classes"][i]的value
+                #代表該課程學年度的課程編碼
+                dictionary["classes"]=dictionary["years_classes"][i]
+                getEachContent(dictionary)
+      
+        def getEachContent(dictionary):
+            #從dictionary["departments_students"][dictionary["department_name"]](也就是該科系每個學生的學號)篩選出符合條件的學生
+            #學生學號的前三碼跟dictionary["department_year"]的value(當前處理的學生入學年度)是相同的
+            #符合該學生入學年度
+            all_student = list(filter(lambda x: True if (x[:3] == dictionary["department_year"]) else False
+                                      ,dictionary["departments_students"][dictionary["department_name"]]))
+          
+            all_student_computed_infor = [] #存計算後的學生徹選百分比、學年成績
+            for i in all_student: #遍歷所有符合該學生入學年度的學號
+                temp = [i] #先將當前的學生學號暫存在temp列表中
+                #getEachGrade()傳入的變數(dictionary["students_grade"][當前學生學號]的value, 當前處理的課程學年度, 該課程學年度的課程編碼, 符合條件的學生人數)
+                #回傳的結果-have_grade:True or False, content=[學生撤選百分比,學年成績]
+                have_grade,content=getEachGrade(dictionary["students_grade"][i], dictionary["class_year"], dictionary["classes"],len(all_student))
+                #如果have_grade是True
+                if(have_grade):
+                    temp.append(content)
+                    #all_student_computed_infor的結構:[['11153001', ['0%', 61]], ['11153002', ['0%', 70]], ['11153003', ['0%', 47]], ['11153005', ['0%', 73]]]
+                    all_student_computed_infor.append(temp)
+            #將學生的學年成績由高到低排序
+            #sorted_grade: [['11153005', ['0%', 73]], ['11153002', ['0%', 70]], ['11153001', ['0%', 61]], ['11153003', ['0%', 47]]]
+            sorted_grade = sorted(all_student_computed_infor, key=lambda x: x[1][1], reverse=True) 
+            if(len(sorted_grade)!=0):
+                #印出 科系,當前處理的學生入學年度,當前處理的課程學年度
+                print(dictionary["department_name"],dictionary["department_year"],dictionary["class_year"])
+                for i in range(3 if(len(sorted_grade)>=3) else len(sorted_grade)):
+                    #利用for迴圈只印出前三名的(學號,學年成績,名次百分比,學生撤選百分比)
+                    print(sorted_grade[i][0], sorted_grade[i][1][1], getPercentage(i+1,len(all_student)),
+                          sorted_grade[i][1][0])
+
+        def getEachGrade(scores, class_year, classes,student_nums):
+            count1 = 0 #用來計算總成績
+            count2 = 0 #紀錄課程學分數
+            back = 0  #紀錄該學年退選科目數量
+            class_count = 0 #紀錄該學年選修科目數量
+            recorded_num=0 #紀錄有無成績資訊
+            for i in classes: #遍歷該課程學年度的課程編碼
+                #從scores篩選出符合該課程學年度的課程編碼跟課程學年度
+                #scores會是dictionary["students_grade"][當前學生學號]的value
+                #假如 scores = [['1013', '112', '59', '63'], ['1214', '113', '63']] 
+                #當前課程學年度的課程編碼:1013、當前課程學年度:112
+                #就會篩選出 temp = [['1013', '112', '59', '63']]
+                temp = list(filter(lambda x: True if (x[0] == i and x[1] == class_year) else False, scores))
+                if (len(temp) == 0):
+                    continue #跳過本次迴圈
+                if (temp[0][2] == "w"):
+                    back += 1 
+                    continue #跳過本次迴圈
+                recorded_num+=1
+                #代表不是國文一跟英文一，成績直接乘上學分數
+                if (len(temp[0]) == 3):
+                    count1 += int(temp[0][2]) * int(i[-1])
+                elif (len(temp[0]) == 4):
+                    #計算課程學期成績和會考成績，分別占比70%、30%，總分為無條件進位至整數
+                    count1 += compute101and201(temp[0][2],temp[0][3]) * int(i[-1])
+                
+                count2 += int(i[-1])
+                class_count += 1
+            if(recorded_num==0):
+                return False,0
+            #計算學年成績
+            result = math.floor(count1 / count2) if(count2!=0) else 0
+            return True,[str(math.floor(back / (class_count+back) * 100) if(class_count!=0)else 0) + "%", result]
+      
+        def compute101and201(grades1,grades2):
+            temp=int(grades1)*70+int(grades2)*30
+            result=temp//100
+            return result if(temp%100==0) else result+1
+
+        def getPercentage(rank,total_num):
+            school_rank=rank
+            percentage=1
+            #算出percentage要多少才會讓school_rank*100 <= total_num*percentage+99
+            for i in range(100):
+                if(school_rank*100<=total_num*percentage+99):
+                    return str(percentage)+"%"
+                
+                percentage+=1
+            return str(percentage)+"%"
+        </code></pre>
+        </section>
+    </section>
+
+    <section>
+      <h3 >解答</h3>
+        <section data-auto-animate
+        data-no="8"
+        data-positionx="0.8" 
+        data-positiony="0.03" 
+        data-scale="1" 
+        data-motionno="0"><br><br>
+        <p>副程式-getEachClass()、getGrade()、getMean()、printFirst3()</p>
+        <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-9|18-35|9-14|37-42|15-16|44-47|1-47" class="language-python">
+        def getEachClass(class_dictionary):
+            #由小到大排序dictionary["classes_student"]的value(也就是'課程編碼 課程學年度')
+            class_dictionary_list=sorted(class_dictionary,key=lambda x:x.split(" ")[1])
+            class_dictionary_list=sorted(class_dictionary_list,key=lambda x:x.split(" ")[0])
+            for i in class_dictionary_list: #遍歷class_dictionary_list
+                print(i)
+                #getGrade()傳入的變數(包含學生學號、成績的二維list, 如果課程編碼前三碼是101或202，就回傳2，否則回傳1)
+                #會回傳w_count:退選人數、student_score:[[學期成績,學號],...]、pure_score:[學期成績1,...]
+                w_count,student_score,pure_score=getGrade(class_dictionary[i],2 if(i[:3]=="101" or i[:3]=="201") else 1)
+                #將student_score的學期成績由高到低排序
+                student_score=sorted(student_score,key=lambda x:x[0],reverse=True) 
+                #印出(最高學期成績,平均學期成績,最低學期成績,課程撤選百分比)
+                print(max(pure_score),getMean(pure_score),min(pure_score)
+                      ,str(w_count*100//(w_count+len(pure_score)))+"%")
+                #呼叫印出前三名的函式
+                printFirst3(student_score,w_count)
+      
+        def getGrade(list,num):
+            w_count = 0 #計算有退選的數量
+            result = []
+            pure_grade_result=[] 
+            list=sorted(list,key=lambda x:x[0]) #將list裡的學號由小到大排序
+            for i in list:
+                #如果沒有退選
+                if(i[1]!="w"):
+                    #[如果num是1(代表非國文一跟英文一)，直接回傳學期成績，否則呼叫compute101and201()計算學期與會考成績,
+                    # 學號]
+                    #result的結構: [[61, '11153001'], [70, '11153002'], [47, '11153003'], [73, '11153005'], [75, '11253001'], [83, '11253002'], [71, '11253003'], [87, '11253004']]  
+                    result.append([int(i[1]) if(num==1) else compute101and201(i[1],i[2]),i[0]])
+                    #放純成績的list
+                    #pure_grade_result的結構:[61, 70, 47, 73, 75, 83, 71, 87]
+                    pure_grade_result.append(int(i[1]) if(num==1) else compute101and201(i[1],i[2]))
+                else: #有退選
+                    w_count+=1 
+            return w_count,result,pure_grade_result
+        
+        def getMean(lst):
+            result=0
+            for i in lst:
+                #累加lst的學期成績
+                result+=i
+            return result //len(lst)
+        
+        def printFirst3(student_score,w_count):
+            for i in range(3 if(len(student_score)>=3)else len(student_score)):
+                #印出前三名的(學號,學期成績,名次百分比)
+                print(student_score[i][1],student_score[i][0],getPercentage(i+1,len(student_score)+w_count))
+        </code></pre>
+        </section>
+      </section>
+
+      <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0"><br><br>
+          <p>副程式-getHistoryHigh():根據搜尋的課程編碼，找出歷年學期分數最高的前兩名學號和最多人數的科系</p>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers="1-11|12-22|23-29|30-37|1-37" class="language-python">
+          def getHistoryHigh(dictionary,search_content):
+              #篩選出dictionary["classes_student"]的value -> 是一個字典 -> 它的key(課程編碼 課程學年度)
+              # x.split(" ")[0]:課程編碼 等於 搜尋課程編碼
+              classes = list(filter(lambda x: True if (x.split(" ")[0] == search_content[0]) else False
+                          ,dictionary["classes_student"]))
+              students=[]
+              # print(classes)
+              for i in classes:
+                  #取得篩選出符合條件的key(課程編碼 課程學年度)的value
+                  #students的結構:[['11153001', '59', '63'], ['11153002', '68', '72'], ['11153003', '39', '64'], ['11153004', 'w'], ['11153005', '68', '82'], ['11253001', '67', '91'], ['11253002', '78', '92'], ['11253003', '72', '68'], ['11253004', '91', '76']]
+                  students+=dictionary["classes_student"][i]
+              #students的學號由小到大排序
+              students = sorted(students,key=lambda x: x[0]) 
+          
+              #篩選出沒有退選的學生
+              #lambda x會代表students列表中的每個子列表
+              students = list(filter(lambda x: True if (x[1] != "w") else False, students)) 
+              #若搜尋課程編碼的前三位是101或201(國文一或英文一，有學期成績跟會考成績)，則每個子列表的倒數第二個(課程學期成績)與倒數第一個(課程會考成績)元素放入compute101and201()執行
+              #根據compute101and201()回傳的結果由高到低排序
+              #else:取每個子列表的倒數第一個元素(只有學期成績)由高到低排序
+              students = sorted(students, key=lambda x: compute101and201(x[-2],x[-1]) if(search_content[0][:3]=="101" or search_content[0][:3]=="201") else
+                          int(x[-1]), reverse=True) 
+              count={}
+              for i in students:
+                  #i[0][3:6]會得到學號中的科系編碼
+                  #if(count.get(i[0][3:6],0)!=0)是用來檢查count中的key有沒有包含key:i[0][3:6](科系編碼)，若沒有包含會傳回0，
+                  #當!=0時代表count{}有包含該key，則在count[i[0][3:6]]對應的value結尾累加1，用來計數每個科系的學生人數
+                  #count的結構:{'530': [1, 2, 3, 4, 5, 6, 7, 8]}，代表有8位學生
+                  addInDictionary(count,i[0][3:6] ,count[i[0][3:6]][-1]+1 if(count.get(i[0][3:6],0)!=0) else 1)
+              #list(count)會得到由字典count的key(科系編碼)組成的list
+              #key=lambda x:count[x][-1]代表會由大到小排序這些key對應value的倒數第一個元素(每個科系的最大學生人數)
+              #最後排序完成得到的max_pepart是用count的key組成的，但排序方式是依據key對應value的最後一個元素
+              max_num=sorted(list(count),key=lambda x:count[x][-1],reverse=True)
+              if(len(max_num)==1):
+                  print(students[0][0],students[1][0],max_num[0])
+              else:
+                  print(students[0][0],students[1][0],max_num[0],max_num[1])
+          </code></pre>
+          </section>
+      </section>
+
+    <section>
+        <h3 >解答</h3>
+          <section data-auto-animate
+          data-no="8"
+          data-positionx="0.8" 
+          data-positiony="0.03" 
+          data-scale="1" 
+          data-motionno="0">
+          <font size=6>呼叫主程式</font>
+          <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
+          if __name__ == '__main__':
+              main()
+          </code></pre>
+        </section>
+      </section>
+    </div>
+  </div>
+  <div id="pageIndex"></div>
+  <!-- reveal.js-->
+  <script src="vendor/reveal/reveal.js"></script>
+  <!--plugin-->
+  <script src="vendor/reveal/plugin/math/math.js"></script>
+  <script src="vendor/reveal/plugin/search/search.js"></script>
+  <script src="vendor/reveal/plugin/zoom/zoom.js"></script>
+
+  <script src="vendor/reveal/plugin/notes/notes.js"></script>
+  <script src="vendor/reveal/plugin/markdown/markdown.js"></script>
+  <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+  <script src="main-ppt.js"></script>
+</body>
+
+</html>
