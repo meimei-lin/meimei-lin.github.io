@@ -100,17 +100,6 @@
             </tr>
         </table>
         </section>
-
-        <section 
-        data-no="6"
-        data-positionx="0.8" 
-        data-positiony="0.03" 
-        data-scale="1" 
-        data-motionno="0"
-        style="text-align: left"><br><br>
-        
-
-        </section>
     </section>
 
     <section>
@@ -122,32 +111,27 @@
         data-scale="1" 
         data-motionno="0"
         style="text-align: left"><br>
-        <p style="font-size: 21px;">範例輸入說明 1：<br>第1行：3 -> 總共有3間學校。<br>
-        第2行：NSYSU NC CT NS NM -> 學校名稱為NSYSU，擁有的屬性為NC、CT、NS、NM。<br>第3行：NTU BC NC CT NS -> 學校名稱為NTU，擁有的屬性為BC、NC、CT、NS。<br>
-        第4行：NCCU BC NL HL -> 學校名稱為NCCU，擁有的屬性為BC、NL、HL。<br>第5行：2 -> 總共有2組查詢。<br>
-        第6行：BC NS + CT HL -> 有大校園且靠海 或 交通方便且校園有湖。<br>第7行：BC + NS -> 有大校園 或 靠海。<br>
-        第8行：0 -> 輸出以當b=0時候的方式輸出。</p>
+        <p style="font-size: 21px;">範例輸入說明 1：<br>第1行：3 -> 代表N=3，A和B的矩陣大小為3×3。<br>
+        第2行：4 -> 代表M=4，有四個號碼被圈選起來。<br>第3行：6 1 8 4 7 2 5 9 3 -> A的矩陣，依照從左而右、從上而下的順序被填入數字6、1、8、4、7、2、5、9、3。<br>
+        第4行：9 6 4 5 1 8 2 7 3 -> B的矩陣，依照從左而右、從上而下的順序被填入數字9、6、4、5、1、8、2、7、3。<br>第5行：6 1 8 3 -> A和B的矩陣中，數字6、1、8、3被圈選起來。<br>
+        </p>
         <table class="table">
             <tr>
                 <th class="th" style="font-size: 21px;">Sample Input</th>
                 <th class="th" style="font-size: 21px;">Outpue</th>
             </tr>
             <tr>
-              <td class="td" style="font-size: 21px;">3<br>NSYSU NC CT NS NM<br>NTU BC NC CT NS<br>NCCU BC NL HL<br>
-                2<br>
-                BC NS + CT HL<br>
-                BC + NS<br>
-                0<br>
+              <td class="td" style="font-size: 21px;">3<br>
+                4<br>
+                6 1 8 4 7 2 5 9 3<br>
+                9 6 4 5 1 8 2 7 3<br>
+                6 1 8 3<br>
               </td>
-              <td class="td" style="font-size: 21px;">NTU<br>
-                NSYSU NTU NCCU<br>
+              <td class="td" style="font-size: 21px;">A Win
               </td>
             </tr>
         </table>
-        <p style="font-size: 21px;">範例輸出說明1：NTU (符合第一組查詢條件的BC NS，符合有大校園且靠海的屬性條件)<br>
-            NSYSU NTU NCCU (NSYSU符合第二組查詢條件的NS(靠海)，NTU符合第二組查詢條件的BC(有大校園)，NCCU符合第二組查詢條件的
-            BC(有大校園))
-     
+        <p style="font-size: 21px;">範例輸出說明1：A Win (A連成一條線，B則沒有連成任何一條線，所以A贏)。
         </p>
         </section>
 
@@ -164,81 +148,33 @@
                 <th class="th">Outpue</th>
             </tr>
             <tr>
-                <td class="td">5 <br>
-                    NSYSU NC CT NS NM <br>
-                    NTU BC NC CT NS<br>
-                    NCCU BC NL HL <br>
-                    Providence BC NC <br>
-                    NTHU BC NS <br>
-                    2 <br>
-                    BC NS + CT HL <br>
-                    NM + BC NL + BC NC <br>
-                    0<br>
-                </td>
-                <td class="td">NTU NTHU<br>
-                    NSYSU NTU NCCU Providence
-                    <br>
-                </td>
-            </tr>
-          </table>
-        </section>
-
-        <section data-auto-animate
-          data-no="6" 
-          data-positionx="0.8" 
-          data-positiony="0.03" 
-          data-scale="1" 
-          data-motionno="0"
-          style="text-align: left"><br>
-          <table class="table">
-            <tr>
-                <th class="th">Sample Input</th>
-                <th class="th">Outpue</th>
-            </tr>
-            <tr>
                 <td class="td">3<br>
-                NTHU GF HL<br>
-                NCTU NM GF BC<br>
-                NCKU CT GF NS<br>
-                3<br>
-                HL + BC NL + CT BC<br>
-                NM HL + CT + GF NS<br>
-                NM<br>
-                0<br>
+                    4<br>
+                    1 2 3 4 5 6 7 8 9<br>
+                    1 2 5 3 7 9 4 8 6<br>
+                    3 7 1 2<br>
                 </td>
-                <td class="td">NTHU<br>
-                    NCKU<br>
-                    NCTU  
+                <td class="td">A Win
                 </td>
-            </tr>
-          </table>
-        </section>
-
-        <section data-auto-animate
-          data-no="6" 
-          data-positionx="0.8" 
-          data-positiony="0.03" 
-          data-scale="1" 
-          data-motionno="0"
-          style="text-align: left"><br>
-          <table class="table">
-            <tr>
-                <th class="th">Sample Input</th>
-                <th class="th">Outpue</th>
             </tr>
             <tr>
                 <td class="td">4<br>
-                    NCU CT NM<br>
-                    NUU BC GF NL NM CT<br>
-                    NTOU GF NL NM<br>
-                    NTNU HL NC <br>
-                    2<br>
-                    BC<br>
-                    HL BC + NS GF + NL + NM<br>
-                    1<br>
+                    6<br>
+                    1 9 7 8 10 2 11 12 13 5 3 6 14 16 15 4<br>
+                    10 8 11 5 13 1 2 16 15 6 3 14 7 9 4 12<br>
+                    10 11 13 5 6 14 4<br>
                 </td>
-                <td class="td">NUU<br> 
-                    NUU<br>                  
+                <td class="td">Tie
+                </td>
+            </tr>
+            <tr>
+                <td class="td">5<br>
+                    9<br>
+                    1 17 7 6 16 20 2 21 15 14 8 18 3 13 24 9 19 23 4 22 10 11 12 25 5<br>
+                    1 15 13 14 10 2 6 17 11 16 3 19 7 20 18 4 5 21 8 24 12 22 23 25 9<br>
+                    12 4 5 3 2 1 10 11 7<br>
+                </td>
+                <td class="td">B Win
                 </td>
             </tr>
           </table>
@@ -257,19 +193,13 @@
                 <th class="th">Outpue</th>
             </tr>
             <tr>
-                <td class="td">3<br>
-                    NTUE CT NM HL NC<br>
-                    NHCUE NS<br>
-                    NTCU NS NC<br>
-                    3<br>
-                    NS + BC HL<br>
-                    CT<br>
-                    BC GF NC NS NL<br>
-                    1<br>
+                <td class="td">6<br>
+                16<br>
+                1 33 10 11 21 22 2 32 31 12 20 23 3 4 5 13 25 24 15 14 26 6 34 30 16 28 27 36 7 8 17 18 29 35 19 9<br>
+                13 29 14 7 1 16 28 30 15 8 2 17 12 35 33 3 20 19 11 34 4 24 9 26 23 5 21 25 10 27 6 31 36 22 32 18<br>
+                13 1 30 8 2 33 20 11 24 9 22 32 18 10 21 23<br>
                 </td>
-                <td class="td">NTUE NHCUE NTCU<br> 
-                    NTUE<br> 
-                    NTCU<br>                  
+                <td class="td">Tie  
                 </td>
             </tr>
           </table>
@@ -285,36 +215,58 @@
         data-scale="1" 
         data-motionno="0"
         style="text-align: left;"><br>
-        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
+        <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers="37-51|1-51">
+        def initData(N, _map, _record):
+        #用來初始化矩陣(_map)和對應的記錄矩陣(_record)
+            #輸入N*N個數字，並用空格分割字串
+            #假設輸入A的矩陣大小為3×3，數字為:6 1 8 4 7 2 5 9 3
+            #_map最後的存放的結構為:[['6','1','8'],['4','7','2'],['5','9','3']]
+            #_record:[['0','0','0'],['0','0','0'],['0','0','0']]
+        
+        def modifyRecord(target, _map, _record):
+            #檢查某個數字(target)是否出現在_map中，
+            #如果有，則在_record中將對應位置標記為'1'
+        
+        def markMap(markData, _map, _record):
+            #針對每個被圈選的數字(markData的元素)，更新記錄矩陣(_record)
+        
+        def CheckRowLine(record):
+            #檢查某一行(矩陣上橫的方向)是否全部都被圈選，
+            #如果有，回傳1，否則回傳0
+         
+        def CheckColumnLine(record, column):
+            #檢查每一列(矩陣上直的方向)是否全部都被圈選，
+            #如果有，回傳1，否則回傳0
+        
+        def CheckRightSlope(record):
+            #檢查矩陣上左上到右下的斜線是否全部都被圈選，
+            #如果有，回傳1，否則回傳0
+        
+        def CheckLeftSlope(record):
+            #檢查矩陣上右上到左下的斜線是否全部都被圈選，
+            #如果有，回傳1，否則回傳0
+        
+        def getTotalLines(record):
+            #計算總共有多少條連線（橫、直、斜線方向）被完全圈選
+        
+        def showResult(linesA, linesB):
+            #比較兩個矩陣的連線數量，並輸出結果
+
         def main():
-            #輸入整數N，代表總共有N間學校
-            schools = {}  #使用字典存學校資料
-            conditions = [] #存要查詢的屬性
+            mapA = [] #用來存放A矩陣
+            mapB = [] #用來存放B矩陣
+            recordA = []  #用來記錄A矩陣被圈選的情況
+            recordB = []  #用來記錄B矩陣被圈選的情況
 
-            for i in range(N): #迴圈跑N次
-                #輸入N個學校名稱以及該學校擁有的屬性，學校名稱、每個屬性間以一個空白隔開
-                #用空格分割字串，得到的list索引0的字串為學校名稱，索引1~結尾是該學校的屬性
-                #將學校名稱作為key，屬性列表作為value存入字典
+            #輸入矩陣大小N
+            #輸入有幾個號碼被圈選出來
+            #初始化A、B矩陣和記錄矩陣
 
-            #輸入整數M (1 <= M <= 4)，代表有幾組想要查詢的屬性
-
-            for i in range(M): #迴圈跑M次
-                #輸入M組查詢，並用' + '(空格加號空格)分割字串
-                #新增到conditions中
-                #例如輸入查詢屬性:BC NS + CT HL，換下一行，BC + NS
-                #conditions的結構:[['BC NS','CT HL'],['BC','NS']]
-
-            #輸入整數b (0 <= b <= 1)，決定輸出的方式
-
-            if 輸出方式為0:
-                for i in range(M): #迴圈跑M次
-                    #處理能符合所有查詢屬性的大學，寫成函式
-                    #印出結果，寫成函式
-
-            elif 輸出方式為1:
-                for i in range(M): #迴圈跑M次
-                    #處理能部分符合且符合最多條件的大學，寫成函式
-                    #印出結果
+            #輸入圈選出來的數字
+            #更新A、B矩陣的記錄
+            #計算A、B矩陣完成的連線數
+            
+            #比較兩者的完成連線數並顯示結果
           </code></pre>
         </section>
     </section>
@@ -330,44 +282,20 @@
             <font size=6>主程式</font>
             <pre style="font-size: 26px;"><code data-trim data-noescape data-line-numbers class="language-python">
             def main():
-                #輸入整數N，代表總共有N間學校
-                N = int(input()) 
-                schools = {}  #使用字典存學校資料
-                conditions = [] #使用list#存要查詢的屬性
-                
-                for i in range(N):
-                    #輸入N個學校名稱以及該學校擁有的屬性，用空格分割字串  
-                    school_data = input().split(' ')
-                    #得到的list索引0的字串為學校名稱
-                    school_name = school_data[0]
-                    #索引1~結尾是該學校的屬性
-                    #存入school_attrs這個list中
-                    school_attrs = school_data[1:]
-                    #將學校名稱作為key，屬性列表作為value存入字典
-                    schools[school_name] = school_attrs
-                
-                #輸入整數M (1 <= M <= 4)，代表有幾組想要查詢的屬性
-                M = int(input())  
-                for i in range(M):
-                    #輸入M組查詢，用' + '分割字串
-                    #新增到conditions中
-                    conditions.append(input().split(' + '))
-                
-                #輸入整數_type (0 <= _type <= 1)，決定輸出的方式
-                _type = int(input())
-                if _type == 0:
-                    for i in range(M):
-                        #處理能符合所有查詢屬性的大學
-                        #第二個參數位置傳入的conditions[i]是conditions的子列表
-                        result = CheckCompleteRule(schools, conditions[i])
-                        if result != []:
-                            showResult(result)
-                elif _type == 1:
-                    for i in range(M):
-                        #處理能部分符合且符合最多條件的大學
-                        result = CheckContainRule(schools, conditions[i])
-                        if result != []:
-                            showResult(result)
+                mapA = [] #用來存放A矩陣
+                mapB = [] #用來存放B矩陣
+                recordA = []  #用來記錄A矩陣被圈選的情況
+                recordB = []  #用來記錄B矩陣被圈選的情況
+                N = int(input()) #輸入矩陣大小
+                M = int(input()) #輸入有幾個號碼被圈選出來
+                initData(N, mapA, recordA)  #初始化A矩陣和記錄矩陣
+                initData(N, mapB, recordB)  #初始化B矩陣和記錄矩陣
+                markData = input().split(' ')  #輸入圈選出來的數字
+                markMap(markData, mapA, recordA)  #更新A矩陣的記錄
+                markMap(markData, mapB, recordB)  #更新B矩陣的記錄
+                linesA = getTotalLines(recordA)  #計算A矩陣完成的連線數
+                linesB = getTotalLines(recordB)  #計算B矩陣完成的連線數
+                showResult(linesA, linesB)  #比較兩者的完成連線數並顯示結果
               </code></pre>
           </section>
     </section>
@@ -380,73 +308,91 @@
         data-positiony="0.03" 
         data-scale="1" 
         data-motionno="0"><br><br>
-        <font size=6>副程式-CheckCompleteRule():檢查每個學校是否完全符合條件</font>
-        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
-        def CheckCompleteRule(schools, condition):
-            result = []
-            #遍歷每個學校，school_name是學校名稱，school_attrs是該學校的屬性列表
-            for school_name, school_attrs in schools.items():
-                #遍歷每個查詢條件的子條件
-                for subCondition in condition:
-                    count = 0
-                    #將子條件中的屬性用空格分開
-                    for cond in subCondition.split(' '):
-                        #檢查是否存在於學校的屬性列表中
-                        if cond in school_attrs:
-                            count += 1 #有的話count+1
+        <p>副程式-initData()、markMap()、modifyRecord()、CheckRowLine()、
+            CheckColumnLine()、CheckRightSlope()、CheckLeftSlope()、getTotalLines()、showResult()
+        </p>
+        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers="1-14|16-27|63-67|29-37|68-69|39-45|70-72|47-61|74-81|1-81" class="language-python">
+        #初始化矩陣(_map)和對應的記錄矩陣(_record)
+        def initData(N, _map, _record):
+            #輸入N*N個數字，並用空格分割字串
+            data = input().split(' ') 
+            for i in range(N):
+                #在_map中新增一個空的list，用來存放該行的數字
+                _map.append([])
+                #在_record中新增一個空的list，用來存放該行的記錄
+                _record.append([])
+                for j in range(N):
+                    #將對應的數字填入_map的對應位置
+                    _map[i].append(data[N*i+j])
+                    #將_record的對應位置填入'0'，表示該位置未被圈選
+                    _record[i].append('0')
         
-                    #利用計算subCondition中空格的數量+1來取得子條件中屬性數量
-                    #EX:BC NS(有大校園且靠海)，空格數量1，再加1，屬性數量為2
-                    #表示學校完全符合該子條件
-                    #還要確保該學校不在結果列表中
-                    if count == subCondition.count(' ') + 1 and school_name not in result:
-                        result.append(school_name)
-            return result
-        </code></pre>
-        </section>
+        #針對每個被圈選的數字，更新記錄矩陣(_record)
+        def markMap(markData, _map, _record):
+            for data in markData:
+                modifyRecord(data, _map, _record)
+        
+        #用來檢查某個數字(target)是否出現在_map中
+        def modifyRecord(target, _map, _record):
+            for i in range(len(_map)):
+                for j in range(len(_map)):
+                    if(target==_map[i][j]):
+                        #如果要圈選數字出現在_map中，就將_record標記為1
+                        _record[i][j] = '1' 
 
-        <section data-auto-animate
-        data-no="8"
-        data-positionx="0.8" 
-        data-positiony="0.03" 
-        data-scale="1" 
-        data-motionno="0"><br><br>
-        <font size=6>副程式-CheckContainRule():檢查每個學校在條件中出現的屬性數量，選擇出現最多的學校</font>
-        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
-        def CheckContainRule(schools, condition):
-            result = []
-            _max = 0 #紀錄最多的符合條件數量
-            for school_name, school_attrs in schools.items():
-                count = 0
-                for subCondition in condition:
-                    for cond in subCondition.split(' '):
-                        if cond in school_attrs:
-                            count += 1
-                #如果目前學校符合的屬性數量超過了之前的最大值
-                if count > _max:
-                    #更新 _max 並將result列表設為當前學校名稱
-                    #會覆蓋掉原本result列表的資料
-                    _max = count
-                    result = [school_name]
-                elif count == _max:
-                    #將該學校名稱加入結果列表
-                    result.append(school_name)  
-            return result
-        </code></pre>
-        </section>
+        #檢查某一行(矩陣上橫的方向)是否全部都被圈選
+        def CheckRowLine(record):
+            counter = 0
+            for i in range(0, len(record)):
+                #如果record[i]有被標記為1
+                if(record[i]=='1'):
+                    counter += 1 #累加counter
+            #如果有全部都被圈選，回傳1，否則回傳0
+            return 1 if counter==len(record) else 0
+        
+        #檢查每一列(矩陣上直的方向)是否全部都被圈選
+        def CheckColumnLine(record, column):
+            counter = 0
+            for i in range(0, len(record)):
+                if(record[i][column]=='1'):
+                    counter += 1
+            return 1 if counter==len(record) else 0
+        
+        #檢查矩陣上左上到右下的斜線是否全部都被圈選
+        def CheckRightSlope(record):
+            counter = 0
+            for i in range(0, len(record)):
+                if(record[i][i]=='1'):
+                    counter += 1
+            return 1 if counter==len(record) else 0
+        
+        #檢查矩陣上右上到左下的斜線是否全部都被圈選
+        def CheckLeftSlope(record):
+            counter = 0
+            for i in range(0, len(record)):
+                if(record[len(record)-i-1][i]=='1'):
+                    counter += 1
+            return 1 if counter==len(record) else 0
 
-        <section data-auto-animate
-        data-no="8"
-        data-positionx="0.8" 
-        data-positiony="0.03" 
-        data-scale="1" 
-        data-motionno="0"><br><br>
-        <font size=6>副程式-showResult()</font>
-        <pre style="font-size: 24px;"><code data-trim data-noescape data-line-numbers class="language-python">
-        def showResult(result):
-            for i in result:
-                print(i, end=' ') #輸出學校名稱，並用空格分隔
-            print() #換行
+        #計算總共有多少條連線（橫、直、斜線方向）被完全圈選
+        def getTotalLines(record):
+            counter = 0
+            for i in range(0, len(record)):
+                counter += CheckRowLine(record[i]) #檢查橫方向是否被完全圈選
+            for i in range(0, len(record)):
+                counter += CheckColumnLine(record, i) #檢查直方向是否被完全圈選
+            counter += CheckRightSlope(record) #檢查左上到右下是否被完全圈選
+            counter += CheckLeftSlope(record) #檢查右上到左下是否被完全圈選
+            return counter
+
+        #比較兩個矩陣的連線數量，並輸出結果
+        def showResult(linesA, linesB):
+            if(linesA>linesB):
+                print("A Win")
+            elif(linesA < linesB):
+                print("B Win")
+            else:
+                print("Tie")
         </code></pre>
         </section>
     </section>
