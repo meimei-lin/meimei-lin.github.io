@@ -1260,7 +1260,7 @@
                   addInDictionary(count,i[0][3:6] ,count[i[0][3:6]][-1]+1 if(count.get(i[0][3:6],0)!=0) else 1)
               #list(count)會得到由字典count的key(科系編碼)組成的list
               #key=lambda x:count[x][-1]代表會由大到小排序這些key對應value的倒數第一個元素(每個科系的最大學生人數)
-              #最後排序完成得到的max_pepart是用count的key組成的，但排序方式是依據key對應value的最後一個元素
+              #最後排序完成得到的max_num是用count的key組成的，但排序方式是依據key對應value的最後一個元素
               max_num=sorted(list(count),key=lambda x:count[x][-1],reverse=True)
               if(len(max_num)==1):
                   print(students[0][0],students[1][0],max_num[0])
