@@ -824,7 +824,7 @@
         style="text-align: left;"><br>
         <p>二、字典排序</p>
         <pre style="font-size: 26px;"><code data-trim data-noescape class="language-python" data-line-numbers>
-        years_classes={'112': ['1013'], '113': ['1214'], '110':['2013']}
+        years_classes={'112': ['1013','1023'], '113': ['1214','1100'], '110':['2013','2012']}
         years_classes_list = sorted(years_classes)
         print(years_classes_list)
         </code></pre>
@@ -834,9 +834,9 @@
             value_list = sorted(years_classes[i], reverse=True)
             print(value_list)
         </code></pre>
-        <p>&emsp;輸出：['2013']<br>
-        &emsp;&emsp;&emsp;&emsp;['1013']<br>
-        &emsp;&emsp;&emsp;&emsp;['1214']
+        <p>&emsp;輸出：['2013', '2012']<br>
+        &emsp;&emsp;&emsp;&emsp;['1023', '1013']<br>
+        &emsp;&emsp;&emsp;&emsp;['1214', '1100']
         </p>
         </section>
     </section>
